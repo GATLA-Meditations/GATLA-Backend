@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String @id() @default(uuid())
+  patient_code String @unique
+  password     String
+
+  treatments               Treatment[]
+  questionnaireSubmissions QuestionnaireSubmission[]
+}
+
+model Treatment {
+  id          String @id() @default(uuid())
+  name        String
+  description String
+
+  users   User[]
+  modules TreatmentModule[]
+}
+
+model Module {
+  id          String @id() @default(uuid())
+  name        String
+  description String
+
+  treatments TreatmentModule[]
+  activities ModuleActivity[]
+}
+
+model TreatmentModule {
+  id    String @id() @default(uuid())
+  order Int
+
+  treatment_id String
+  treatment    Treatment @relation(fields: [treatment_id], references: [id])
+
+  module_id String
+  module    Module @relation(fields: [module_id], references: [id])
+}
+
+model Activity {
+  id   String @id() @default(uuid())
+  name String
+
+  content_id String
+  content    Content @relation(fields: [content_id], references: [id])
+
+  modules ModuleActivity[]
+}
+
+model ModuleActivity {
+  id    String @id() @default(uuid())
+  order Int
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
+
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id])
+}
+
+model Content {
+  id   String      @id() @default(uuid())
+  type ContentType
+
+  activities Activity[]
+}
+
+enum ContentType {
+  VIDEO
+  AUDIO
+}
+
+model Questionnaire {
+  id   String @id() @default(uuid())
+  name String
+
+  questions                QuestionnaireQuestion[]
+  questionnaireSubmissions QuestionnaireSubmission[]
+}
+
+model QuestionnaireQuestion {
+  id       String       @id() @default(uuid())
+  type     QuestionType
+  metadata String
+
+  questionnaireId String
+  questionnaire   Questionnaire @relation(fields: [metadata], references: [id])
+
+  answers QuestionnaireAnswer[]
+}
+
+enum QuestionType {
+  NUMERIC
+  SINGLE_CHOICE
+}
+
+model QuestionnaireSubmission {
+  id        String   @id() @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  questionnaireId String
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+
+  answers QuestionnaireAnswer[]
+}
+
+model QuestionnaireAnswer {
+  id     String @id() @default(uuid())
+  answer String
+
+  questionnaireSubmissionId String
+  questionnaireSubmission   QuestionnaireSubmission @relation(fields: [questionnaireSubmissionId], references: [id])
+
+  questionId String
+  question   QuestionnaireQuestion @relation(fields: [questionId], references: [id])
+}
