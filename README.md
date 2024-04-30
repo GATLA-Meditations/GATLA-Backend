@@ -9,7 +9,7 @@ PORT=3001
 POSTGRES_DB=db-name
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-DATABASE_URL="postgresql://postgres:postgres@db-gatla:5432/gatla"
+DATABASE_URL="postgresql://postgres:postgres@db-gatla:5432/db-name"
 ```
 ## Run Container
 
