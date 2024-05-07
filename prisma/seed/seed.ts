@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-questionnaireSeed()
+main()
   .then(async () => {
     await prisma.$disconnect();
   })
@@ -11,6 +11,11 @@ questionnaireSeed()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+async function main() {
+  questionnaireSeed();
+  userSeed();
+}
 
 async function questionnaireSeed() {
   await prisma.questionnaire.upsert({
@@ -56,5 +61,17 @@ async function questionnaireSeed() {
         },
       },
     },
+  });
+}
+
+async function userSeed(){
+  await prisma.user.upsert({
+    where: { id: 'userId' },
+    update: {},
+    create: {
+      id: 'userId',
+      patient_code: 'gtl-705',
+      password: 'fake_user',
+    }
   });
 }
