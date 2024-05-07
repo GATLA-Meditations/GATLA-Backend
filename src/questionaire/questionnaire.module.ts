@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { QuestionnaireController } from './questionnaire.controller';
 import { QuestionnaireRepository } from './questionnaire.repository';
 import { QuestionnaireService } from './questionnaire.service';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from '../prisma.service';
 
 @Module({
   controllers: [QuestionnaireController],
-  providers: [PrismaClient, QuestionnaireRepository, QuestionnaireService],
+  providers: [PrismaService, QuestionnaireRepository, QuestionnaireService],
 })
 export class QuestionnaireModule {}

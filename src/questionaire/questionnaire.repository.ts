@@ -1,9 +1,10 @@
-import { PrismaClient, Questionnaire } from '@prisma/client';
+import { Questionnaire } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class QuestionnaireRepository {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaService) {}
 
   async createQuestionnaire(
     questionnaire: Questionnaire,
