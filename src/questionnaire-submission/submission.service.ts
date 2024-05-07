@@ -7,7 +7,7 @@ import { SubmissionCreateDto } from './dtos/submissionCreateDto';
 export class QuestionnaireSubmissionService {
   constructor(private repository: QuestionnaireSubmissionRepository) {}
 
-  public createSubimssion(submission: SubmissionCreateDto) {
+  public createSubmission(submission: SubmissionCreateDto) {
     return this.repository.createSubmission(submission);
   }
 }

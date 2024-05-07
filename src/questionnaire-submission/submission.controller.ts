@@ -11,6 +11,6 @@ export class QuestionnaireSubmissionController {
   public async createSubmission(
     @Body() submission: SubmissionCreateDto,
   ): Promise<QuestionnaireSubmission> {
-    return await this.service.createSubimssion(submission);
+    return await this.service.createSubmission(submission);
   }
 }
