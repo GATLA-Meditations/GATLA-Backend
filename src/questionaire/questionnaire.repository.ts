@@ -14,6 +14,9 @@ export class QuestionnaireRepository {
   }
 
   async findById(id: string): Promise<Questionnaire> {
-    return this.prisma.questionnaire.findUnique({ where: { id } });
+    return this.prisma.questionnaire.findUnique({
+      where: { id },
+      include: { questions: true },
+    });
   }
 }
