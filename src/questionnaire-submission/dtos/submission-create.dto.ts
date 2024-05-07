@@ -1,4 +1,4 @@
-import { AnswerCreateDto } from './answerCreateDto';
+import { AnswerCreateDto } from './answer-create.dto';
 
 export class SubmissionCreateDto{
   constructor(
