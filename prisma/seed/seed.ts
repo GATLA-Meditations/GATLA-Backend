@@ -13,8 +13,8 @@ main()
   });
 
 async function main() {
-  questionnaireSeed();
-  userSeed();
+  await questionnaireSeed();
+  await userSeed();
 }
 
 async function questionnaireSeed() {
