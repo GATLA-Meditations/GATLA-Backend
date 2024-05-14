@@ -55,10 +55,8 @@ model Activity {
   id   String @id() @default(uuid())
   name String
 
-  content_id String
-  content    Content @relation(fields: [content_id], references: [id])
-
-  modules ModuleActivity[]
+  modules  ModuleActivity[]
+  contents ActivityContent[]
 }
 
 model ModuleActivity {
@@ -73,15 +71,29 @@ model ModuleActivity {
 }
 
 model Content {
-  id   String      @id() @default(uuid())
-  type ContentType
+  id      String      @id() @default(uuid())
+  type    ContentType
+  content String
 
-  activities Activity[]
+  activities ActivityContent[]
+}
+
+model ActivityContent {
+  id        String   @id() @default(uuid())
+  createdAt DateTime @default(now())
+  order     Int
+
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id])
+
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id])
 }
 
 enum ContentType {
   VIDEO
   AUDIO
+  TEXT
 }
 
 model Questionnaire {
