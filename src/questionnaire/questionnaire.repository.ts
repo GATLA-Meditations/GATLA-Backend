@@ -1,4 +1,4 @@
-import { Questionnaire } from '@prisma/client';
+import { Questionnaire, QuestionnaireQuestion } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 
@@ -14,10 +14,16 @@ export class QuestionnaireRepository {
     });
   }
 
-  async findById(id: string): Promise<Questionnaire> {
+  async findById(id: string) {
     return this.prisma.questionnaire.findUnique({
       where: { id },
       include: { questions: true },
+    });
+  }
+
+  async findQuestionById(id: string): Promise<QuestionnaireQuestion> {
+    return this.prisma.questionnaireQuestion.findUnique({
+      where: { id },
     });
   }
 }

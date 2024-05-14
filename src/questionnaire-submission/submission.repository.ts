@@ -10,24 +10,20 @@ export class QuestionnaireSubmissionRepository {
   public async createSubmission(
     submission: SubmissionCreateDto,
   ): Promise<QuestionnaireSubmission> {
-    const createdSubmission = await this.prisma.questionnaireSubmission.create({
+    return this.prisma.questionnaireSubmission.create({
       data: {
         userId: submission.userId,
         questionnaireId: submission.questionnaireId,
-      }
-    });
-    for (const value of submission.answers) {
-      await this.prisma.questionnaireAnswer.create({
-        data: {
-          answer: value.answer,
-          questionId: value.questionId,
-          questionnaireSubmissionId: createdSubmission.id,
+        answers: {
+          create: submission.answers.map((answer) => ({
+            answer: answer.answer,
+            questionId: answer.questionId,
+          })),
         },
-      });
-    }
-    return this.prisma.questionnaireSubmission.findUnique({
-      where: { id: createdSubmission.id },
-      include: { answers: true },
+      },
+      include: {
+        answers: true,
+      },
     });
   }
 }

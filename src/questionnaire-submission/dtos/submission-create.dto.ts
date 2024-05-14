@@ -1,9 +1,17 @@
 import { AnswerCreateDto } from './answer-create.dto';
 
-export class SubmissionCreateDto{
+export class SubmissionCreateDto {
+  userId: string;
+  questionnaireId: string;
+  answers: AnswerCreateDto[];
+
   constructor(
-    public userId: string,
-    public questionnaireId: string,
-    public answers: AnswerCreateDto[],
-  ) {}
+    userId: string,
+    questionnaireId: string,
+    answers: AnswerCreateDto[],
+  ) {
+    this.userId = userId;
+    this.questionnaireId = questionnaireId;
+    this.answers = answers;
+  }
 }
