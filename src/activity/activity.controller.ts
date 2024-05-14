@@ -10,6 +10,6 @@ export class ActivityController {
   @Get('/:id')
   @HttpCode(200)
   async getActivityById(@Param('id') id: string) {
-    return this.activityService.getActivityById(id)
+    return this.activityService.getActivityById(id);
   }
 }

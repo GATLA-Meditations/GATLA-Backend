@@ -3,8 +3,7 @@ import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class ModuleRepository {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async getModuleById(id: string) {
     return this.prisma.module.findUnique({
