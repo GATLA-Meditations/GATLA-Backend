@@ -1,4 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+import { uploadCompasionInterior } from './test-compasion-interior.seed';
+import { uploadEmocionesPositivas } from './test-emociones-positivas.seed';
+import { uploadInventarioBienestarEspiritual } from './test-inventario-bienestar-espiritual.seed';
+import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida';
 
 const prisma = new PrismaClient();
 
@@ -16,6 +20,10 @@ async function main() {
   await questionnaireSeed();
   await userSeed();
   await treatmentSeed();
+  await uploadCompasionInterior();
+  await uploadEmocionesPositivas();
+  await uploadInventarioBienestarEspiritual();
+  await uploadInventariodeCalidaddeVida();
 }
 
 async function questionnaireSeed() {
