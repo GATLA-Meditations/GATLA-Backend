@@ -119,6 +119,7 @@ model QuestionnaireQuestion {
 enum QuestionType {
   NUMERIC
   SINGLE_CHOICE
+  NOT_A_QUESTION
 }
 
 model QuestionnaireSubmission {
