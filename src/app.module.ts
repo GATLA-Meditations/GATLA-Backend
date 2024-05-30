@@ -6,14 +6,23 @@ import { QuestionnaireSubmissionModule } from './questionnaire-submission/submis
 import { TreatmentModule } from './treatment/treatment.module';
 import { ModuleModule } from './module/module.module';
 import { ActivityModule } from './activity/activity.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { configuration } from '../config/configuration';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: `${process.cwd()}/.env`,
+      load: [configuration],
+      isGlobal: true,
+    }),
     QuestionnaireModule,
     QuestionnaireSubmissionModule,
     TreatmentModule,
     ModuleModule,
     ActivityModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
