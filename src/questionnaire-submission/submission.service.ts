@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuestionnaireSubmissionRepository } from './submission.repository';
-import { SubmissionCreateDto } from './dtos/submission-create.dto';
-import { AnswerCreateDto } from './dtos/answer-create.dto';
+import { SubmissionCreateDto } from './dto/submission-create.dto';
+import { AnswerCreateDto } from './dto/answer-create.dto';
 import { QuestionnaireRepository } from '../questionnaire/questionnaire.repository';
 import { InvalidAnswerException } from '../exceptions/invalidAnswer.exception';
 import { InvalidQuestionnaireException } from '../exceptions/invalidQuestionnaire.exception';
