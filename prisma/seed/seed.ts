@@ -579,7 +579,9 @@ async function treatmentSeed() {
   });
   await prisma.content.upsert({
     where: { id: 'contentId2' },
-    update: {},
+    update: {
+      content: 'https://youtu.be/-REiAqmXUh0',
+    },
     create: {
       id: 'contentId2',
       content: 'https://youtu.be/-REiAqmXUh0',
@@ -675,7 +677,9 @@ async function treatmentSeed() {
   });
   await prisma.content.upsert({
     where: { id: 'contentId8' },
-    update: {},
+    update: {
+      content: 'https://youtu.be/AKYNvmAAQgE',
+    },
     create: {
       id: 'contentId8',
       content: 'https://youtu.be/AKYNvmAAQgE',
