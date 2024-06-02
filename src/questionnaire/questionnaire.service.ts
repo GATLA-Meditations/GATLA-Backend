@@ -9,9 +9,7 @@ export class QuestionnaireService {
   public async getQuestionnaire(id: string): Promise<Questionnaire> {
     return this.repository.findById(id);
   }
-  public createQuestionnaire(
-    questionnaire: Questionnaire,
-  ): Promise<Questionnaire> {
+  public createQuestionnaire(questionnaire: Questionnaire): Promise<Questionnaire> {
     return this.repository.createQuestionnaire(questionnaire);
   }
   public async getAllQuestionnaires(): Promise<Questionnaire[]> {

@@ -19,51 +19,33 @@ export class QuestionnaireSubmissionService {
     return this.repository.createSubmission(submission);
   }
 
-  private async checkQuestionnaireExists(
-    submission: SubmissionCreateDto,
-  ): Promise<boolean> {
-    const questionnaire = await this.questionnaireRepository.findById(
-      submission.questionnaireId,
-    );
+  private async checkQuestionnaireExists(submission: SubmissionCreateDto): Promise<boolean> {
+    const questionnaire = await this.questionnaireRepository.findById(submission.questionnaireId);
     if (!questionnaire) {
-      throw new InvalidQuestionnaireException(
-        `Questionnaire with id: ${submission.questionnaireId} does not exist`,
-      );
+      throw new InvalidQuestionnaireException(`Questionnaire with id: ${submission.questionnaireId} does not exist`);
     }
     return this.checkAnswersAreValid(submission.answers, questionnaire);
   }
 
-  private async checkAnswersAreValid(
-    answers: AnswerCreateDto[],
-    questionnaire,
-  ): Promise<boolean> {
+  private async checkAnswersAreValid(answers: AnswerCreateDto[], questionnaire): Promise<boolean> {
     answers.map((response) => {
       const question = questionnaire.questions.find((question) => {
         if (question.id === response.questionId) return question;
       });
-      if (question.type == 'NUMERIC')
-        this.checkNumericAnswer(question, response);
+      if (question.type == 'NUMERIC') this.checkNumericAnswer(question, response);
     });
     return true;
   }
 
-  private checkNumericAnswer(
-    question: QuestionnaireQuestion,
-    answer: AnswerCreateDto,
-  ) {
+  private checkNumericAnswer(question: QuestionnaireQuestion, answer: AnswerCreateDto) {
     const metadata = question.metadata;
     const possibleValues = JSON.parse(metadata);
     const max: number = possibleValues.max;
     const min: number = possibleValues.min;
     const numericAnswer: number = Number(answer.answer);
-    if (isNaN(numericAnswer))
-      throw new InvalidAnswerException(
-        `Answer to question "${question.name}" should be a number`,
-      );
+    if (isNaN(numericAnswer)) throw new InvalidAnswerException(`Answer to question "${question.name}" should be a number`);
     if (numericAnswer < min || numericAnswer > max) {
-      throw new InvalidAnswerException(
-        `Answer to question "${question.name}" was outside allowed parameters`,
-      );
+      throw new InvalidAnswerException(`Answer to question "${question.name}" was outside allowed parameters`);
     }
   }
 }

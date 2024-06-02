@@ -6,9 +6,7 @@ import { PrismaService } from '../prisma.service';
 export class QuestionnaireRepository {
   constructor(private prisma: PrismaService) {}
 
-  async createQuestionnaire(
-    questionnaire: Questionnaire,
-  ): Promise<Questionnaire> {
+  async createQuestionnaire(questionnaire: Questionnaire): Promise<Questionnaire> {
     return this.prisma.questionnaire.create({
       data: questionnaire,
     });

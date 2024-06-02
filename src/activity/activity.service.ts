@@ -12,9 +12,7 @@ export class ActivityService {
     if (!activity) throw new HttpException('Activity not found', 404);
     return new ActivityDto({
       ...activity,
-      contents: activity.contents.map(
-        (activityContent) => new ContentDto(activityContent.content),
-      ),
+      contents: activity.contents.map((activityContent) => new ContentDto(activityContent.content)),
     });
   }
 }
