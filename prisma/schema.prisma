@@ -106,8 +106,6 @@ model Questionnaire {
 
   questions                QuestionnaireQuestion[]
   questionnaireSubmissions QuestionnaireSubmission[]
-  ingameData               IngameData?               @relation(fields: [ingameDataId], references: [id])
-  ingameDataId             String?
 }
 
 model QuestionnaireQuestion {
@@ -186,8 +184,7 @@ model IngameData {
   lastDayConnected DateTime @default(now())
   totalWatchTime   Int      @default(0)
 
-  user          User            @relation(fields: [userId], references: [id])
-  Questionnaire Questionnaire[]
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Achievement {
