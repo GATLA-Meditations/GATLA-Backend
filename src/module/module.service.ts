@@ -17,4 +17,8 @@ export class ModuleService {
       ),
     });
   }
+
+  async getActualModuleByUserId(userId: string) {
+    return await this.moduleRepository.getActualModule(userId);
+  }
 }

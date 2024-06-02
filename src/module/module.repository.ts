@@ -17,4 +17,33 @@ export class ModuleRepository {
       },
     });
   }
+
+  async getActualModule(userId: string) {
+    const moduleUser = await this.findActualModuleFromUser(userId);
+    const module = await this.prisma.module.findUnique({
+      where: { id: moduleUser.moduleId },
+      include: {
+        activities: {
+          select: {
+            activity: true,
+          },
+        },
+      },
+    });
+    return module;
+  }
+
+  private async findActualModuleFromUser(userId: string) {
+    return this.prisma.userModule.findFirst({
+      where: {
+        userId: userId,
+        startDate: {
+          lte: new Date(),
+        },
+        endDate: {
+          gt: new Date(),
+        },
+      },
+    });
+  }
 }

@@ -3,6 +3,7 @@ import { uploadCompasionInterior } from './test-compasion-interior.seed';
 import { uploadEmocionesPositivas } from './test-emociones-positivas.seed';
 import { uploadInventarioBienestarEspiritual } from './test-inventario-bienestar-espiritual.seed';
 import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida';
+import { uploadUserModule } from './user-module';
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,7 @@ async function main() {
   await uploadEmocionesPositivas();
   await uploadInventarioBienestarEspiritual();
   await uploadInventariodeCalidaddeVida();
+  await uploadUserModule();
 }
 
 async function questionnaireSeed() {
@@ -84,6 +86,7 @@ async function userSeed() {
     },
   });
 }
+
 
 async function treatmentSeed() {
   await prisma.treatment.upsert({

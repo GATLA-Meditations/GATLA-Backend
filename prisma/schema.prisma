@@ -168,7 +168,7 @@ model UserModule {
 model UserModuleMinutesSpent {
   id           String   @id() @default(uuid())
   createdAt    DateTime @default(now())
-  minutesSpent Int
+  minutesSpent Int      @default(0)
 
   userModuleId String
   userModule   UserModule @relation(fields: [userModuleId], references: [id])
