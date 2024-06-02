@@ -582,10 +582,12 @@ async function treatmentSeed() {
   });
   await prisma.content.upsert({
     where: { id: 'contentId2' },
-    update: {},
+    update: {
+      content: 'https://youtu.be/-REiAqmXUh0',
+    },
     create: {
       id: 'contentId2',
-      content: 'https://youtu.be/dQw4w9WgXcQ?si=puk6-t4P3K9_nqHD',
+      content: 'https://youtu.be/-REiAqmXUh0',
       type: 'VIDEO',
       activities: {
         create: {
@@ -678,10 +680,12 @@ async function treatmentSeed() {
   });
   await prisma.content.upsert({
     where: { id: 'contentId8' },
-    update: {},
+    update: {
+      content: 'https://youtu.be/AKYNvmAAQgE',
+    },
     create: {
       id: 'contentId8',
-      content: 'https://youtu.be/dQw4w9WgXcQ?si=puk6-t4P3K9_nqHD',
+      content: 'https://youtu.be/AKYNvmAAQgE',
       type: 'VIDEO',
       activities: {
         create: {
