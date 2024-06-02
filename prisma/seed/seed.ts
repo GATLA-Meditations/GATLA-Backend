@@ -582,7 +582,7 @@ async function treatmentSeed() {
     update: {},
     create: {
       id: 'contentId2',
-      content: 'https://youtu.be/dQw4w9WgXcQ?si=puk6-t4P3K9_nqHD',
+      content: 'https://youtu.be/-REiAqmXUh0',
       type: 'VIDEO',
       activities: {
         create: {
@@ -678,7 +678,7 @@ async function treatmentSeed() {
     update: {},
     create: {
       id: 'contentId8',
-      content: 'https://youtu.be/dQw4w9WgXcQ?si=puk6-t4P3K9_nqHD',
+      content: 'https://youtu.be/AKYNvmAAQgE',
       type: 'VIDEO',
       activities: {
         create: {
