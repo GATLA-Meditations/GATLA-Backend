@@ -23,6 +23,8 @@ model User {
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
   UserModule               UserModule[]
+  ingameData               IngameData?
+  achievements             UserAchievement[]
 }
 
 model Treatment {
@@ -106,6 +108,8 @@ model Questionnaire {
 
   questions                QuestionnaireQuestion[]
   questionnaireSubmissions QuestionnaireSubmission[]
+  ingameData               IngameData?               @relation(fields: [ingameDataId], references: [id])
+  ingameDataId             String?
 }
 
 model QuestionnaireQuestion {
@@ -170,10 +174,54 @@ model UserModule {
 model UserModuleMinutesSpent {
   id           String   @id() @default(uuid())
   createdAt    DateTime @default(now())
-  minutesSpent Int      @default(0)
+  minutesSpent Int
 
   userModuleId String
   userModule   UserModule @relation(fields: [userModuleId], references: [id])
+}
+
+model IngameData {
+  id     String @id() @default(uuid())
+  userId String @unique
+
+  currentStreak    Int      @default(1)
+  lastDayConnected DateTime @default(now())
+  totalWatchTime   Int      @default(0)
+
+  user          User            @relation(fields: [userId], references: [id])
+  Questionnaire Questionnaire[]
+}
+
+model Achievement {
+  id String @id() @default(uuid())
+
+  title       String
+  description String
+  image       String
+  dataKeyId   String
+  dataValue   String
+
+  dataKey DataKey           @relation(fields: [dataKeyId], references: [id])
+  users   UserAchievement[]
+}
+
+model DataKey {
+  id String @id() @default(uuid())
+
+  dataKey String @unique
+
+  achievement Achievement[]
+}
+
+model UserAchievement {
+  id String @id() @default(uuid())
+
+  createdAt    DateTime @default(now())
+  userId       String
+  achivementId String
+
+  Achivement Achievement @relation(fields: [achivementId], references: [id])
+  User       User        @relation(fields: [userId], references: [id])
 }
 
 model Streak {
