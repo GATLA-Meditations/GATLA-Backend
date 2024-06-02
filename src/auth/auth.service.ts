@@ -14,12 +14,9 @@ export class AuthService {
   ) {}
 
   public async login(login: LoginRequestDto) {
-    const user = await this.authRepository.findUserByPatientCode(
-      login.patientCode,
-    );
+    const user = await this.authRepository.findUserByPatientCode(login.patientCode);
     if (!user) throw new HttpException('User not found', 404);
-    if (!this.comparePassword(login.password, user.password))
-      throw new HttpException('Invalid Credentials', 401);
+    if (!this.comparePassword(login.password, user.password)) throw new HttpException('Invalid Credentials', 401);
     const jwt = await this.jwtService.signAsync(
       {
         sub: user.id,

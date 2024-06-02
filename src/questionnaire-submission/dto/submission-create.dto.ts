@@ -5,11 +5,7 @@ export class SubmissionCreateDto {
   questionnaireId: string;
   answers: AnswerCreateDto[];
 
-  constructor(
-    userId: string,
-    questionnaireId: string,
-    answers: AnswerCreateDto[],
-  ) {
+  constructor(userId: string, questionnaireId: string, answers: AnswerCreateDto[]) {
     this.userId = userId;
     this.questionnaireId = questionnaireId;
     this.answers = answers;

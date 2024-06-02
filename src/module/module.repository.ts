@@ -17,4 +17,49 @@ export class ModuleRepository {
       },
     });
   }
+
+  async getUserModuleByModuleIdAndUserId(moduleId: string, userId: string) {
+    return this.prisma.userModule.findFirst({
+      where: {
+        userId,
+        moduleId,
+      },
+      include: {
+        module: {
+          include: {
+            activities: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getActualModule(userId: string) {
+    const moduleUser = await this.findActualModuleFromUser(userId);
+    const module = await this.prisma.module.findUnique({
+      where: { id: moduleUser.moduleId },
+      include: {
+        activities: {
+          select: {
+            activity: true,
+          },
+        },
+      },
+    });
+    return module;
+  }
+
+  private async findActualModuleFromUser(userId: string) {
+    return this.prisma.userModule.findFirst({
+      where: {
+        userId: userId,
+        startDate: {
+          lte: new Date(),
+        },
+        endDate: {
+          gt: new Date(),
+        },
+      },
+    });
+  }
 }

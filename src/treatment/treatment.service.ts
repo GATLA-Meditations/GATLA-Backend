@@ -12,9 +12,7 @@ export class TreatmentService {
     if (!treatment) throw new HttpException('Treatment not found', 404);
     return new TreatmentDto({
       ...treatment,
-      modules: treatment.modules.map(
-        (treatmentModule) => new SimpleModuleDto(treatmentModule.module),
-      ),
+      modules: treatment.modules.map((treatmentModule) => new SimpleModuleDto(treatmentModule.module)),
     });
   }
 }

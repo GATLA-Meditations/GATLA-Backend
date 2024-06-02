@@ -10,9 +10,7 @@ export class QuestionnaireSubmissionController {
   constructor(private service: QuestionnaireSubmissionService) {}
 
   @Post('/')
-  public async createSubmission(
-    @Body() submission: SubmissionCreateDto,
-  ): Promise<QuestionnaireSubmission> {
+  public async createSubmission(@Body() submission: SubmissionCreateDto): Promise<QuestionnaireSubmission> {
     return await this.service.createSubmission(submission);
   }
 }

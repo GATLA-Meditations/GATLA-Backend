@@ -8,10 +8,6 @@ import { QuestionnaireModule } from '../questionnaire/questionnaire.module';
 @Module({
   imports: [QuestionnaireModule],
   controllers: [QuestionnaireSubmissionController],
-  providers: [
-    PrismaService,
-    QuestionnaireSubmissionService,
-    QuestionnaireSubmissionRepository,
-  ],
+  providers: [PrismaService, QuestionnaireSubmissionService, QuestionnaireSubmissionRepository],
 })
 export class QuestionnaireSubmissionModule {}
