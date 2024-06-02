@@ -20,6 +20,7 @@ model User {
 
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
+  UserModule               UserModule[]
 }
 
 model Treatment {
@@ -38,6 +39,7 @@ model Module {
 
   treatments TreatmentModule[]
   activities ModuleActivity[]
+  UserModule UserModule[]
 }
 
 model TreatmentModule {
@@ -144,4 +146,30 @@ model QuestionnaireAnswer {
 
   questionId String
   question   QuestionnaireQuestion @relation(fields: [questionId], references: [id])
+}
+
+model UserModule {
+  id               String   @id() @default(uuid())
+  createdAt        DateTime @default(now())
+  startDate        DateTime
+  endDate          DateTime
+  weekIntroduction Boolean  @default(false)
+  medIntroduction  Boolean  @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
+
+  minutesSpent UserModuleMinutesSpent[]
+}
+
+model UserModuleMinutesSpent {
+  id           String   @id() @default(uuid())
+  createdAt    DateTime @default(now())
+  minutesSpent Int
+
+  userModuleId String
+  userModule   UserModule @relation(fields: [userModuleId], references: [id])
 }
