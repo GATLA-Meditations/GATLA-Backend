@@ -8,8 +8,7 @@ export class QuestionnaireController {
 
   @Get(':id')
   async getById(@Param('id') id: string): Promise<Questionnaire> {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    return await this.service.getQuestionnaire(id).catch((_) => {
+    return await this.service.getQuestionnaire(id).catch(() => {
       throw new NotFoundException(`Questionnaire with ID ${id} not found`);
     });
   }
