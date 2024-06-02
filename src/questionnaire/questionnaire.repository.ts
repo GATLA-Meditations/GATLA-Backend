@@ -26,4 +26,10 @@ export class QuestionnaireRepository {
       where: { id },
     });
   }
+
+  async findAll(): Promise<Questionnaire[]> {
+    return this.prisma.questionnaire.findMany({
+      include: { questions: true },
+    });
+  }
 }

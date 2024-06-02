@@ -13,4 +13,9 @@ export class QuestionnaireController {
       throw new NotFoundException(`Questionnaire with ID ${id} not found`);
     });
   }
+
+  @Get()
+  async getAll(): Promise<Questionnaire[]> {
+    return await this.service.getAllQuestionnaires();
+  }
 }

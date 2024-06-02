@@ -14,4 +14,7 @@ export class QuestionnaireService {
   ): Promise<Questionnaire> {
     return this.repository.createQuestionnaire(questionnaire);
   }
+  public async getAllQuestionnaires(): Promise<Questionnaire[]> {
+    return this.repository.findAll();
+  }
 }
