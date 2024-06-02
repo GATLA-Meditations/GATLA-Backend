@@ -18,6 +18,22 @@ export class ModuleRepository {
     });
   }
 
+  async getUserModuleByModuleIdAndUserId(moduleId: string, userId: string) {
+    return this.prisma.userModule.findFirst({
+      where: {
+        userId,
+        moduleId,
+      },
+      include: {
+        module: {
+          include: {
+            activities: true,
+          },
+        },
+      },
+    });
+  }
+
   async getActualModule(userId: string) {
     const moduleUser = await this.findActualModuleFromUser(userId);
     const module = await this.prisma.module.findUnique({
