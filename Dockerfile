@@ -31,6 +31,7 @@ RUN npm run db:generate
 COPY tsconfig.json ./
 COPY nest-cli.json ./
 COPY src ./src
+COPY config ./config
 
 # Copy the .env and .env.development files
 COPY .env ./
