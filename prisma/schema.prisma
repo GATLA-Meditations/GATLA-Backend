@@ -217,8 +217,8 @@ model UserAchievement {
   userId       String
   achivementId String
 
-  Achivement Achievement @relation(fields: [achivementId], references: [id])
-  User       User        @relation(fields: [userId], references: [id])
+  Achievement Achievement @relation(fields: [achivementId], references: [id])
+  User        User        @relation(fields: [userId], references: [id])
 }
 
 model Streak {
