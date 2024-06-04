@@ -8,7 +8,7 @@ export async function uploadUserModule() {
 async function userModule(prisma) {
   await prisma.userModule.upsert({
     where: { id: 'userModule-1' },
-    update: { weekIntroduction: false, medIntroduction: false },
+    update: { weekIntroduction: true, medIntroduction: true },
     create: {
       id: 'userModule-1',
       userId: 'userId',

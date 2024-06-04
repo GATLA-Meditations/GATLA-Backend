@@ -13,11 +13,19 @@ export class ModuleService {
     return new ModuleDto({
       ...userModule.module,
       activities: this.getSimpleActivityDto(userModule),
+      progress: this.calculateProgress(userModule),
     });
   }
 
   async getActualModuleByUserId(userId: string) {
-    return await this.moduleRepository.getActualModule(userId);
+    const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
+    const userModule = await this.moduleRepository.getUserModuleByModuleIdAndUserId(actualModule.moduleId, userId);
+    const activities = this.getSimpleActivityDto(userModule);
+    return new ModuleDto({
+      ...userModule.module,
+      activities,
+      progress: this.calculateProgress(userModule),
+    });
   }
 
   private getSimpleActivityDto(userModule: any) {
@@ -37,5 +45,16 @@ export class ModuleService {
         unlocked: userModule.weekIntroduction && userModule.medIntroduction,
       });
     });
+  }
+
+  private calculateProgress(userModule: any) {
+    let counter = 0;
+    const total = 9;
+    if (userModule.medIntroduction) counter++;
+    if (userModule.weekIntroduction) counter++;
+    for (const activity of userModule.minutesSpent) {
+      if (activity.minutesSpent >= 5) counter++;
+    }
+    return Math.round((counter / total) * 100);
   }
 }
