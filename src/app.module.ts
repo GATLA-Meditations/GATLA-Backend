@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from '../config/configuration';
 import { UserModule } from './user/user.module';
+import { StreakModule } from './streak/streak.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     ActivityModule,
     AuthModule,
     UserModule,
+    StreakModule,
   ],
   controllers: [AppController],
   providers: [AppService],
