@@ -12,6 +12,6 @@ export class AchievementController {
   @Get(':id')
   @HttpCode(200)
   async getModuleById(@Param('id') id: string) {
-    return this.achievementService.getAchievement(id);
+    return this.achievementService.getAchievementById(id);
   }
 }
