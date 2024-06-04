@@ -1,9 +1,9 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { StreakService } from './streak.service';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('streak')
-@UseGuards(AuthGuard)
+@UseGuards(JwtGuard)
 export class StreakController {
   constructor(private readonly streakService: StreakService) {}
 }
