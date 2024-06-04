@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { AchievementRepository } from './achievement.repository';
-import { AchievementDto } from './dto/achievement.dto';
+import { AchievementDto, AchievementUserDto } from './dto/achievement.dto';
 
 @Injectable()
 export class AchievementService {
@@ -12,10 +12,12 @@ export class AchievementService {
     return transformAchievement(achievement);
   }
 
-  public async getAchievementByUserId(id: string) {
-    const achievement =
-      await this.achievementRepository.getAchievementsByUserId(id);
-    return transformAchievements(achievement);
+  public async getAchievementByUserId(id: string): Promise<AchievementUserDto[]> {
+    return (await this.achievementRepository.getAchievementsByUserId(id)) as AchievementUserDto[];
+  }
+
+  public async getAllAchievements(): Promise<AchievementDto[]> {
+    return transformAchievements(await this.achievementRepository.getAchievements()) as AchievementDto[];
   }
 }
 

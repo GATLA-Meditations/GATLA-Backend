@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { AchievementUser } from './dto/achievement.dto';
 
 @Injectable()
 export class AchievementRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async getAchievementById(id: string) {
-    return this.prisma.achievement.findUnique({
+    return await this.prisma.achievement.findUnique({
       where: {
         id,
       },
@@ -17,7 +18,7 @@ export class AchievementRepository {
   }
 
   async getAchievementsByUserId(userId: string) {
-    return this.prisma.userAchievement.findMany({
+    const results: any = await this.prisma.userAchievement.findMany({
       where: {
         userId: userId,
       },
@@ -29,10 +30,13 @@ export class AchievementRepository {
         },
       },
     });
+    return await results.map((result) => {
+      new AchievementUser(result);
+    });
   }
 
   async getAchievements() {
-    return this.prisma.achievement.findMany({
+    return await this.prisma.achievement.findMany({
       include: {
         dataKey: true,
       },
