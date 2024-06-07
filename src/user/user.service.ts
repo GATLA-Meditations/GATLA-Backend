@@ -12,4 +12,10 @@ export class UserService {
   async getActualModule(id: string) {
     return await this.modules.getActualModuleByUserId(id);
   }
+
+  async subscribeToTreatment(userId: string, treatmentId: string) {
+    const treatment = await this.repository.subscirbeToTreatment(userId, treatmentId);
+    await this.modules.createUserModules(userId, treatmentId);
+    return treatment;
+  }
 }

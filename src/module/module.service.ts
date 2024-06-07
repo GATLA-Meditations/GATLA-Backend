@@ -28,6 +28,15 @@ export class ModuleService {
     });
   }
 
+  async createUserModules(userId: string, treatmentId: string) {
+    const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
+    let date = new Date();
+    for (const module of modules) {
+      await this.moduleRepository.createUserModule(userId, module.module.id, date);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8, 0, 0, 0);
+    }
+  }
+
   private getSimpleActivityDto(userModule: any) {
     return userModule.module.activities.map((activity, index) => {
       if (index === 0)
