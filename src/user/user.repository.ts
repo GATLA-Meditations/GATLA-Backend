@@ -5,6 +5,15 @@ import { PrismaService } from '../prisma.service';
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
+  async getUserById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id: id },
+      include: {
+        treatments: true,
+      }
+    });
+  }
+
   async subscirbeToTreatment(userId: string, treatmentId: string) {
     return this.prisma.user.update({
       where: { id: userId },
