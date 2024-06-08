@@ -15,4 +15,8 @@ export class TreatmentService {
       modules: treatment.modules.map((treatmentModule) => new SimpleModuleDto(treatmentModule.module)),
     });
   }
+
+  async getActualTreatmentByUserId(userId: string) {
+    return await this.treatmentRepository.findActualTreatmentFromUser(userId);
+  }
 }

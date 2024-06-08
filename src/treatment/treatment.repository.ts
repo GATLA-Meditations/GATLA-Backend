@@ -17,4 +17,23 @@ export class TreatmentRepository {
       },
     });
   }
+
+  async findActualTreatmentFromUser(userId: string) {
+    return this.prisma.treatment.findFirst({
+      where: {
+        users: {
+          some: {
+            id: userId,
+          },
+        },
+      },
+      include: {
+        modules: {
+          include: {
+            module: true,
+          },
+        },
+      },
+    });
+  }
 }

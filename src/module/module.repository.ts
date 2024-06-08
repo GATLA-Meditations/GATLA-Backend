@@ -46,6 +46,14 @@ export class ModuleRepository {
           gt: new Date(),
         },
       },
+      include: {
+        module: {
+          include: {
+            activities: true,
+          },
+        },
+        minutesSpent: true,
+      },
     });
   }
 

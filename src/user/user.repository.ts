@@ -10,7 +10,7 @@ export class UserRepository {
       where: { id: id },
       include: {
         treatments: true,
-      }
+      },
     });
   }
 
@@ -23,6 +23,15 @@ export class UserRepository {
             id: treatmentId,
           },
         },
+      },
+    });
+  }
+
+  async getUserTests(id: string) {
+    return this.prisma.userTreatment.findFirst({
+      where: { userId: id },
+      include: {
+        questionnaires: true,
       },
     });
   }
