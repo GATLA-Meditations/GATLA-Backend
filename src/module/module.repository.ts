@@ -27,7 +27,11 @@ export class ModuleRepository {
       include: {
         module: {
           include: {
-            activities: true,
+            activities: {
+              include: {
+                activity: true,
+              },
+            },
           },
         },
         minutesSpent: true,
