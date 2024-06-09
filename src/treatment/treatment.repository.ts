@@ -37,4 +37,28 @@ export class TreatmentRepository {
       },
     });
   }
+
+  async getUserTreatment(userId: string) {
+    return this.prisma.userTreatment.findFirst({
+      where: { userId: userId },
+    });
+  }
+
+  async updateStartQuestionnaireAnswers(userTreatmentId: string) {
+    return this.prisma.userTreatment.update({
+      where: { id: userTreatmentId },
+      data: {
+        startAnswer: true,
+      },
+    });
+  }
+
+  async updateEndQuestionnaireAnswers(id: string) {
+    return this.prisma.userTreatment.update({
+      where: { id: id },
+      data: {
+        endAnswer: true,
+      },
+    });
+  }
 }
