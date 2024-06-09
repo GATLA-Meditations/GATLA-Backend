@@ -15,11 +15,11 @@ export class UserService {
   async getActualModule(id: string) {
     const treatmentTests = await this.repository.getUserTests(id);
     if (!treatmentTests.startAnswer) {
-      return this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment')
+      return this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
     }
     const actualModule = await this.modules.getActualModuleByUserId(id);
     if (!actualModule && !treatmentTests.endAnswer) {
-      return this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment')
+      return this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment');
     }
   }
 
