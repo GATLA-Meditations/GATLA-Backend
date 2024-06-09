@@ -30,9 +30,6 @@ export class UserRepository {
   async getUserTests(id: string) {
     return this.prisma.userTreatment.findFirst({
       where: { userId: id },
-      include: {
-        questionnaires: true,
-      },
     });
   }
 }

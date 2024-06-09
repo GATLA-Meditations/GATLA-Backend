@@ -34,7 +34,7 @@ model Treatment {
   users          User[]
   modules        TreatmentModule[]
   tests          UserTreatment[]
-  questionnaires Questionnaire[]
+  questionnaires Questionnaire[]   @relation("TreatmentQuestionnaire")
 }
 
 model UserTreatment {
@@ -121,7 +121,7 @@ model Questionnaire {
 
   questions                QuestionnaireQuestion[]
   questionnaireSubmissions QuestionnaireSubmission[]
-  treatments               Treatment[]
+  treatments               Treatment[]               @relation("TreatmentQuestionnaire")
 }
 
 model QuestionnaireQuestion {
