@@ -21,6 +21,7 @@ export class UserService {
     if (!actualModule && !treatmentTests.endAnswer) {
       return this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment');
     }
+    return actualModule;
   }
 
   async subscribeToTreatment(userId: string, treatmentId: string) {

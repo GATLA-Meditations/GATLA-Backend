@@ -20,6 +20,7 @@ export class ModuleService {
 
   async getActualModuleByUserId(userId: string) {
     const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
+    if (!actualModule) return null;
     const activities = this.getSimpleActivityDto(actualModule);
     return new ModuleDto({
       ...actualModule.module,
