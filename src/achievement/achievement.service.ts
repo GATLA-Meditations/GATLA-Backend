@@ -17,11 +17,11 @@ export class AchievementService {
   }
 
   public async getAllAchievements(): Promise<AchievementDto[]> {
-    return transformAchievements(await this.achievementRepository.getAchievements()) as AchievementDto[];
+    return await transformAchievements(await this.achievementRepository.getAchievements()) as AchievementDto[];
   }
 }
 
-function transformAchievements(achievement: any[]) {
+async function transformAchievements(achievement: any[]) {
   return achievement.map(transformAchievement);
 }
 

@@ -9,9 +9,21 @@ import { AchievementService } from './achievement.service';
 export class AchievementController {
   constructor(private readonly achievementService: AchievementService) {}
 
+  @Get('user/:id')
+  @HttpCode(200)
+  async getAchievementByUserId(@Param('id') id: string) {
+    return await this.achievementService.getAchievementByUserId(id);
+  }
+
+  @Get('all')
+  @HttpCode(200)
+  async getAllAchievements() {
+    return await this.achievementService.getAllAchievements();
+  }
+
   @Get(':id')
   @HttpCode(200)
-  async getModuleById(@Param('id') id: string) {
-    return this.achievementService.getAchievementById(id);
+  async getAchievementById(@Param('id') id: string) {
+    return await this.achievementService.getAchievementById(id);
   }
 }
