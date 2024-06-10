@@ -32,16 +32,19 @@ export class ModuleService {
     return userModule.module.activities.map((activity, index) => {
       if (index === 0)
         return new SimpleActivityDto({
-          ...activity,
+          id: activity.activityId,
+          name: activity.activity.name,
           unlocked: true,
         });
       if (index === 1)
         return new SimpleActivityDto({
-          ...activity,
+          id: activity.activityId,
+          name: activity.activity.name,
           unlocked: userModule.medIntroduction,
         });
       return new SimpleActivityDto({
-        ...activity,
+        id: activity.activityId,
+        name: activity.activity.name,
         unlocked: userModule.weekIntroduction && userModule.medIntroduction,
       });
     });

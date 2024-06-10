@@ -18,6 +18,8 @@ model User {
   patient_code String @unique
   password     String
 
+  streakId                 String?
+  streak                   Streak?
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
   UserModule               UserModule[]
@@ -217,4 +219,15 @@ model UserAchievement {
 
   Achievement Achievement @relation(fields: [achivementId], references: [id])
   User        User        @relation(fields: [userId], references: [id])
+}
+
+model Streak {
+  id         String   @id() @default(uuid())
+  createdAt  DateTime @default(now())
+  lastUpdate DateTime @default(now())
+  streak     Int      @default(0)
+  type       String
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
 }
