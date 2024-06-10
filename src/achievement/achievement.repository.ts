@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { AchievementUser } from './dto/achievement.dto';
 
 @Injectable()
 export class AchievementRepository {
@@ -17,7 +18,7 @@ export class AchievementRepository {
   }
 
   async getAchievementsByUserId(userId: string) {
-    return this.prisma.userAchievement.findMany({
+    const results: any = await this.prisma.userAchievement.findMany({
       where: {
         userId: userId,
       },
@@ -28,6 +29,9 @@ export class AchievementRepository {
           },
         },
       },
+    });
+    return await results.map((result) => {
+      new AchievementUser(result);
     });
   }
 
