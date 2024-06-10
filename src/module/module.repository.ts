@@ -52,4 +52,10 @@ export class ModuleRepository {
       },
     });
   }
+
+  async getUserIngameData(id: string) {
+    return this.prisma.ingameData.findFirst({
+      where: { userId: id },
+    });
+  }
 }

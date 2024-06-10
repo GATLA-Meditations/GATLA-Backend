@@ -60,4 +60,8 @@ export class ModuleService {
     }
     return Math.round((counter / total) * 100);
   }
+
+  async getUserIngameData(id: string) {
+    return await this.moduleRepository.getUserIngameData(id);
+  }
 }

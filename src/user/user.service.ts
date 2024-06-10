@@ -12,4 +12,8 @@ export class UserService {
   async getActualModule(id: string) {
     return await this.modules.getActualModuleByUserId(id);
   }
+
+  async getUserIngameData(id: string) {
+    return await this.modules.getUserIngameData(id);
+  }
 }
