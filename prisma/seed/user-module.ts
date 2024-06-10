@@ -28,13 +28,12 @@ async function userModule(prisma) {
   });
 
   await prisma.userTreatment.upsert({
-    where: { id: 'userTreatmendId1' },
+    where: { id: 'userTreatmendId' },
     update: { startAnswer: false },
     create: {
-      id: 'userTreatmendId1',
+      id: 'userTreatmendId',
       userId: 'userId',
       treatmentId: 'treatmentId',
-      startAnswer: true,
     },
   })
 }

@@ -85,22 +85,6 @@ async function userSeed() {
       password: 'fake_user',
     },
   });
-
-  await prisma.userTreatment.upsert({
-    where: { id: 'userTreatmentId' },
-    update: {},
-    create: {
-      id: 'userTreatmentId',
-      user: {
-        connect: { id: 'userId' },
-      },
-      treatment: {
-        connect: { id: 'treatmentId' },
-      },
-      startAnswer: false,
-      endAnswer: false,
-    },
-  });
 }
 
 
