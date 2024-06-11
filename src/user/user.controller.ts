@@ -1,7 +1,8 @@
-import { Controller, Get, UseGuards, Request, HttpCode, Put, Param } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Put, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @UseGuards(JwtGuard)
 @ApiTags('User')
@@ -30,9 +31,16 @@ export class UserController {
 
   @Put('changepass')
   @HttpCode(200)
-  async changeUserPassword(@Param('password') password: string, @Request() req: any) {
+  async changeUserPassword(@Body() password: ChangePasswordDto, @Request() req: any) {
     const id: string = req.user.userId;
     return await this.userService.changeUserPassword(id, password);
 
+  }
+
+  @Get('profile')
+  @HttpCode(200)
+  async getUserProfile(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getUserProfile(id);
   }
 }
