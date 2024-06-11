@@ -182,7 +182,7 @@ model IngameData {
   id     String @id() @default(uuid())
   userId String @unique
 
-  currentStreak    Int      @default(1)
+  maxStreak        Int      @default(1)
   lastDayConnected DateTime @default(now())
   totalWatchTime   Int      @default(0)
 
