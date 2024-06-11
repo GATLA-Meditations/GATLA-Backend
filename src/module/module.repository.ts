@@ -27,7 +27,11 @@ export class ModuleRepository {
       include: {
         module: {
           include: {
-            activities: true,
+            activities: {
+              include: {
+                activity: true,
+              },
+            },
           },
         },
         minutesSpent: true,
@@ -79,6 +83,12 @@ export class ModuleRepository {
         startDate: date,
         endDate: endDate,
       },
+    });
+  }
+
+  async getUserIngameData(id: string) {
+    return this.prisma.ingameData.findFirst({
+      where: { userId: id },
     });
   }
 }
