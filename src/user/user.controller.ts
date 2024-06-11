@@ -27,4 +27,11 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.changeUserPassword(id, password);
   }
+
+  @Get('profile')
+  @HttpCode(200)
+  async getUserProfile(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getUserProfile(id);
+  }
 }

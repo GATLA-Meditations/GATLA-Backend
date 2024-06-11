@@ -15,4 +15,23 @@ export class UserRepository {
       },
     });
   }
+
+  async getUserProfile(id: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        achievements: {
+          include: {
+            Achievement: true,
+          },
+          take: 8,
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+    });
+  }
 }
