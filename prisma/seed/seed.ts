@@ -85,8 +85,21 @@ async function userSeed() {
       password: 'fake_user',
     },
   });
+  await prisma.ingameData.upsert({
+    where: { id: 'ingameDataId' },
+    update: {},
+    create: {
+      id: 'ingameDataId',
+      user: {
+        connect: {
+          id: 'userId',
+        },
+      },
+      totalWatchTime: 45,
+      maxStreak: 3,
+    },
+  });
 }
-
 
 async function treatmentSeed() {
   await prisma.treatment.upsert({
