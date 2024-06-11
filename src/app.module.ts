@@ -11,6 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 import { configuration } from '../config/configuration';
 import { UserModule } from './user/user.module';
 import { StreakModule } from './streak/streak.module';
+import { AchievementModule } from './achievement/achievement.module';
+import { IngameDataModule } from './ingamedata/ingamedata.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { StreakModule } from './streak/streak.module';
     AuthModule,
     UserModule,
     StreakModule,
+    AchievementModule,
+    IngameDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],
