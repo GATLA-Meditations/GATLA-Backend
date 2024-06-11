@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { ModuleService } from '../module/module.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class UserService {
@@ -17,7 +18,7 @@ export class UserService {
     return await this.modules.getUserIngameData(id);
   }
 
-  async changeUserPassword(id: string, password: string) {
-    return await this.repository.changeUserPassword(id, password);
+  async changeUserPassword(id: string, password: ChangePasswordDto) {
+    return await this.repository.changeUserPassword(id, password.password);
   }
 }
