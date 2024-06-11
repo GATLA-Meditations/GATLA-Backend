@@ -16,4 +16,8 @@ export class UserService {
   async getUserIngameData(id: string) {
     return await this.modules.getUserIngameData(id);
   }
+
+  async changeUserPassword(id: string, password: string) {
+    return await this.repository.changeUserPassword(id, password);
+  }
 }
