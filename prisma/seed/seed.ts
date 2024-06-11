@@ -78,11 +78,16 @@ async function questionnaireSeed() {
 async function userSeed() {
   await prisma.user.upsert({
     where: { id: 'userId' },
-    update: {},
+    update: {
+      image:
+        'https://media.discordapp.net/attachments/1232427585737195630/1247661124543844476/blank-profile-picture-973460_960_720.png?ex=66696838&is=666816b8&hm=d38422eae0d1a478d8233dc4cc63a92e564f3104b13e8b4e17fa99ddf656cbcc&=&format=webp&quality=lossless&width=662&height=662',
+    },
     create: {
       id: 'userId',
       patient_code: 'gtl-705',
       password: 'fake_user',
+      image:
+        'https://media.discordapp.net/attachments/1232427585737195630/1247661124543844476/blank-profile-picture-973460_960_720.png?ex=66696838&is=666816b8&hm=d38422eae0d1a478d8233dc4cc63a92e564f3104b13e8b4e17fa99ddf656cbcc&=&format=webp&quality=lossless&width=662&height=662',
     },
   });
   await prisma.ingameData.upsert({
