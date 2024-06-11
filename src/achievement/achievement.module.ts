@@ -8,4 +8,4 @@ import { PrismaService } from '../prisma.service';
   controllers: [AchievementController],
   providers: [AchievementService, AchievementRepository, PrismaService],
 })
-export class ActivityModule {}
+export class AchievementModule {}
