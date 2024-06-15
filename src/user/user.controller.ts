@@ -15,7 +15,7 @@ export class UserController {
     const id = req.user.userId;
     return await this.userService.getActualModule(id);
   }
-  
+
   @Put('subscribe-to-treatment/:treatmentId')
   async subscribeToTreatment(@Request() req: any): Promise<any> {
     const userId = req.user.userId;
@@ -43,7 +43,7 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.getUserProfile(id);
   }
-  
+
   @Get('homestats')
   @HttpCode(200)
   async getUserIngameData(@Request() req: any): Promise<any> {
@@ -56,7 +56,6 @@ export class UserController {
   async changeUserPassword(@Body() password: ChangePasswordDto, @Request() req: any) {
     const id: string = req.user.userId;
     return await this.userService.changeUserPassword(id, password);
-
   }
 
   @Get('profile')
