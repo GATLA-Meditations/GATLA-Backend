@@ -24,8 +24,10 @@ model User {
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
   UserModule               UserModule[]
+  UserTreatment            UserTreatment[]
   ingameData               IngameData?
   achievements             UserAchievement[]
+
 }
 
 model Treatment {
@@ -33,8 +35,22 @@ model Treatment {
   name        String
   description String
 
-  users   User[]
-  modules TreatmentModule[]
+  users          User[]
+  modules        TreatmentModule[]
+  tests          UserTreatment[]
+  questionnaires Questionnaire[]   @relation("TreatmentQuestionnaire")
+}
+
+model UserTreatment {
+  id          String  @id() @default(uuid())
+  startAnswer Boolean @default(false)
+  endAnswer   Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  treatmentId String
+  treatment   Treatment @relation(fields: [treatmentId], references: [id])
 }
 
 model Module {
@@ -109,6 +125,7 @@ model Questionnaire {
 
   questions                QuestionnaireQuestion[]
   questionnaireSubmissions QuestionnaireSubmission[]
+  treatments               Treatment[]               @relation("TreatmentQuestionnaire")
 }
 
 model QuestionnaireQuestion {

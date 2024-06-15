@@ -24,4 +24,21 @@ export class QuestionnaireSubmissionRepository {
       },
     });
   }
+
+  public async findSubmissionById(id: string): Promise<QuestionnaireSubmission> {
+    return this.prisma.questionnaireSubmission.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+  public async findByUserAndQuestionnaire(userId: string, questionnaireId: string) {
+    return this.prisma.questionnaireSubmission.findMany({
+      where: {
+        userId: userId,
+        questionnaireId: questionnaireId,
+      },
+    });
+  }
 }

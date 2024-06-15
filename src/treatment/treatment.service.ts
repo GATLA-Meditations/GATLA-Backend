@@ -15,4 +15,20 @@ export class TreatmentService {
       modules: treatment.modules.map((treatmentModule) => new SimpleModuleDto(treatmentModule.module)),
     });
   }
+
+  async getActualTreatmentByUserId(userId: string) {
+    return await this.treatmentRepository.findActualTreatmentFromUser(userId);
+  }
+
+  async getUserTreatment(userId: string) {
+    return await this.treatmentRepository.getUserTreatment(userId);
+  }
+
+  async updateStartQuestionnaireAnswers(userTreatmentId: string) {
+    return await this.treatmentRepository.updateStartQuestionnaireAnswers(userTreatmentId);
+  }
+
+  async updateEndQuestionnaireAnswers(id: string) {
+    return await this.treatmentRepository.updateEndQuestionnaireAnswers(id);
+  }
 }

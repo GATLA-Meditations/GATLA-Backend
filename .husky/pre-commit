@@ -12,7 +12,7 @@ if [ $BUILD_RESULT -ne 0 ]; then
   exit 1
 fi
 
-npm run lint --force --fix
+npm run lint --fix
 npm run lint:check
 LINT_RESULT=$?
 

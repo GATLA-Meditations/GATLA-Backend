@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { ModuleRepository } from './module.repository';
 import { SimpleActivityDto } from '../activity/dto/simple-activity.dto';
-import { ModuleDto } from './dto/module.dto';
+import { ModuleDto, ModuleType } from './dto/module.dto';
 
 @Injectable()
 export class ModuleService {
@@ -14,18 +14,29 @@ export class ModuleService {
       ...userModule.module,
       activities: this.getSimpleActivityDto(userModule),
       progress: this.calculateProgress(userModule),
+      type: ModuleType.MEDITATION,
     });
   }
 
   async getActualModuleByUserId(userId: string) {
     const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
-    const userModule = await this.moduleRepository.getUserModuleByModuleIdAndUserId(actualModule.moduleId, userId);
-    const activities = this.getSimpleActivityDto(userModule);
+    if (!actualModule) return null;
+    const activities = this.getSimpleActivityDto(actualModule);
     return new ModuleDto({
-      ...userModule.module,
+      ...actualModule.module,
       activities,
-      progress: this.calculateProgress(userModule),
+      progress: this.calculateProgress(actualModule),
+      type: ModuleType.MEDITATION,
     });
+  }
+
+  async createUserModules(userId: string, treatmentId: string) {
+    const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
+    let date = new Date();
+    for (const module of modules) {
+      await this.moduleRepository.createUserModule(userId, module.module.id, date);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8, 0, 0, 0);
+    }
   }
 
   private getSimpleActivityDto(userModule: any) {

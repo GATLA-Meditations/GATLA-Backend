@@ -6,16 +6,19 @@ import { QuestionnaireRepository } from '../questionnaire/questionnaire.reposito
 import { InvalidAnswerException } from '../exceptions/invalidAnswer.exception';
 import { InvalidQuestionnaireException } from '../exceptions/invalidQuestionnaire.exception';
 import { QuestionnaireQuestion } from '@prisma/client';
+import { TreatmentService } from '../treatment/treatment.service';
 
 @Injectable()
 export class QuestionnaireSubmissionService {
   constructor(
     private repository: QuestionnaireSubmissionRepository,
     private questionnaireRepository: QuestionnaireRepository,
+    private treatment: TreatmentService,
   ) {}
 
   public async createSubmission(submission: SubmissionCreateDto) {
     await this.checkQuestionnaireExists(submission);
+    this.treatmentQuestionnaireAnswered(submission.userId); // no le pongo el await porque es un chequeo que no afecta a la ejecucion actual
     return this.repository.createSubmission(submission);
   }
 
@@ -47,5 +50,44 @@ export class QuestionnaireSubmissionService {
     if (numericAnswer < min || numericAnswer > max) {
       throw new InvalidAnswerException(`Answer to question "${question.name}" was outside allowed parameters`);
     }
+  }
+
+  async treatmentQuestionnaireAnswered(userId: string) {
+    let endQuestionnaires = true;
+    const userTreatment = await this.treatment.getUserTreatment(userId);
+    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
+    for (const questionnaire of treatment.questionnaires) {
+      const submissions = await this.repository.findByUserAndQuestionnaire(userId, questionnaire.id);
+      if (!submissions) return false;
+      if (submissions.length < 2) endQuestionnaires = false;
+    }
+    if (!userTreatment.startAnswer) return await this.treatment.updateStartQuestionnaireAnswers(userTreatment.id);
+    if (endQuestionnaires && !userTreatment.endAnswer) return await this.treatment.updateEndQuestionnaireAnswers(userTreatment.id);
+  }
+
+  async checkStartQuestionnaireAnswers(userId: string) {
+    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
+    const questionnaires = treatment.questionnaires.map(async (self) => {
+      const answer = await this.repository.findByUserAndQuestionnaire(userId, self.id);
+      console.log(answer);
+      if (answer.length == 0) {
+        return { id: self.id, name: self.name, completed: false };
+      } else {
+        return { id: self.id, name: self.name, completed: true };
+      }
+    });
+    return await Promise.all(questionnaires);
+  }
+
+  async checkEndQuestionnaireAnswers(userId: string) {
+    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
+    return treatment.questionnaires.map(async (self) => {
+      const answer = await this.repository.findByUserAndQuestionnaire(userId, self.id);
+      if (answer.length < 2) {
+        return { ...self, completed: false };
+      } else {
+        return { ...self, completed: true };
+      }
+    });
   }
 }

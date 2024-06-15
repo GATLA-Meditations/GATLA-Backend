@@ -1,6 +1,12 @@
 import { SimpleActivityDto } from '../../activity/dto/simple-activity.dto';
 
+export enum ModuleType {
+  MEDITATION = 'MEDITATION',
+  QUESTIONNAIRES = 'QUESTIONNAIRES',
+}
+
 export class ModuleDto {
+  type: ModuleType;
   id: string;
   name: string;
   description: string;
@@ -13,5 +19,6 @@ export class ModuleDto {
     this.description = data.description;
     this.activities = data.activities;
     this.progress = data.progress;
+    this.type = data.type;
   }
 }

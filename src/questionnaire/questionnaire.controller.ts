@@ -1,7 +1,11 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, UseGuards } from '@nestjs/common';
 import { Questionnaire } from '@prisma/client';
 import { QuestionnaireService } from './questionnaire.service';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@UseGuards(JwtGuard)
+@ApiTags('Questionnaire')
 @Controller('/questionnaire')
 export class QuestionnaireController {
   constructor(private service: QuestionnaireService) {}

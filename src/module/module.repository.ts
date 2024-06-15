@@ -50,6 +50,39 @@ export class ModuleRepository {
           gt: new Date(),
         },
       },
+      include: {
+        module: {
+          include: {
+            activities: true,
+          },
+        },
+        minutesSpent: true,
+      },
+    });
+  }
+
+  async getModulesByTreatmentId(treatementId: string) {
+    return this.prisma.treatmentModule.findMany({
+      where: {
+        treatment_id: treatementId,
+      },
+      include: {
+        module: true,
+      },
+    });
+  }
+
+  async createUserModule(userId: string, id: string, date: Date) {
+    // TODO: chequear que no sean los modulos de cuestionarios
+    const endDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
+    console.log('endDate:', endDate);
+    return this.prisma.userModule.create({
+      data: {
+        userId,
+        moduleId: id,
+        startDate: date,
+        endDate: endDate,
+      },
     });
   }
 
