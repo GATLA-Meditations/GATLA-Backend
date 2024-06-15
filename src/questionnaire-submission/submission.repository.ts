@@ -33,7 +33,7 @@ export class QuestionnaireSubmissionRepository {
     });
   }
 
-  public async findByUserAndQuestionnaire(userId: string, questionnaireId: string){
+  public async findByUserAndQuestionnaire(userId: string, questionnaireId: string) {
     return this.prisma.questionnaireSubmission.findMany({
       where: {
         userId: userId,

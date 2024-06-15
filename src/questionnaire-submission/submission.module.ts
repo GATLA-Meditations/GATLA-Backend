@@ -10,5 +10,6 @@ import { TreatmentModule } from '../treatment/treatment.module';
   imports: [QuestionnaireModule, TreatmentModule],
   controllers: [QuestionnaireSubmissionController],
   providers: [PrismaService, QuestionnaireSubmissionService, QuestionnaireSubmissionRepository],
+  exports: [QuestionnaireSubmissionService],
 })
 export class QuestionnaireSubmissionModule {}

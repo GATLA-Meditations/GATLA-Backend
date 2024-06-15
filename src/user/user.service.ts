@@ -3,8 +3,7 @@ import { UserRepository } from './user.repository';
 import { ModuleService } from '../module/module.service';
 import { ModuleType } from '../module/dto/module.dto';
 import { TreatmentService } from '../treatment/treatment.service';
-import { ChangePasswordDto } from './dto/change-password.dto';
-import { UserProfileDto } from './dto/user-profile.dto';
+import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
 
 @Injectable()
 export class UserService {
@@ -12,16 +11,17 @@ export class UserService {
     private repository: UserRepository,
     private modules: ModuleService,
     private treatment: TreatmentService,
+    private submission: QuestionnaireSubmissionService,
   ) {}
 
   async getActualModule(id: string) {
     const treatmentTests = await this.repository.getUserTests(id);
     if (!treatmentTests.startAnswer) {
-      return this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
+      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
     }
     const actualModule = await this.modules.getActualModuleByUserId(id);
     if (!actualModule && !treatmentTests.endAnswer) {
-      return this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment');
+      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment', false);
     }
     return actualModule;
   }
@@ -36,7 +36,10 @@ export class UserService {
     return treatment;
   }
 
-  private async getQuestionnaireModule(userId: string, message: string) {
+  private async getQuestionnaireModule(userId: string, message: string, startQuestionnaire: boolean = true) {
+    let activities = [];
+    if (startQuestionnaire) activities = await this.submission.checkStartQuestionnaireAnswers(userId);
+    else activities = await this.submission.checkEndQuestionnaireAnswers(userId);
     const treatment = await this.treatment.getActualTreatmentByUserId(userId);
     if (!treatment) {
       throw new HttpException('User is not subscribed to any treatment', 400);
@@ -46,30 +49,8 @@ export class UserService {
       id: treatment.id,
       name: 'Questionnaires',
       description: message,
-      activities: treatment.questionnaires,
+      activities: activities,
       progress: null, // TODO: calculate progress
     };
-  }
-
-  async getUserIngameData(id: string) {
-    return await this.modules.getUserIngameData(id);
-  }
-
-  async changeUserPassword(id: string, password: ChangePasswordDto) {
-    return await this.repository.changeUserPassword(id, password.password);
-  }
-
-  async getUserProfile(id: string) {
-    const user = await this.repository.getUserProfile(id);
-    if (!user) throw new HttpException('User not found', 404);
-    return new UserProfileDto(
-      user.patient_code,
-      user.image,
-      user.achievements.map((a) => ({
-        title: a.Achievement.title,
-        description: a.Achievement.description,
-        image: a.Achievement.image,
-      })),
-    );
   }
 }

@@ -5,9 +5,10 @@ import { UserRepository } from './user.repository';
 import { PrismaService } from '../prisma.service';
 import { ModuleModule } from '../module/module.module';
 import { TreatmentModule } from '../treatment/treatment.module';
+import { QuestionnaireSubmissionModule } from '../questionnaire-submission/submission.module';
 
 @Module({
-  imports: [ModuleModule, TreatmentModule],
+  imports: [ModuleModule, TreatmentModule, QuestionnaireSubmissionModule],
   controllers: [UserController],
   providers: [UserService, UserRepository, PrismaService],
 })
