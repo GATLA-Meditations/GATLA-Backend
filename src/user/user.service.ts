@@ -37,7 +37,7 @@ export class UserService {
   }
 
   private async getQuestionnaireModule(userId: string, message: string, startQuestionnaire: boolean = true) {
-    let activities = [];
+    let activities;
     if (startQuestionnaire) activities = await this.submission.checkStartQuestionnaireAnswers(userId);
     else activities = await this.submission.checkEndQuestionnaireAnswers(userId);
     const treatment = await this.treatment.getActualTreatmentByUserId(userId);
