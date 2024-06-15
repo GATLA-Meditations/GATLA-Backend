@@ -43,4 +43,26 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.getUserProfile(id);
   }
+  
+  @Get('homestats')
+  @HttpCode(200)
+  async getUserIngameData(@Request() req: any): Promise<any> {
+    const id: string = req.user.userId;
+    return await this.userService.getUserIngameData(id);
+  }
+
+  @Put('changepass')
+  @HttpCode(200)
+  async changeUserPassword(@Body() password: ChangePasswordDto, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.changeUserPassword(id, password);
+
+  }
+
+  @Get('profile')
+  @HttpCode(200)
+  async getUserProfile(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getUserProfile(id);
+  }
 }
