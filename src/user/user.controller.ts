@@ -35,7 +35,6 @@ export class UserController {
   async changeUserPassword(@Body() password: ChangePasswordDto, @Request() req: any) {
     const id: string = req.user.userId;
     return await this.userService.changeUserPassword(id, password);
-
   }
 
   @Get('profile')
