@@ -109,13 +109,20 @@ async function userSeed() {
 async function treatmentSeed() {
   await prisma.treatment.upsert({
     where: { id: 'treatmentId' },
-    update: {},
+    update: {
+      questionnaires: {
+        connect: { id: 'questionnaireId' },
+      },
+    },
     create: {
       id: 'treatmentId',
       name: 'Tratamiento 1',
       description: 'Descripción de tratamiento 1',
       users: {
         connect: { id: 'userId' },
+      },
+      questionnaires: {
+        connect: { id: 'questionnaireId' },
       },
     },
   });
