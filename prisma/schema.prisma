@@ -18,6 +18,7 @@ model User {
   patient_code String  @unique
   image        String?
   password     String
+  renatokens   Int     @default(0)
 
   streakId                 String?
   streak                   Streak?
@@ -27,7 +28,7 @@ model User {
   UserTreatment            UserTreatment[]
   ingameData               IngameData?
   achievements             UserAchievement[]
-
+  UserShopItem             UserShopItem[]
 }
 
 model Treatment {
@@ -248,4 +249,29 @@ model Streak {
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
+}
+
+enum ShopItemType {
+  BACKGROUND
+  AVATAR
+  VIDEO
+}
+
+model ShopItem {
+  id String @id() @default(uuid())
+  type ShopItemType
+  price Int
+  content_url String  
+
+  UserShopItem UserShopItem[]
+}
+
+model UserShopItem {
+  id String @id() @default(uuid())
+  
+  userId String
+  User User @relation(fields: [userId], references: [id])
+  
+  shopItemId String
+  ShopItem ShopItem @relation(fields: [shopItemId], references: [id])
 }
