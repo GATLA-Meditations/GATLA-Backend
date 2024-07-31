@@ -77,4 +77,8 @@ export class UserService {
       })),
     );
   }
+
+  async getUserItems(id: string) {
+    return await this.repository.getUserItems(id);
+  }
 }

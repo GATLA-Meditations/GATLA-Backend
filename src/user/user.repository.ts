@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import UserItemsDto from './dto/get-items.dto';
 
 @Injectable()
 export class UserRepository {
@@ -60,5 +61,18 @@ export class UserRepository {
         },
       },
     });
+  }
+
+  async getUserItems(userId: string): Promise<UserItemsDto> {
+    const query = await this.prisma.userShopItem.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        ShopItem: {},
+      },
+    });
+    const items = query.map((item) => item.ShopItem);
+    return new UserItemsDto(userId, items);
   }
 }

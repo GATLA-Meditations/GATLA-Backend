@@ -43,4 +43,11 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.getUserProfile(id);
   }
+
+  @Get('shop-items')
+  @HttpCode(200)
+  async getUserItems(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getUserItems(id);
+  }
 }
