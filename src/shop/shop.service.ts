@@ -40,7 +40,7 @@ export default class ShopService {
 
   async createItem(itemDto: CreateShopItemDto, id: any) {
     // TODO : Check the one creating the item is an admin
-    if(!id) {
+    if (!id) {
       throw new HttpErrorByCode['Unauthorized']('Unauthorized: Only admins can create items');
     }
     return await this.repository.createShopItem(itemDto);
