@@ -81,4 +81,12 @@ export class UserService {
   async getUserItems(id: string) {
     return await this.repository.getUserItems(id);
   }
+
+  async getUserRenatokens(id: string) {
+    return await this.repository.getUserRenatokens(id);
+  }
+
+  updateUserRenatokens(userId: string, price: number) {
+    return this.repository.updateUserRenatokens(userId, price);
+  }
 }

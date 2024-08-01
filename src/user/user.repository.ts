@@ -75,4 +75,29 @@ export class UserRepository {
     const items = query.map((item) => item.ShopItem);
     return new UserItemsDto(userId, items);
   }
+
+  async getUserRenatokens(id: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        renatokens: true,
+        id: true,
+      },
+    });
+  }
+
+  async updateUserRenatokens(userId: string, price: number) {
+    return this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        renatokens: {
+          decrement: price,
+        },
+      },
+    });
+  }
 }

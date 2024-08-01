@@ -11,5 +11,6 @@ import { QuestionnaireSubmissionModule } from '../questionnaire-submission/submi
   imports: [ModuleModule, TreatmentModule, QuestionnaireSubmissionModule],
   controllers: [UserController],
   providers: [UserService, UserRepository, PrismaService],
+  exports: [UserService],
 })
 export class UserModule {}
