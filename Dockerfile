@@ -1,10 +1,5 @@
-# Base image
-FROM node:18-slim
-
+FROM node:20 as dependencies
 RUN apt-get update -y && apt-get install -y openssl libc6
-
-# Create app directory
-WORKDIR /app
 
 ARG PORT
 ARG POSTGRES_DB
@@ -17,30 +12,38 @@ ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 ENV PORT=${PORT}
 ENV DATABASE_URL=${DATABASE_URL}
+ENV JWT_SECRET=${JWT_SECRET}
 
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
+WORKDIR /app
 
-# Install app dependencies
+COPY package.json /app
+
 RUN npm install
 
 COPY prisma ./prisma/
+
 RUN npm run db:generate
 
-# Bundle app source
-COPY tsconfig.json ./
-COPY nest-cli.json ./
-COPY src ./src
-COPY config ./config
+FROM dependencies as build
 
-# Copy the .env and .env.development files
-COPY .env ./
+WORKDIR /app
 
-# Creates a "dist" folder with the build
+COPY . .
+COPY --from=dependencies /app/node_modules ./node_modules
+
 RUN npm run build
 
-# Expose the port on which the app will run
-EXPOSE 3001
+FROM node:20-slim
 
-# Start the server using the build
-CMD ["npm", "run", "start:dev"]
+RUN apt-get update -y && apt-get install -y openssl libc6
+
+WORKDIR /app
+
+COPY --from=build /app/dist ./dist
+
+COPY --from=dependencies /app/node_modules ./node_modules
+
+COPY . .
+
+
+CMD ["npm", "run", "dev"]
