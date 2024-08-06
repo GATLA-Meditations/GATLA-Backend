@@ -275,3 +275,10 @@ model UserShopItem {
   shopItemId String
   ShopItem ShopItem @relation(fields: [shopItemId], references: [id])
 }
+
+model Phrase {
+  id String @id() @default(uuid())
+  author String
+  content String
+  createdAt DateTime @default(now())
+}
