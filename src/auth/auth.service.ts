@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtDto } from './dto/jwt.dto';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import * as bcrypt from 'bcrypt';
-import { AdminLoginRequestDto } from "./dto/AdminLoginRequestDto";
+import { AdminLoginRequestDto } from './dto/AdminLoginRequestDto';
 
 @Injectable()
 export class AuthService {
