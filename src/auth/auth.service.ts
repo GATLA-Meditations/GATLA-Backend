@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtDto } from './dto/jwt.dto';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import * as bcrypt from 'bcrypt';
+import { AdminLoginRequestDto } from "./dto/AdminLoginRequestDto";
 
 @Injectable()
 export class AuthService {
@@ -44,5 +45,19 @@ export class AuthService {
     if (user) throw new HttpException('User already exists', 409);
     //TODO hash password
     return await this.authRepository.createUser(registerRequest);
+  }
+
+  public async adminLogin(login: AdminLoginRequestDto) {
+    const admin = await this.authRepository.findAdminByEmail(login.email);
+    if (!admin) throw new HttpException('Admin not found', 404);
+    if (!this.comparePassword(login.password, admin.password)) throw new HttpException('Invalid Credentials', 401);
+    const jwt = await this.jwtService.signAsync(
+      {
+        sub: admin.id,
+        role: 'ADMIN',
+      },
+      { secret: this.configService.get<string>('JWT_SECRET') },
+    );
+    return new JwtDto(jwt);
   }
 }
