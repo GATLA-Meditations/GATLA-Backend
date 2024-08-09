@@ -2,6 +2,8 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { ActivityRepository } from './activity.repository';
 import { ActivityDto } from './dto/activity.dto';
 import { ContentDto } from './dto/content.dto';
+import { createActivityDto } from './dto/create-activity.dto';
+import { CreateContentDto } from './dto/create-content.dto';
 
 @Injectable()
 export class ActivityService {
@@ -14,5 +16,33 @@ export class ActivityService {
       ...activity,
       contents: activity.contents.map((activityContent) => new ContentDto(activityContent.content)),
     });
+  }
+
+  async createActivity(userId: string, data: createActivityDto) {
+    // TODO: Check user is admin
+    if (!userId) throw new HttpException('Unauthorized', 401);
+    const created_content: ContentDto[] = await Promise.all(
+      data.contents.map(async (content) => {
+        return await this.createContent(content);
+      }),
+    );
+    const created_activity = await this.activityRepository.createActivity(data.name);
+    created_content.forEach((element, index) => {
+      this.activityRepository.createActivityContent(created_activity.id, element.id, index);
+    });
+    return new ActivityDto({
+      ...created_activity,
+      contents: created_content,
+    });
+  }
+
+  async modifyContent(userId: string, content: ContentDto) {
+    // Todo: Check user is admin
+    if (!userId) throw new HttpException('Unauthorized', 401);
+    return this.activityRepository.modifyContent(content);
+  }
+
+  async createContent(data: CreateContentDto): Promise<ContentDto> {
+    return this.activityRepository.createContent(data);
   }
 }
