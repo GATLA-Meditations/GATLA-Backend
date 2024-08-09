@@ -28,13 +28,13 @@ export class UserService {
     return actualModule;
   }
 
-  async subscribeToTreatment(userId: string, treatmentId: string) {
+  async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
     const user = await this.repository.getUserById(userId);
     if (user.treatments.find((treatment) => treatment.id === treatmentId)) {
       throw new HttpException('User already subscribed to this treatment', 400);
     }
     const treatment = await this.repository.subscirbeToTreatment(userId, treatmentId);
-    await this.modules.createUserModules(userId, treatmentId);
+    await this.modules.createUserModules(userId, treatmentId, delayed);
     return treatment;
   }
 

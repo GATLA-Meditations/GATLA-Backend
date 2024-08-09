@@ -30,9 +30,13 @@ export class ModuleService {
     });
   }
 
-  async createUserModules(userId: string, treatmentId: string) {
+  async createUserModules(userId: string, treatmentId: string, delayed: boolean = false) {
     const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
     let date = new Date();
+    if (delayed) {
+      const delay: number = 7 * modules.length;
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + delay, 0, 0, 0);
+    }
     for (const module of modules) {
       await this.moduleRepository.createUserModule(userId, module.module.id, date);
       date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8, 0, 0, 0);
