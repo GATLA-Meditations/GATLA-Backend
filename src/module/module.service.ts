@@ -37,7 +37,7 @@ export class ModuleService {
       modules.forEach(async () => {
         await this.subscribeToDummyModule(userId, date);
         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
-      })
+      });
     }
     for (const module of modules) {
       await this.moduleRepository.createUserModule(userId, module.module.id, date);
