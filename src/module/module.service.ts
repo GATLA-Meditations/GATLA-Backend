@@ -34,13 +34,19 @@ export class ModuleService {
     const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
     let date = new Date();
     if (delayed) {
-      const delay: number = 7 * modules.length;
-      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + delay, 0, 0, 0);
+      modules.forEach(async () => {
+        await this.subscribeToDummyModule(userId, date);
+        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
+      })
     }
     for (const module of modules) {
       await this.moduleRepository.createUserModule(userId, module.module.id, date);
-      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8, 0, 0, 0);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
     }
+  }
+
+  async getUserIngameData(id: string) {
+    return await this.moduleRepository.getUserIngameData(id);
   }
 
   private getSimpleActivityDto(userModule: any) {
@@ -76,7 +82,7 @@ export class ModuleService {
     return Math.round((counter / total) * 100);
   }
 
-  async getUserIngameData(id: string) {
-    return await this.moduleRepository.getUserIngameData(id);
+  private async subscribeToDummyModule(userId: string, startDate: Date) {
+    await this.moduleRepository.createUserModule(userId, 'dummy', startDate);
   }
 }

@@ -36,4 +36,15 @@ async function userModule(prisma) {
       treatmentId: 'treatmentId',
     },
   })
+
+  await prisma.module.upsert({
+    where: { id: 'dummy' },
+    update: {},
+    create: {
+      id: 'dummy',
+      name: 'Usuario base',
+      description: 'Todavia no puede acceder a las actividades',
+      type: 'MEDITATION',
+    },
+  })
 }
