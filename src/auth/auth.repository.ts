@@ -22,4 +22,12 @@ export class AuthRepository {
       },
     });
   }
+
+  async findAdminByEmail(email: string) {
+    return this.prisma.admin.findUnique({
+      where: {
+        email: email,
+      },
+    });
+  }
 }

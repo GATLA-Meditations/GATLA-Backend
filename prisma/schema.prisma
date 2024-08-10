@@ -31,6 +31,13 @@ model User {
   UserShopItem             UserShopItem[]
 }
 
+model Admin {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String
+}
+
 model Treatment {
   id          String @id() @default(uuid())
   name        String
