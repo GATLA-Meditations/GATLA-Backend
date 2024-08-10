@@ -9,4 +9,4 @@ import { PrismaService } from '../prisma.service';
   providers: [AdminService, AdminRepository, PrismaService],
   exports: [AdminService],
 })
-export class StreakModule {}
+export class AdminModule {}
