@@ -23,11 +23,6 @@ export class AdminGuard implements CanActivate {
       // Verify the token and decode the payload
       const payload = this.jwtService.verify(token);
 
-      // Check if the payload contains a role element
-      if (payload.role) {
-        return false;
-      }
-
       // Check if the payload contains the role and if it is "ADMIN"
       if (payload.role === 'ADMIN') {
         request.user = payload; // Attach the payload to the request object

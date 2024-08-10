@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, Post, Put, UseGuards } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
@@ -17,5 +17,4 @@ export class AdminController {
   @Put()
   @HttpCode(200)
   async updateAdmin() {}
-
 }
