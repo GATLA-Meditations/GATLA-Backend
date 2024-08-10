@@ -1,8 +1,13 @@
+import { ACHIEVEMENT_TYPE } from '@prisma/client';
+
 interface _AchievementDto {
   id: string;
+  type: ACHIEVEMENT_TYPE;
   title: string;
-  description: string;
-  image: string;
+  lockedDescription: string;
+  lockedImage: string;
+  unlockedDescription: string;
+  unlockedImage: string;
   dataKey: { dataKey: string };
   dataValue: string;
 }
@@ -10,8 +15,8 @@ interface _AchievementDto {
 export class AchievementUser {
   id: string;
   title: string;
-  description: string;
-  image: string;
+  unlockedDescription: string;
+  unlockedImage: string;
   dataKey: string;
   dataValue: string;
   createdAt: Date;
@@ -19,8 +24,8 @@ export class AchievementUser {
   constructor(element: { achievement: _AchievementDto; createdAt: Date }) {
     this.id = element.achievement.id;
     this.title = element.achievement.title;
-    this.description = element.achievement.description;
-    this.image = element.achievement.image;
+    this.unlockedDescription = element.achievement.unlockedDescription;
+    this.unlockedImage = element.achievement.unlockedImage;
     this.dataKey = element.achievement.dataKey.dataKey;
     this.dataValue = element.achievement.dataValue;
     this.createdAt = element.createdAt;
@@ -29,9 +34,12 @@ export class AchievementUser {
 
 export interface AchievementDto {
   id: string;
+  type: ACHIEVEMENT_TYPE;
   title: string;
-  description: string;
-  image: string;
+  lockedDescription: string;
+  lockedImage: string;
+  unlockedDescription: string;
+  unlockedImage: string;
   dataKey: string;
   dataValue: string;
 }
@@ -39,8 +47,8 @@ export interface AchievementDto {
 export interface AchievementUserDto {
   id: string;
   title: string;
-  description: string;
-  image: string;
+  unlockedDescription: string;
+  unlockedImage: string;
   dataKey: string;
   dataValue: string;
   createdAt: Date;
