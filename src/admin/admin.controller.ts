@@ -1,16 +1,21 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, UseGuards } from "@nestjs/common";
 import { AdminService } from './admin.service';
-import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { AdminData } from './dto/AdminData';
+import { AdminGuard } from '../auth/guards/admin.guard';
 
 @Controller('admin')
-@UseGuards(JwtGuard)
+@UseGuards(AdminGuard)
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post('create')
   @HttpCode(200)
-  async async(@Body() adminData: AdminData) {
+  async createAdmin(@Body() adminData: AdminData) {
     return await this.adminService.createAdmin(adminData);
   }
+
+  @Put()
+  @HttpCode(200)
+  async updateAdmin() {}
+
 }
