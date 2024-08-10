@@ -28,9 +28,12 @@ async function transformAchievements(achievement: any[]) {
 function transformAchievement(achievement: any): AchievementDto {
   return {
     id: achievement.id,
+    type: achievement.type,
     title: achievement.title,
-    description: achievement.description,
-    image: achievement.image,
+    lockedDescription: achievement.lockedDescription,
+    lockedImage: achievement.lockedImage,
+    unlockedDescription: achievement.unlockedDescription,
+    unlockedImage: achievement.unlockedImage,
     dataKey: achievement.dataKey.dataKey,
     dataValue: achievement.dataValue,
   };

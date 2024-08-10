@@ -35,5 +35,5 @@ async function userModule(prisma) {
       userId: 'userId',
       treatmentId: 'treatmentId',
     },
-  })
+  });
 }
