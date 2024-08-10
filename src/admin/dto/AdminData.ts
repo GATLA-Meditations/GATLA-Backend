@@ -8,8 +8,8 @@ export class AdminData {
   @IsNotEmpty()
   name: string;
 
-  constructor(patientCode: string, password: string, name: string) {
-    this.email = patientCode;
+  constructor(email: string, password: string, name: string) {
+    this.email = email;
     this.password = password;
     this.name = name;
   }

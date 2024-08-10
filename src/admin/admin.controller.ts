@@ -1,7 +1,8 @@
-import { Body, Controller, HttpCode, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
+import { UpdateAdmin } from './dto/updateAdmin';
 
 @Controller('admin')
 @UseGuards(AdminGuard)
@@ -16,5 +17,15 @@ export class AdminController {
 
   @Put()
   @HttpCode(200)
-  async updateAdmin() {}
+  async updateAdmin(@Request() req: any, @Body() adminData: UpdateAdmin) {
+    const id = req.admin.id;
+    return this.adminService.updateAdmin(id, adminData);
+  }
+
+  @Delete()
+  @HttpCode(204)
+  async deleteAdmin(@Request() req: any) {
+    const id = req.user.id;
+    return this.adminService.deleteAdmin(id);
+  }
 }
