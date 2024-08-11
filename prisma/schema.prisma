@@ -31,6 +31,13 @@ model User {
   UserShopItem             UserShopItem[]
 }
 
+model Admin {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String
+}
+
 model Treatment {
   id          String @id() @default(uuid())
   name        String
@@ -208,14 +215,22 @@ model IngameData {
   user User @relation(fields: [userId], references: [id])
 }
 
+enum ACHIEVEMENT_TYPE {
+  COMMON
+  HIDDEN
+}
+
 model Achievement {
   id String @id() @default(uuid())
 
-  title       String
-  description String
-  image       String
-  dataKeyId   String
-  dataValue   String
+  type                  ACHIEVEMENT_TYPE
+  title                 String
+  lockedDescription     String
+  lockedImage           String
+  unlockedDescription   String
+  unlockedImage         String
+  dataKeyId             String
+  dataValue             String
 
   dataKey DataKey           @relation(fields: [dataKeyId], references: [id])
   users   UserAchievement[]

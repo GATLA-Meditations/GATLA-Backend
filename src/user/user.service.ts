@@ -78,8 +78,8 @@ export class UserService {
       user.image,
       user.achievements.map((a) => ({
         title: a.Achievement.title,
-        description: a.Achievement.description,
-        image: a.Achievement.image,
+        description: a.Achievement.unlockedDescription,
+        image: a.Achievement.unlockedImage,
       })),
     );
   }
