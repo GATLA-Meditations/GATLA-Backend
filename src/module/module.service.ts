@@ -21,14 +21,16 @@ export class ModuleService {
   async getActualModuleByUserId(userId: string) {
     const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
     if (!actualModule) return null;
-    const modules = []
+    const modules = [];
     for (const module of actualModule) {
-      modules.push(new ModuleDto({
-        ...module.module,
-        activities: this.getSimpleActivityDto(module),
-        progress: this.calculateProgress(module),
-        type: module.module.id === 'tests' ? ModuleType.QUESTIONNAIRES : ModuleType.MEDITATION,
-      }));
+      modules.push(
+        new ModuleDto({
+          ...module.module,
+          activities: this.getSimpleActivityDto(module),
+          progress: this.calculateProgress(module),
+          type: module.module.id === 'tests' ? ModuleType.QUESTIONNAIRES : ModuleType.MEDITATION,
+        }),
+      );
     }
     return modules;
   }
@@ -93,6 +95,6 @@ export class ModuleService {
   }
 
   private async createTestModule(userId: string, date: Date) {
-   await this.moduleRepository.createUserModule(userId, 'tests', date); 
+    await this.moduleRepository.createUserModule(userId, 'tests', date);
   }
 }

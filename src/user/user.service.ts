@@ -21,12 +21,11 @@ export class UserService {
     if (!treatmentTests.startAnswer) {
       return await this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
     }
-    let modules = await this.modules.getActualModuleByUserId(id);
+    const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;
     if (modules.length > 1) {
       actualModule = this.selectActualModule(id, modules);
-    }
-    else{
+    } else {
       actualModule = modules[0];
     }
     if (actualModule.id === 'tests') {
@@ -100,10 +99,9 @@ export class UserService {
   private selectActualModule(userId: string, modules: ModuleDto[]): ModuleDto {
     modules.forEach(async (module) => {
       if (module.id === 'tests') {
-        if (!await this.checkIfUserHasAnsweredAllQuestions(userId, module)) 
-          return module;
+        if (!(await this.checkIfUserHasAnsweredAllQuestions(userId, module))) return module;
       }
-    })
+    });
     return modules[0];
   }
 
@@ -119,8 +117,7 @@ export class UserService {
       if (answers.length === 0) {
         return false;
       }
-    })
+    });
     return true;
   }
-
 }
