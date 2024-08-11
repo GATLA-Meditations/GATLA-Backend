@@ -41,7 +41,7 @@ export class ModuleService {
     this.createTestModule(userId, date);
     if (delayed) {
       for (let _ of modules) {
-        _ = _ // ? me tira unused vars sino y con el foreach no andan bien las dates
+        _ = _; // ? me tira unused vars sino y con el foreach no andan bien las dates
         await this.subscribeToDummyModule(userId, date);
         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
       }
