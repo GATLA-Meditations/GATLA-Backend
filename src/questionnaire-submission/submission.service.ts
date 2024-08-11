@@ -90,4 +90,8 @@ export class QuestionnaireSubmissionService {
       }
     });
   }
+
+  async getUserQuestionnaireAnswers(userId, startDate, endDate) {
+    return this.repository.getUserQuestionnaireSubmissions(userId, startDate, endDate);
+  }
 }

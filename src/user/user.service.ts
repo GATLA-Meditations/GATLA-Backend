@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { ModuleService } from '../module/module.service';
-import { ModuleType } from '../module/dto/module.dto';
+import { ModuleDto, ModuleType } from '../module/dto/module.dto';
 import { TreatmentService } from '../treatment/treatment.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
@@ -21,11 +21,18 @@ export class UserService {
     if (!treatmentTests.startAnswer) {
       return await this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
     }
-    const actualModule = await this.modules.getActualModuleByUserId(id);
-    if (!actualModule && !treatmentTests.endAnswer) {
-      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to finish your treatment', false);
+    let modules = await this.modules.getActualModuleByUserId(id);
+    let actualModule;
+    if (modules.length > 1) {
+      actualModule = this.selectActualModule(id, modules);
     }
-    return actualModule;
+    else{
+      actualModule = modules[0];
+    }
+    if (actualModule.id === 'tests') {
+      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment', false);
+    }
+    return modules;
   }
 
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
@@ -86,7 +93,34 @@ export class UserService {
     return await this.repository.getUserRenatokens(id);
   }
 
-  updateUserRenatokens(userId: string, price: number) {
+  async updateUserRenatokens(userId: string, price: number) {
     return this.repository.updateUserRenatokens(userId, price);
   }
+
+  private selectActualModule(userId: string, modules: ModuleDto[]): ModuleDto {
+    modules.forEach(async (module) => {
+      if (module.id === 'tests') {
+        if (!await this.checkIfUserHasAnsweredAllQuestions(userId, module)) 
+          return module;
+      }
+    })
+    return modules[0];
+  }
+
+  private async checkIfUserHasAnsweredAllQuestions(userId: string, modules: ModuleDto): Promise<boolean> {
+    const today = new Date();
+    const stratDate = new Date(today);
+    stratDate.setDate(today.getDate() - 7);
+    const userTreatment = await this.treatment.getActualTreatmentByUserId(userId);
+    const questionnaires = userTreatment.questionnaires;
+    const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(modules.id, stratDate, today);
+    questionnaires.forEach((questionnaire) => {
+      const answers = questionnaireAnswers.filter((answer) => answer.questionnaireId === questionnaire.id);
+      if (answers.length === 0) {
+        return false;
+      }
+    })
+    return true;
+  }
+
 }

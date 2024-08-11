@@ -44,7 +44,16 @@ async function userModule(prisma) {
       id: 'dummy',
       name: 'Usuario base',
       description: 'Todavia no puede acceder a las actividades',
-      type: 'MEDITATION',
     },
   })
+
+  await prisma.module.upsert({
+    where: { id: 'tests' },
+    update: {},
+    create: {
+      id: 'tests',
+      name: 'Modulo para responder cuestionarios',
+      description: 'Responde los cuestionarios para seguir avanzando con tu tratamiento',
+    },
+  });
 }
