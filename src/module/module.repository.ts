@@ -51,7 +51,15 @@ export class ModuleRepository {
         },
       },
       include: {
-        module: {},
+        module: {
+          include: {
+            activities: {
+              include: {
+                activity: {},
+              },
+            },
+          },
+        },
         minutesSpent: true,
       },
     });
