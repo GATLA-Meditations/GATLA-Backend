@@ -40,10 +40,11 @@ export class ModuleService {
     let date = new Date();
     this.createTestModule(userId, date);
     if (delayed) {
-      modules.forEach(async () => {
+      for (let _ of modules) {
+        _ = _ // ? me tira unused vars sino y con el foreach no andan bien las dates
         await this.subscribeToDummyModule(userId, date);
         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
-      });
+      }
       this.createTestModule(userId, date);
     }
     for (const module of modules) {

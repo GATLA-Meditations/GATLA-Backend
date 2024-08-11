@@ -17,10 +17,6 @@ export class UserService {
   ) {}
 
   async getActualModule(id: string) {
-    const treatmentTests = await this.repository.getUserTests(id);
-    if (!treatmentTests.startAnswer) {
-      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to start your treatment');
-    }
     const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;
     if (modules.length > 1) {
@@ -29,7 +25,7 @@ export class UserService {
       actualModule = modules[0];
     }
     if (actualModule.id === 'tests') {
-      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment', false);
+      return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment');
     }
     return modules;
   }
@@ -44,22 +40,34 @@ export class UserService {
     return treatment;
   }
 
-  private async getQuestionnaireModule(userId: string, message: string, startQuestionnaire: boolean = true) {
-    let activities;
-    if (startQuestionnaire) activities = await this.submission.checkStartQuestionnaireAnswers(userId);
-    else activities = await this.submission.checkEndQuestionnaireAnswers(userId);
+  private async getQuestionnaireModule(userId: string, message: string) {
     const treatment = await this.treatment.getActualTreatmentByUserId(userId);
     if (!treatment) {
       throw new HttpException('User is not subscribed to any treatment', 400);
     }
+    const questionnaires = await this.parseAnsweredQuestionnaires(userId, treatment.questionnaires);
     return {
       type: ModuleType.QUESTIONNAIRES,
       id: treatment.id,
       name: 'Questionnaires',
       description: message,
-      activities: activities,
+      activities: questionnaires,
       progress: null, // TODO: calculate progress
     };
+  }
+  private async parseAnsweredQuestionnaires(userId: string, questionnaires: { id: string; name: string }[]) {
+    const today = new Date();
+    const stratDate = new Date(today);
+    stratDate.setDate(today.getDate() - 7);
+    const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(userId, stratDate, today);
+    return questionnaires.map((questionnaire) => {
+      const answers = questionnaireAnswers.filter((answer) => answer.questionnaireId === questionnaire.id);
+      if (answers.length === 0) {
+        return { id: questionnaire.id, name: questionnaire.name, answered: false };
+      } else {
+        return { id: questionnaire.id, name: questionnaire.name, answered: true };
+      }
+    });
   }
 
   async getUserIngameData(id: string) {
@@ -99,19 +107,19 @@ export class UserService {
   private selectActualModule(userId: string, modules: ModuleDto[]): ModuleDto {
     modules.forEach(async (module) => {
       if (module.id === 'tests') {
-        if (!(await this.checkIfUserHasAnsweredAllQuestions(userId, module))) return module;
+        if (!(await this.checkIfUserHasAnsweredAllQuestions(userId))) return module;
       }
     });
     return modules[0];
   }
 
-  private async checkIfUserHasAnsweredAllQuestions(userId: string, modules: ModuleDto): Promise<boolean> {
+  private async checkIfUserHasAnsweredAllQuestions(userId: string): Promise<boolean> {
     const today = new Date();
     const stratDate = new Date(today);
     stratDate.setDate(today.getDate() - 7);
     const userTreatment = await this.treatment.getActualTreatmentByUserId(userId);
     const questionnaires = userTreatment.questionnaires;
-    const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(modules.id, stratDate, today);
+    const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(userId, stratDate, today);
     questionnaires.forEach((questionnaire) => {
       const answers = questionnaireAnswers.filter((answer) => answer.questionnaireId === questionnaire.id);
       if (answers.length === 0) {
