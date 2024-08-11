@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { ApiTags } from '@nestjs/swagger';
 import { createActivityDto } from './dto/create-activity.dto';
