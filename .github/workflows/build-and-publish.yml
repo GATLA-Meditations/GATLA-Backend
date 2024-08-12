@@ -64,13 +64,13 @@ jobs:
         env:
           TASK_DEFINITION: renacentia-dev
         run: |
-          aws ecs describe-task-definition --task-definition $TASK_DEFINITION > task-definition.json
+          aws ecs describe-task-definition --task-definition $TASK_DEFINITION --query taskDefinition > task-definition-dev.json
 
       - name: Fill new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: task-definition-dev.json
           container-name: renacentia-dev
           image: ${{ steps.build-image.outputs.image }}
 
