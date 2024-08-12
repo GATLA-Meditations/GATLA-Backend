@@ -65,29 +65,7 @@ export class QuestionnaireSubmissionService {
     if (endQuestionnaires && !userTreatment.endAnswer) return await this.treatment.updateEndQuestionnaireAnswers(userTreatment.id);
   }
 
-  async checkStartQuestionnaireAnswers(userId: string) {
-    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
-    const questionnaires = treatment.questionnaires.map(async (self) => {
-      const answer = await this.repository.findByUserAndQuestionnaire(userId, self.id);
-      console.log(answer);
-      if (answer.length == 0) {
-        return { id: self.id, name: self.name, completed: false };
-      } else {
-        return { id: self.id, name: self.name, completed: true };
-      }
-    });
-    return await Promise.all(questionnaires);
-  }
-
-  async checkEndQuestionnaireAnswers(userId: string) {
-    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
-    return treatment.questionnaires.map(async (self) => {
-      const answer = await this.repository.findByUserAndQuestionnaire(userId, self.id);
-      if (answer.length < 2) {
-        return { ...self, completed: false };
-      } else {
-        return { ...self, completed: true };
-      }
-    });
+  async getUserQuestionnaireAnswers(userId, startDate, endDate) {
+    return this.repository.getUserQuestionnaireSubmissions(userId, startDate, endDate);
   }
 }

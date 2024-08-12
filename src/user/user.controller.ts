@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Put, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,11 +16,14 @@ export class UserController {
     return await this.userService.getActualModule(id);
   }
 
-  @Put('subscribe-to-treatment/:treatmentId')
-  async subscribeToTreatment(@Request() req: any): Promise<any> {
+  @Put('subscribe-to-treatment/:treatmentId/:delayed')
+  async subscribeToTreatment(
+    @Param('treatmentId') treatmentId: string,
+    @Param('delayed') delayed: boolean,
+    @Request() req: any,
+  ): Promise<any> {
     const userId = req.user.userId;
-    const treatmentId = req.params.treatmentId;
-    return await this.userService.subscribeToTreatment(userId, treatmentId);
+    return await this.userService.subscribeToTreatment(userId, treatmentId, delayed);
   }
 
   @Get('homestats')

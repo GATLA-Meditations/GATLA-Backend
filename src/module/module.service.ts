@@ -21,22 +21,41 @@ export class ModuleService {
   async getActualModuleByUserId(userId: string) {
     const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
     if (!actualModule) return null;
-    const activities = this.getSimpleActivityDto(actualModule);
-    return new ModuleDto({
-      ...actualModule.module,
-      activities,
-      progress: this.calculateProgress(actualModule),
-      type: ModuleType.MEDITATION,
-    });
+    const modules = [];
+    for (const module of actualModule) {
+      modules.push(
+        new ModuleDto({
+          ...module.module,
+          activities: this.getSimpleActivityDto(module),
+          progress: this.calculateProgress(module),
+          type: module.module.id === 'tests' ? ModuleType.QUESTIONNAIRES : ModuleType.MEDITATION,
+        }),
+      );
+    }
+    return modules;
   }
 
-  async createUserModules(userId: string, treatmentId: string) {
+  async createUserModules(userId: string, treatmentId: string, delayed: boolean = false) {
     const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
     let date = new Date();
+    this.createTestModule(userId, date);
+    if (delayed) {
+      for (let _ of modules) {
+        _ = _; // ? me tira unused vars sino y con el foreach no andan bien las dates
+        await this.subscribeToDummyModule(userId, date);
+        date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
+      }
+      this.createTestModule(userId, date);
+    }
     for (const module of modules) {
       await this.moduleRepository.createUserModule(userId, module.module.id, date);
-      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 8, 0, 0, 0);
+      date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
     }
+    this.createTestModule(userId, date);
+  }
+
+  async getUserIngameData(id: string) {
+    return await this.moduleRepository.getUserIngameData(id);
   }
 
   private getSimpleActivityDto(userModule: any) {
@@ -72,7 +91,11 @@ export class ModuleService {
     return Math.round((counter / total) * 100);
   }
 
-  async getUserIngameData(id: string) {
-    return await this.moduleRepository.getUserIngameData(id);
+  private async subscribeToDummyModule(userId: string, startDate: Date) {
+    await this.moduleRepository.createUserModule(userId, 'dummy', startDate);
+  }
+
+  private async createTestModule(userId: string, date: Date) {
+    await this.moduleRepository.createUserModule(userId, 'tests', date);
   }
 }
