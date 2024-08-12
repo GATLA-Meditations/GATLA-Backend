@@ -79,5 +79,5 @@ jobs:
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: renacentia-ecs-dev
-          cluster: renacenita-cluster
+          cluster: renacentia-cluster
 
