@@ -58,4 +58,22 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          
+
+      - name: Download Task Definition
+        env:
+          TASK_DEFINITION: renacentia-dev
+        run: |
+          aws ecs describe-task-definition --task-definition $TASK_DEFINITION > task-definition.json
+
+      - name: Fill new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: renacentia-dev
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Register new task definition
+        run: |
+          echo "${{ steps.task-def.outputs.task-definition }}" > new-task-definition.json
+          aws ecs register-task-definition --cli-input-json file://new-task-definition.json
