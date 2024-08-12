@@ -35,6 +35,7 @@ async function userModule(prisma) {
       userId: 'userId',
       treatmentId: 'treatmentId',
     },
+
   })
 
   await prisma.module.upsert({
