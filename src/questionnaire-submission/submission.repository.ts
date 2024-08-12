@@ -41,4 +41,16 @@ export class QuestionnaireSubmissionRepository {
       },
     });
   }
+
+  public async getUserQuestionnaireSubmissions(userId: string, startDate: Date, endDate: Date) {
+    return this.prisma.questionnaireSubmission.findMany({
+      where: {
+        userId: userId,
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+    });
+  }
 }

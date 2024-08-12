@@ -35,5 +35,26 @@ async function userModule(prisma) {
       userId: 'userId',
       treatmentId: 'treatmentId',
     },
+
+  })
+
+  await prisma.module.upsert({
+    where: { id: 'dummy' },
+    update: {},
+    create: {
+      id: 'dummy',
+      name: 'Usuario base',
+      description: 'Todavia no puede acceder a las actividades',
+    },
+  })
+
+  await prisma.module.upsert({
+    where: { id: 'tests' },
+    update: {},
+    create: {
+      id: 'tests',
+      name: 'Modulo para responder cuestionarios',
+      description: 'Responde los cuestionarios para seguir avanzando con tu tratamiento',
+    },
   });
 }
