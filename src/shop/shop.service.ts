@@ -38,11 +38,7 @@ export default class ShopService {
     await this.userService.updateUserRenatokens(userId, item.price);
   }
 
-  async createItem(itemDto: CreateShopItemDto, id: any) {
-    // TODO : Check the one creating the item is an admin
-    if (!id) {
-      throw new HttpErrorByCode['Unauthorized']('Unauthorized: Only admins can create items');
-    }
+  async createItem(itemDto: CreateShopItemDto) {
     return await this.repository.createShopItem(itemDto);
   }
 }

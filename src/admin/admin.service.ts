@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
+import { ActivityService } from 'src/activity/activity.service';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly adminRepository: AdminRepository) {}
+  constructor(
+    private readonly adminRepository: AdminRepository,
+    private readonly activityservice: ActivityService,
+  ) {}
 
   async createAdmin(adminData: AdminData) {
     return await this.adminRepository.createAdmin(adminData);

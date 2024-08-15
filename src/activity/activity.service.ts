@@ -18,9 +18,7 @@ export class ActivityService {
     });
   }
 
-  async createActivity(userId: string, data: createActivityDto) {
-    // TODO: Check user is admin
-    if (!userId) throw new HttpException('Unauthorized', 401);
+  async createActivity(data: createActivityDto) {
     const created_content: ContentDto[] = await Promise.all(
       data.contents.map(async (content) => {
         return await this.createContent(content);
@@ -36,9 +34,7 @@ export class ActivityService {
     });
   }
 
-  async modifyContent(userId: string, content: ContentDto) {
-    // Todo: Check user is admin
-    if (!userId) throw new HttpException('Unauthorized', 401);
+  async modifyContent(content: ContentDto) {
     return this.activityRepository.modifyContent(content);
   }
 

@@ -77,7 +77,6 @@ export class ModuleRepository {
   }
 
   async createUserModule(userId: string, id: string, date: Date) {
-    // TODO: chequear que no sean los modulos de cuestionarios
     const endDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 6, 0, 0, 0);
     console.log('endDate:', endDate);
     return this.prisma.userModule.create({

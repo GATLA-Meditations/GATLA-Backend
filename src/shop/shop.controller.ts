@@ -3,6 +3,7 @@ import ShopService from './shop.service';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
 import CreateShopItemDto from './dto/create-shop-item.dto';
+import { AdminGuard } from 'src/auth/guards/admin.guard';
 
 @UseGuards(JwtGuard)
 @ApiTags('shop')
@@ -21,7 +22,8 @@ export default class ShopController {
   }
 
   @Post('create-item')
-  async createItem(@Body() itemDto: CreateShopItemDto, @Request() req) {
-    return await this.service.createItem(itemDto, req.user.id);
+  @UseGuards(AdminGuard)
+  async createItem(@Body() itemDto: CreateShopItemDto) {
+    return await this.service.createItem(itemDto);
   }
 }

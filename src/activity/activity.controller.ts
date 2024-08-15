@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { ApiTags } from '@nestjs/swagger';
 import { createActivityDto } from './dto/create-activity.dto';
@@ -18,13 +18,13 @@ export class ActivityController {
 
   @Post()
   @UseGuards(AdminGuard)
-  async createActivity(@Body() data: createActivityDto, @Request() req: any) {
-    return await this.activityService.createActivity(req.user.id, data);
+  async createActivity(@Body() data: createActivityDto) {
+    return await this.activityService.createActivity(data);
   }
 
   @Put('/modify-content')
   @UseGuards(AdminGuard)
-  async modifyContent(@Body() data: ContentDto, @Request() req: any) {
-    return this.activityService.modifyContent(req.user.id, data);
+  async modifyContent(@Body() data: ContentDto) {
+    return this.activityService.modifyContent(data);
   }
 }
