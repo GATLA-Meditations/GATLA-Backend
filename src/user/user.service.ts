@@ -29,7 +29,7 @@ export class UserService {
     }
     return modules;
   }
-  
+
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
     const user = await this.repository.getUserById(userId);
     if (user.treatments.find((treatment) => treatment.id === treatmentId)) {
@@ -69,7 +69,7 @@ export class UserService {
       }
     });
   }
-  
+
   async updateViewTime(id: string, time: number) {
     await this.modules.updateViewTime(id, time);
   }

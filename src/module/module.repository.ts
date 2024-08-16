@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class ModuleRepository {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async getModuleById(id: string) {
     return this.prisma.module.findUnique({
       where: { id: id },
@@ -64,7 +64,7 @@ export class ModuleRepository {
       },
     });
   }
-  
+
   async getUserMinutesSpent(userId: string) {
     const date = new Date();
     return this.prisma.userModule.findMany({
@@ -82,7 +82,7 @@ export class ModuleRepository {
       },
     });
   }
-  
+
   createUserMinutesSpent(userModuleId: string, minutesSpent: number) {
     return this.prisma.userModuleMinutesSpent.create({
       data: {
@@ -102,7 +102,7 @@ export class ModuleRepository {
       },
     });
   }
-  
+
   async getModulesByTreatmentId(treatementId: string) {
     return this.prisma.treatmentModule.findMany({
       where: {
