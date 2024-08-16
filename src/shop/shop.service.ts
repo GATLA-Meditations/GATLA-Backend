@@ -35,7 +35,7 @@ export default class ShopService {
     if (user.renatokens < item.price) {
       throw new HttpErrorByCode['Conflict']('Not enough renatokens');
     }
-    await this.userService.updateUserRenatokens(userId, item.price);
+    await this.userService.updateRenatokens(userId, item.price);
   }
 
   async createItem(itemDto: CreateShopItemDto) {

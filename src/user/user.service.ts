@@ -100,8 +100,18 @@ export class UserService {
     return await this.repository.getUserRenatokens(id);
   }
 
-  async updateUserRenatokens(userId: string, price: number) {
+  async updateRenatokens(userId: string, price: number) {
     return this.repository.updateUserRenatokens(userId, price);
+  }
+
+  async updateUserProgress(id: string, progress: number) {
+    const actualProgress = await this.repository.getUserProgress(id);
+    const addedProgress = actualProgress.progress + progress;
+    if (addedProgress > 100) {
+      progress = addedProgress - 100;
+      await this.updateRenatokens(id, 1);
+    }
+    return await this.repository.updateUserProgress(id, progress);
   }
 
   private selectActualModule(userId: string, modules: ModuleDto[]): ModuleDto {

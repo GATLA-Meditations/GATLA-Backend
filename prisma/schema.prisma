@@ -19,6 +19,7 @@ model User {
   image        String?
   password     String
   renatokens   Int     @default(0)
+  progress     Int     @default(0)
 
   streakId                 String?
   streak                   Streak?

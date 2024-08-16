@@ -100,4 +100,26 @@ export class UserRepository {
       },
     });
   }
+
+  async updateUserProgress(id: string, progress: number) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        progress,
+      },
+    });
+  }
+
+  async getUserProgress(id: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        progress: true,
+      },
+    });
+  }
 }
