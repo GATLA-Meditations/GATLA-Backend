@@ -64,9 +64,13 @@ export class ModuleService {
     if (!actualMiuntesModule) {
       return await this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
     } else {
-      const addedTime = actualMiuntesModule.minutesSpent + time;
+      const addedTime: number = Number(actualMiuntesModule.minutesSpent) + Number(time);
       return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
     }
+  }
+
+  async getViewTime(id: string) {
+    return await this.moduleRepository.getUserMinutesSpent(id);
   }
 
   async getUserIngameData(id: string) {

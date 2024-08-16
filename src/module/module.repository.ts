@@ -78,7 +78,7 @@ export class ModuleRepository {
         },
       },
       include: {
-        minutesSpent: true,
+        minutesSpent: {},
       },
     });
   }

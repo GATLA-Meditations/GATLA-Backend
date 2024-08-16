@@ -18,7 +18,6 @@ export class QuestionnaireSubmissionService {
 
   public async createSubmission(submission: SubmissionCreateDto) {
     await this.checkQuestionnaireExists(submission);
-    this.treatmentQuestionnaireAnswered(submission.userId); // no le pongo el await porque es un chequeo que no afecta a la ejecucion actual
     return this.repository.createSubmission(submission);
   }
 
@@ -50,19 +49,6 @@ export class QuestionnaireSubmissionService {
     if (numericAnswer < min || numericAnswer > max) {
       throw new InvalidAnswerException(`Answer to question "${question.name}" was outside allowed parameters`);
     }
-  }
-
-  async treatmentQuestionnaireAnswered(userId: string) {
-    let endQuestionnaires = true;
-    const userTreatment = await this.treatment.getUserTreatment(userId);
-    const treatment = await this.treatment.getActualTreatmentByUserId(userId);
-    for (const questionnaire of treatment.questionnaires) {
-      const submissions = await this.repository.findByUserAndQuestionnaire(userId, questionnaire.id);
-      if (!submissions) return false;
-      if (submissions.length < 2) endQuestionnaires = false;
-    }
-    if (!userTreatment.startAnswer) return await this.treatment.updateStartQuestionnaireAnswers(userTreatment.id);
-    if (endQuestionnaires && !userTreatment.endAnswer) return await this.treatment.updateEndQuestionnaireAnswers(userTreatment.id);
   }
 
   async getUserQuestionnaireAnswers(userId, startDate, endDate) {

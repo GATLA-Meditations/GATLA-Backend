@@ -27,7 +27,7 @@ export class UserService {
     if (actualModule.id === 'tests') {
       return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment');
     }
-    return modules;
+    return actualModule;
   }
 
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
@@ -72,6 +72,10 @@ export class UserService {
 
   async updateViewTime(id: string, time: number) {
     await this.modules.updateViewTime(id, time);
+  }
+
+  async getViewTime(id: string) {
+    return await this.modules.getViewTime(id);
   }
 
   async getUserIngameData(id: string) {
@@ -124,7 +128,7 @@ export class UserService {
         if (!(await this.checkIfUserHasAnsweredAllQuestions(userId))) return module;
       }
     });
-    return modules[0];
+    return modules.find((module) => module.id !== 'tests');
   }
 
   private async checkIfUserHasAnsweredAllQuestions(userId: string): Promise<boolean> {
