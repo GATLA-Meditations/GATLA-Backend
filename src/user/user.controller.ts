@@ -16,6 +16,13 @@ export class UserController {
     return await this.userService.getActualModule(id);
   }
 
+  @Put('view-time/:time')
+  @HttpCode(200)
+  async setViewTime(@Param('time') time: number, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateViewTime(id, time);
+  }
+
   @Put('subscribe-to-treatment/:treatmentId/:delayed')
   async subscribeToTreatment(
     @Param('treatmentId') treatmentId: string,
@@ -52,5 +59,12 @@ export class UserController {
   async getUserItems(@Request() req: any) {
     const id: string = req.user.userId;
     return await this.userService.getUserItems(id);
+  }
+
+  @Put('progress/:progress')
+  @HttpCode(200)
+  async setProgress(@Param('progress') progress: number, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateProgress(id, progress);
   }
 }

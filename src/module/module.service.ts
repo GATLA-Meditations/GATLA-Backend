@@ -6,7 +6,7 @@ import { ModuleDto, ModuleType } from './dto/module.dto';
 @Injectable()
 export class ModuleService {
   constructor(private readonly moduleRepository: ModuleRepository) {}
-
+  
   async getModuleById(id: string, userId: string) {
     const userModule = await this.moduleRepository.getUserModuleByModuleIdAndUserId(id, userId);
     if (!userModule) throw new HttpException('Module not found', 404);
@@ -17,7 +17,7 @@ export class ModuleService {
       type: ModuleType.MEDITATION,
     });
   }
-
+  
   async getActualModuleByUserId(userId: string) {
     const actualModule = await this.moduleRepository.findActualModuleFromUser(userId);
     if (!actualModule) return null;
@@ -53,25 +53,41 @@ export class ModuleService {
     }
     this.createTestModule(userId, date);
   }
+  
+  async updateViewTime(userId: string, time: number) {
+    const date = new Date();
+    const userModules = await this.moduleRepository.getUserMinutesSpent(userId);
+    const meditationModule = userModules.find((module) => module.moduleId != 'dummy' && module.moduleId != 'tests');
+    if (!meditationModule) return;
+    const minutesSpent = meditationModule.minutesSpent;
+    const actualMiuntesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
+    if (!actualMiuntesModule) {
+      return await this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
+    }
+    else{
+      const addedTime = actualMiuntesModule.minutesSpent + time;
+      return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
+    }
+  }
 
   async getUserIngameData(id: string) {
     return await this.moduleRepository.getUserIngameData(id);
   }
-
+  
   private getSimpleActivityDto(userModule: any) {
     return userModule.module.activities.map((activity, index) => {
       if (index === 0)
         return new SimpleActivityDto({
-          id: activity.activityId,
-          name: activity.activity.name,
-          unlocked: true,
-        });
-      if (index === 1)
+      id: activity.activityId,
+      name: activity.activity.name,
+      unlocked: true,
+    });
+    if (index === 1)
         return new SimpleActivityDto({
-          id: activity.activityId,
-          name: activity.activity.name,
-          unlocked: userModule.medIntroduction,
-        });
+      id: activity.activityId,
+      name: activity.activity.name,
+      unlocked: userModule.medIntroduction,
+    });
       return new SimpleActivityDto({
         id: activity.activityId,
         name: activity.activity.name,
@@ -79,7 +95,7 @@ export class ModuleService {
       });
     });
   }
-
+  
   private calculateProgress(userModule: any) {
     let counter = 0;
     const total = 9;
@@ -90,11 +106,11 @@ export class ModuleService {
     }
     return Math.round((counter / total) * 100);
   }
-
+  
   private async subscribeToDummyModule(userId: string, startDate: Date) {
     await this.moduleRepository.createUserModule(userId, 'dummy', startDate);
   }
-
+  
   private async createTestModule(userId: string, date: Date) {
     await this.moduleRepository.createUserModule(userId, 'tests', date);
   }

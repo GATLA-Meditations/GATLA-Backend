@@ -29,7 +29,7 @@ export class UserService {
     }
     return modules;
   }
-
+  
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
     const user = await this.repository.getUserById(userId);
     if (user.treatments.find((treatment) => treatment.id === treatmentId)) {
@@ -69,6 +69,10 @@ export class UserService {
       }
     });
   }
+  
+  async updateViewTime(id: string, time: number) {
+    await this.modules.updateViewTime(id, time);
+  }
 
   async getUserIngameData(id: string) {
     return await this.modules.getUserIngameData(id);
@@ -104,7 +108,7 @@ export class UserService {
     return this.repository.updateUserRenatokens(userId, price);
   }
 
-  async updateUserProgress(id: string, progress: number) {
+  async updateProgress(id: string, progress: number) {
     const actualProgress = await this.repository.getUserProgress(id);
     const addedProgress = actualProgress.progress + progress;
     if (addedProgress > 100) {
