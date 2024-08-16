@@ -1,0 +1,300 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String  @id() @default(uuid())
+  patient_code String  @unique
+  image        String?
+  password     String
+  renatokens   Int     @default(0)
+  progress     Int     @default(0)
+
+  streakId                 String?
+  streak                   Streak?
+  treatments               Treatment[]
+  questionnaireSubmissions QuestionnaireSubmission[]
+  UserModule               UserModule[]
+  UserTreatment            UserTreatment[]
+  ingameData               IngameData?
+  achievements             UserAchievement[]
+  UserShopItem             UserShopItem[]
+}
+
+model Admin {
+  id String @id @default(uuid())
+  email String @unique
+  password String
+  name String
+}
+
+model Treatment {
+  id          String @id() @default(uuid())
+  name        String
+  description String
+
+  users          User[]
+  modules        TreatmentModule[]
+  tests          UserTreatment[]
+  questionnaires Questionnaire[]   @relation("TreatmentQuestionnaire")
+}
+
+model UserTreatment {
+  id          String  @id() @default(uuid())
+  startAnswer Boolean @default(false)
+  endAnswer   Boolean @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  treatmentId String
+  treatment   Treatment @relation(fields: [treatmentId], references: [id])
+}
+
+model Module {
+  id          String @id() @default(uuid())
+  name        String
+  description String
+
+  treatments TreatmentModule[]
+  activities ModuleActivity[]
+  UserModule UserModule[]
+}
+
+model TreatmentModule {
+  id    String @id() @default(uuid())
+  order Int
+
+  treatment_id String
+  treatment    Treatment @relation(fields: [treatment_id], references: [id])
+
+  module_id String
+  module    Module @relation(fields: [module_id], references: [id])
+}
+
+model Activity {
+  id   String @id() @default(uuid())
+  name String
+
+  modules  ModuleActivity[]
+  contents ActivityContent[]
+}
+
+model ModuleActivity {
+  id    String @id() @default(uuid())
+  order Int
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
+
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id])
+}
+
+model Content {
+  id      String      @id() @default(uuid())
+  type    ContentType
+  content String
+
+  activities ActivityContent[]
+}
+
+model ActivityContent {
+  id        String   @id() @default(uuid())
+  createdAt DateTime @default(now())
+  order     Int
+
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id])
+
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id])
+}
+
+enum ContentType {
+  VIDEO
+  AUDIO
+  TEXT
+}
+
+model Questionnaire {
+  id   String @id() @default(uuid())
+  name String
+
+  questions                QuestionnaireQuestion[]
+  questionnaireSubmissions QuestionnaireSubmission[]
+  treatments               Treatment[]               @relation("TreatmentQuestionnaire")
+}
+
+model QuestionnaireQuestion {
+  id       String       @id() @default(uuid())
+  type     QuestionType
+  name     String
+  metadata String
+
+  questionnaireId String
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+
+  answers QuestionnaireAnswer[]
+}
+
+enum QuestionType {
+  NUMERIC
+  SINGLE_CHOICE
+  NOT_A_QUESTION
+}
+
+model QuestionnaireSubmission {
+  id        String   @id() @default(uuid())
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  questionnaireId String
+  questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
+
+  answers QuestionnaireAnswer[]
+}
+
+model QuestionnaireAnswer {
+  id     String @id() @default(uuid())
+  answer String
+
+  questionnaireSubmissionId String
+  questionnaireSubmission   QuestionnaireSubmission @relation(fields: [questionnaireSubmissionId], references: [id])
+
+  questionId String
+  question   QuestionnaireQuestion @relation(fields: [questionId], references: [id])
+}
+
+model UserModule {
+  id               String   @id() @default(uuid())
+  createdAt        DateTime @default(now())
+  startDate        DateTime
+  endDate          DateTime
+  weekIntroduction Boolean  @default(false)
+  medIntroduction  Boolean  @default(false)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
+
+  minutesSpent UserModuleMinutesSpent[]
+}
+
+model UserModuleMinutesSpent {
+  id           String   @id() @default(uuid())
+  createdAt    DateTime @default(now())
+  minutesSpent Int
+
+  userModuleId String
+  userModule   UserModule @relation(fields: [userModuleId], references: [id])
+}
+
+model IngameData {
+  id     String @id() @default(uuid())
+  userId String @unique
+
+  maxStreak        Int      @default(1)
+  lastDayConnected DateTime @default(now())
+  totalWatchTime   Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum ACHIEVEMENT_TYPE {
+  COMMON
+  HIDDEN
+}
+
+model Achievement {
+  id String @id() @default(uuid())
+
+  type                  ACHIEVEMENT_TYPE
+  title                 String
+  lockedDescription     String
+  lockedImage           String
+  unlockedDescription   String
+  unlockedImage         String
+  dataKeyId             String
+  dataValue             String
+
+  dataKey DataKey           @relation(fields: [dataKeyId], references: [id])
+  users   UserAchievement[]
+}
+
+model DataKey {
+  id String @id() @default(uuid())
+
+  dataKey String @unique
+
+  achievement Achievement[]
+}
+
+model UserAchievement {
+  id String @id() @default(uuid())
+
+  createdAt    DateTime @default(now())
+  userId       String
+  achivementId String
+
+  Achievement Achievement @relation(fields: [achivementId], references: [id])
+  User        User        @relation(fields: [userId], references: [id])
+}
+
+model Streak {
+  id         String   @id() @default(uuid())
+  createdAt  DateTime @default(now())
+  lastUpdate DateTime @default(now())
+  streak     Int      @default(0)
+  type       String
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+enum ShopItemType {
+  BACKGROUND
+  AVATAR
+  VIDEO
+}
+
+model ShopItem {
+  id String @id() @default(uuid())
+  type ShopItemType
+  price Int
+  content_url String  
+
+  UserShopItem UserShopItem[]
+}
+
+model UserShopItem {
+  id String @id() @default(uuid())
+  
+  userId String
+  User User @relation(fields: [userId], references: [id])
+  
+  shopItemId String
+  ShopItem ShopItem @relation(fields: [shopItemId], references: [id])
+}
+
+model Phrase {
+  id String @id() @default(uuid())
+  author String
+  content String
+  createdAt DateTime @default(now())
+}

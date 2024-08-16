@@ -1,0 +1,47 @@
+version: '3.5'
+
+services:
+  db:
+    image: postgres:alpine
+    container_name: db-gatla
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB' ]
+      interval: 1s
+      timeout: 1s
+      retries: 15
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: back-gatla
+    environment:
+      - PORT=${PORT}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - '3001:3001'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
+    command:
+      - sh
+      - -c
+      - |
+        npm run db:apply && npm run db:seed && npm run start:dev
+
+volumes:
+  db-data:
+
