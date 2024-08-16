@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, Request, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { AchievementService } from './achievement.service';
@@ -9,10 +9,10 @@ import { AchievementService } from './achievement.service';
 export class AchievementController {
   constructor(private readonly achievementService: AchievementService) {}
 
-  @Get('user/:id')
+  @Get('user')
   @HttpCode(200)
-  async getAchievementByUserId(@Param('id') id: string) {
-    return await this.achievementService.getAchievementByUserId(id);
+  async getAchievementByUserId(@Request() req: any) {
+    return await this.achievementService.getAchievementByUserId(req.user.id);
   }
 
   @Get('all')
