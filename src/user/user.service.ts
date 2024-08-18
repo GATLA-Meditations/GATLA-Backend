@@ -103,6 +103,7 @@ export class UserService {
     return new UserProfileDto(
       user.patient_code,
       user.image,
+      user.background,
       user.achievements.map((a) => ({
         title: a.Achievement.title,
         description: a.Achievement.unlockedDescription,

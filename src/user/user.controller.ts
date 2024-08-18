@@ -68,17 +68,17 @@ export class UserController {
     return await this.userService.updateProgress(id, progress);
   }
   
-  @Put('image/:url')
+  @Put('image')
   @HttpCode(200)
-  async setImage(@Param('url') url: string, @Request() req: any) {
+  async setImage(@Body() body: { url: string }, @Request() req: any) {
     const id: string = req.user.userId;
-    return await this.userService.updateImage(id, url);
+    return await this.userService.updateImage(id, body.url);
   }
 
-  @Put('background/:url')
+  @Put('background')
   @HttpCode(200)
-  async setBackground(@Param('url') url: string, @Request() req: any) {
+  async setBackground(@Body() body: { url: string }, @Request() req: any) {
     const id: string = req.user.userId;
-    return await this.userService.updateBackground(id, url);
+    return await this.userService.updateBackground(id, body.url);
   }
 }
