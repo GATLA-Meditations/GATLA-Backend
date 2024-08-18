@@ -5,7 +5,7 @@ import UserItemsDto from './dto/get-items.dto';
 @Injectable()
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
-
+  
   async getUserById(id: string) {
     return this.prisma.user.findUnique({
       where: { id: id },
@@ -14,7 +14,7 @@ export class UserRepository {
       },
     });
   }
-
+  
   async subscirbeToTreatment(userId: string, treatmentId: string) {
     return this.prisma.user.update({
       where: { id: userId },
@@ -43,7 +43,7 @@ export class UserRepository {
       },
     });
   }
-
+  
   async getUserProfile(id: string) {
     return this.prisma.user.findUnique({
       where: {
@@ -62,7 +62,29 @@ export class UserRepository {
       },
     });
   }
-
+  
+  async updateUserImage(id: string, url: string) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        image: url,
+      },
+    });
+  }
+  
+  async updateUserBackground(id: string, url: string) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        background: url,
+      },
+    });
+  }
+  
   async getUserItems(userId: string): Promise<UserItemsDto> {
     const query = await this.prisma.userShopItem.findMany({
       where: {

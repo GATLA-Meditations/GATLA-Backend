@@ -67,4 +67,18 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.updateProgress(id, progress);
   }
+  
+  @Put('image/:url')
+  @HttpCode(200)
+  async setImage(@Param('url') url: string, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateImage(id, url);
+  }
+
+  @Put('background/:url')
+  @HttpCode(200)
+  async setBackground(@Param('url') url: string, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateBackground(id, url);
+  }
 }

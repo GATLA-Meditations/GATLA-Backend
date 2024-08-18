@@ -19,7 +19,10 @@ export class UserService {
   async getActualModule(id: string) {
     const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;
-    if (modules.length > 1) {
+    if (modules.length === null) {
+      const treatment = await this.treatment.getActualTreatmentByUserId(id);
+      return treatment.modules;
+    }else if (modules.length > 1) {
       actualModule = this.selectActualModule(id, modules);
     } else {
       actualModule = modules[0];
@@ -28,6 +31,14 @@ export class UserService {
       return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment');
     }
     return actualModule;
+  }
+  
+  async updateImage(id: string, url: string) {
+    return await this.repository.updateUserImage(id, url);
+  }
+  
+  async updateBackground(id: string, url: string) {
+    return await this.repository.updateUserBackground(id, url);
   }
 
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {

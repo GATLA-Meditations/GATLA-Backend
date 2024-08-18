@@ -3,7 +3,9 @@ import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { UpdateAdmin } from './dto/updateAdmin';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Admin')
 @Controller('admin')
 @UseGuards(AdminGuard)
 export class AdminController {
