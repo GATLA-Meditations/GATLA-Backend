@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-export async function uploadCompasionInterior() {
+export async function uploadShopItems() {
   const prisma = new PrismaClient();
   await addShopItems(prisma);
   await prisma.$disconnect();
