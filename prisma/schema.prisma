@@ -71,6 +71,7 @@ model Module {
   treatments TreatmentModule[]
   activities ModuleActivity[]
   UserModule UserModule[]
+  phrases ModulePhrase[]
 }
 
 model TreatmentModule {
@@ -298,4 +299,16 @@ model Phrase {
   author String
   content String
   createdAt DateTime @default(now())
+
+  modules ModulePhrase[]
+}
+
+model ModulePhrase {
+  id String @id @default(uuid())
+
+  phrase_id String
+  phrase Phrase @relation(fields: [phrase_id], references: [id])
+
+  module_id String
+  module Module @relation(fields: [module_id], references: [id])
 }
