@@ -81,4 +81,11 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.updateBackground(id, body.url);
   }
+
+  @Get('personalization-tokens')
+  @HttpCode(200)
+  async getPersonalizationTokens(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getPersonalizationTokens(id);
+  }
 }

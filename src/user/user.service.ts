@@ -50,6 +50,10 @@ export class UserService {
     await this.modules.createUserModules(userId, treatmentId, delayed);
     return treatment;
   }
+  
+  async getPersonalizationTokens(id: string) {
+    return await this.repository.getTokensAndProgress(id);
+  }
 
   private async getQuestionnaireModule(userId: string, message: string) {
     const treatment = await this.treatment.getActualTreatmentByUserId(userId);
