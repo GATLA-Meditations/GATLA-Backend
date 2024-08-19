@@ -13,12 +13,12 @@ export default class ShopController {
 
   @Get('all-items-user')
   async getAllItemsForUser(@Request() req) {
-    return await this.service.getAllItemsForUser(req.user.id);
+    return await this.service.getAllItemsForUser(req.user.userId);
   }
 
   @Put('buy-item/:id')
   async buyItem(@Param('id') id, @Request() req) {
-    return await this.service.buyItem(req.user.id, id);
+    return await this.service.buyItem(req.user.userId, id);
   }
 
   @Post('create-item')
