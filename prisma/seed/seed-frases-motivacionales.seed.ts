@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 
-export async function uploadCompasionInterior() {
+export async function uploadMotivationalPhrases() {
   const prisma = new PrismaClient();
   await addFrases(prisma);
   await prisma.$disconnect();

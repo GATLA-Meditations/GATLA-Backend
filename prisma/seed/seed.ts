@@ -4,6 +4,7 @@ import { uploadEmocionesPositivas } from './test-emociones-positivas.seed';
 import { uploadInventarioBienestarEspiritual } from './test-inventario-bienestar-espiritual.seed';
 import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida';
 import { uploadUserModule } from './user-module';
+import { uploadMotivationalPhrases } from "./seed-frases-motivacionales.seed";
 
 const prisma = new PrismaClient();
 
@@ -26,6 +27,7 @@ async function main() {
   await uploadInventarioBienestarEspiritual();
   await uploadInventariodeCalidaddeVida();
   await uploadUserModule();
+  await uploadMotivationalPhrases();
 }
 
 async function questionnaireSeed() {
