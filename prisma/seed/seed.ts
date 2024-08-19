@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { uploadCompasionInterior } from './test-compasion-interior.seed';
 import { uploadEmocionesPositivas } from './test-emociones-positivas.seed';
 import { uploadInventarioBienestarEspiritual } from './test-inventario-bienestar-espiritual.seed';
+import { uploadMotivationalPhrases } from './seed-frases-motivacionales.seed';
 import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida.seed';
 import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
@@ -27,6 +28,7 @@ async function main() {
   await uploadInventarioBienestarEspiritual();
   await uploadInventariodeCalidaddeVida();
   await uploadUserModule();
+  await uploadMotivationalPhrases();
   await uploadInventariodeCalidaddeVida();
   await uploadUserModule();
   await uploadShopItems();
