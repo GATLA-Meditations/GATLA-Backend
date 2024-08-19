@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PhraseRepository } from './phrase.repository';
 import { CreatePhraseDto } from './dto/create-phrase.dto';
+import { ModulePhraseDto } from './dto/module-phrase.dto';
 
 @Injectable()
 export class PhraseService {
@@ -20,5 +21,9 @@ export class PhraseService {
 
   async editPhrase(id: string, data: CreatePhraseDto) {
     return await this.repository.editPhrase(id, data);
+  }
+
+  async connectModule(data: ModulePhraseDto) {
+    return await this.repository.connectModule(data);
   }
 }

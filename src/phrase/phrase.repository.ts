@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreatePhraseDto } from './dto/create-phrase.dto';
+import { ModulePhraseDto } from './dto/module-phrase.dto';
 
 @Injectable()
 export class PhraseRepository {
@@ -37,6 +38,19 @@ export class PhraseRepository {
     return await this.prism.phrase.delete({
       where: {
         id,
+      },
+    });
+  }
+
+  async connectModule(data: ModulePhraseDto) {
+    return this.prism.modulePhrase.create({
+      data: {
+        phrase: {
+          connect: { id: data.phrase_id },
+        },
+        module: {
+          connect: { id: data.module_id },
+        },
       },
     });
   }
