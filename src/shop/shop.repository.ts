@@ -6,6 +6,15 @@ import { ShopItemType } from '@prisma/client';
 @Injectable()
 export default class ShopRepository {
   constructor(private prisma: PrismaService) {}
+  
+  async buyItem(userId: string, itemId: string) {
+    return this.prisma.userShopItem.create({
+      data: {
+        userId,
+        shopItemId: itemId,
+      },
+    });
+  }
 
   async getAllItems() {
     return this.prisma.shopItem.findMany();
