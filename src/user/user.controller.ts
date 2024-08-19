@@ -67,7 +67,7 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.updateProgress(id, progress);
   }
-  
+
   @Put('image')
   @HttpCode(200)
   async setImage(@Body() body: { url: string }, @Request() req: any) {
