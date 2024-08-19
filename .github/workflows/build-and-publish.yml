@@ -62,7 +62,7 @@ jobs:
 
       - name: Download Task Definition
         env:
-          TASK_DEFINITION: renacentia-dev
+          TASK_DEFINITION: renacentia-back-task
         run: |
           aws ecs describe-task-definition --task-definition $TASK_DEFINITION --query taskDefinition > task-definition-dev.json
 
