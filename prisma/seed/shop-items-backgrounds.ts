@@ -4,7 +4,6 @@ export async function uploadCompasionInterior() {
   const prisma = new PrismaClient();
   await addShopItems(prisma);
   await prisma.$disconnect();
-
 }
 
 async function addShopItems(prisma: PrismaClient) {
