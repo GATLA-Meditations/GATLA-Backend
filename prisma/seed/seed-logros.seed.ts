@@ -1,12 +1,12 @@
 import { ACHIEVEMENT_TYPE, PrismaClient } from '@prisma/client';
 
-export async function uploadEmocionesPositivas() {
+export async function uploadAchievements() {
   const prisma = new PrismaClient();
-  await uploadAchievements(prisma);
+  await achievements(prisma);
   await prisma.$disconnect();
 }
 
-async function uploadAchievements(prisma: PrismaClient) {
+async function achievements(prisma: PrismaClient) {
   const dataKeys = [
     { id: 'Semanas', dataKey: 'Semanas' },
     { id: 'Minutos', dataKey: 'Minutos' },
