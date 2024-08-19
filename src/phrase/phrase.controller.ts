@@ -15,6 +15,11 @@ export class PhraseController {
     return await this.service.getPhrases();
   }
 
+  @Get('module/:id')
+  async getPhrasesByModuleId(@Param('id') id: string) {
+    return await this.service.getPhrasesByModuleId(id);
+  }
+
   @Get('/:id')
   async getPhraseById(@Param('id') id: string) {
     return await this.service.getPhraseById(id);

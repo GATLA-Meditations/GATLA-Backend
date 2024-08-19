@@ -43,13 +43,25 @@ export class PhraseRepository {
   }
 
   async connectModule(data: ModulePhraseDto) {
-    return this.prism.modulePhrase.create({
+    return await this.prism.modulePhrase.create({
       data: {
         phrase: {
           connect: { id: data.phrase_id },
         },
         module: {
           connect: { id: data.module_id },
+        },
+      },
+    });
+  }
+
+  async getPhrasesByModuleId(id: string) {
+    return await this.prism.phrase.findMany({
+      where: {
+        modules: {
+          some: {
+            module_id: id,
+          },
         },
       },
     });

@@ -26,4 +26,8 @@ export class PhraseService {
   async connectModule(data: ModulePhraseDto) {
     return await this.repository.connectModule(data);
   }
+
+  async getPhrasesByModuleId(id: string) {
+    return this.repository.getPhrasesByModuleId(id);
+  }
 }
