@@ -46,4 +46,8 @@ export class AdminService {
   async updateActivitiesFromModules(id: string, activitiesData: { id?: string; order?: number }[]) {
     return await this.adminRepository.updateActivitiesFromModules(id, activitiesData);
   }
+
+  async getUsers() {
+    return await this.adminRepository.getUsers();
+  }
 }

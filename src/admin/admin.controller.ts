@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param, Get } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
@@ -65,5 +65,11 @@ export class AdminController {
   @HttpCode(204)
   async updateActivitiesFromModules(@Param('id') id: string, @Body() activitiesData: { id?: string; order?: number }[]) {
     return await this.adminService.updateActivitiesFromModules(id, activitiesData);
+  }
+
+  @Get('user')
+  @HttpCode(200)
+  async getUsers() {
+    return await this.adminService.getUsers();
   }
 }

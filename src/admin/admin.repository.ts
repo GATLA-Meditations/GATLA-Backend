@@ -93,4 +93,8 @@ export class AdminRepository {
       data: new_activities_data,
     });
   }
+
+  async getUsers() {
+    return this.prisma.user.findMany();
+  }
 }
