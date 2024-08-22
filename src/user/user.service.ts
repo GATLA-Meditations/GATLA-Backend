@@ -50,7 +50,7 @@ export class UserService {
     await this.modules.createUserModules(userId, treatmentId, delayed);
     return treatment;
   }
-  
+
   async getPersonalizationTokens(id: string) {
     return await this.repository.getTokensAndProgress(id);
   }
