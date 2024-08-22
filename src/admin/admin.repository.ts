@@ -95,6 +95,50 @@ export class AdminRepository {
   }
 
   async getUsers() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        patient_code: true,
+        password: true,
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  async updateUserBasicData(
+    id: string,
+    userData: {
+      patient_code?: string;
+      password?: string;
+      treatment?: { id: string };
+    },
+  ) {
+    await this.prisma.user.update({
+      where: { id: id },
+      data: {
+        patient_code: userData.patient_code,
+        password: userData.password,
+      },
+    });
+  }
+
+  async updateUserTreatmentData(id: string, treatment: { id: string }) {
+    //delete current userTreatment
+    await this.prisma.userTreatment.deleteMany({
+      where: { userId: id },
+    });
+
+    //create new connection for treatment
+    await this.prisma.userTreatment.create({
+      data: {
+        user: { connect: { id: id } },
+        treatment: { connect: { id: treatment.id } },
+      },
+    });
   }
 }
