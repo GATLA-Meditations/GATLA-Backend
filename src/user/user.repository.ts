@@ -5,7 +5,7 @@ import UserItemsDto from './dto/get-items.dto';
 @Injectable()
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
-  
+
   async getTokensAndProgress(id: string) {
     return this.prisma.user.findUnique({
       where: {
