@@ -2,10 +2,61 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
+import createQuestionnaireDto from './dto/create-questionnaire.dto';
 
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getQuestionnaireTreatments(id: string) {
+    return this.prisma.questionnaire.findUnique({
+      where: { id: id },
+      select: {
+        treatments: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+  }
+
+  async disconnectQuestionnaireFromTreatment(id: string) {
+    return this.prisma.questionnaire.update({
+      where: { id: id },
+      data: {
+        treatments: {
+          set: [],
+        },
+      },
+    });
+  }
+
+  async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
+    return this.prisma.questionnaire.create({
+      data: {
+        name: questionnaireData.name,
+        questions: {
+          create: questionnaireData.questions,
+        },
+        treatments: {
+          connect: questionnaireData.treatmentId.map((id) => ({ id: id })),
+        },
+      },
+    });
+  }
+
+  async deleteUser(id: string) {
+    return this.prisma.user.delete({
+      where: { id: id },
+    });
+  }
+
+  async createUser(data: { patient_code: string; password: string }) {
+    return this.prisma.user.create({
+      data,
+    });
+  }
 
   async createAdmin(adminData: AdminData) {
     return this.prisma.admin.create({

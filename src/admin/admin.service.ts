@@ -2,10 +2,34 @@ import { Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
+import createQuestionnaireDto from './dto/create-questionnaire.dto';
 
 @Injectable()
 export class AdminService {
   constructor(private readonly adminRepository: AdminRepository) {}
+
+  async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {
+    const treatments = await this.adminRepository.getQuestionnaireTreatments(id);
+    this.disconnectQuestionnaireFromTreatment(id);
+    questionnaireData.treatmentId = treatments.treatments.map((treatment) => treatment.id);
+    return await this.adminRepository.createQuestionnaire(questionnaireData);
+  }
+
+  async disconnectQuestionnaireFromTreatment(id: string) {
+    return await this.adminRepository.disconnectQuestionnaireFromTreatment(id);
+  }
+
+  async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
+    return await this.adminRepository.createQuestionnaire(questionnaireData);
+  }
+
+  async deleteUser(id: string) {
+    return await this.adminRepository.deleteUser(id);
+  }
+
+  async createUser(userData: { patient_code: string; password: string }) {
+    return await this.adminRepository.createUser(userData);
+  }
 
   async createAdmin(adminData: AdminData) {
     return await this.adminRepository.createAdmin(adminData);

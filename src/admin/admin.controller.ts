@@ -4,6 +4,7 @@ import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
+import createQuestionnaireDto from './dto/create-questionnaire.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -77,5 +78,29 @@ export class AdminController {
   @HttpCode(204)
   async updateUser(@Param('id') id: string, @Body() userData: { patient_code?: string; password?: string; treatment?: { id: string } }) {
     return await this.adminService.updateUser(id, userData);
+  }
+
+  @Post('user/create')
+  @HttpCode(201)
+  async createUser(@Body() userData: { patient_code: string; password: string }) {
+    return await this.adminService.createUser(userData);
+  }
+
+  @Delete('user/delete/:id')
+  @HttpCode(204)
+  async deleteUser(@Param('id') id: string) {
+    return await this.adminService.deleteUser(id);
+  }
+
+  @Post('questionnaire/create')
+  @HttpCode(200)
+  async createQuestionnaire(@Body() questionnaireData: createQuestionnaireDto) {
+    return await this.adminService.createQuestionnaire(questionnaireData);
+  }
+
+  @Put('questionnaire/update/:id')
+  @HttpCode(200)
+  async updateQuestionnaire(@Param('id') id: string, @Body() questionnaireData: createQuestionnaireDto) {
+    return await this.adminService.updateQuestionnaire(id, questionnaireData);
   }
 }
