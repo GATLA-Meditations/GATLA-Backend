@@ -7,7 +7,7 @@ import createQuestionnaireDto from './dto/create-questionnaire.dto';
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async notifyUser(notificationId: string, userId: string) {
     return this.prisma.userNotification.create({
       data: {
@@ -16,8 +16,8 @@ export class AdminRepository {
       },
     });
   }
-  
-  async createNotification(data: { title: string; content: string; }) {
+
+  async createNotification(data: { title: string; content: string }) {
     return this.prisma.notification.create({
       data,
     });

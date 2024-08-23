@@ -7,12 +7,12 @@ import createQuestionnaireDto from './dto/create-questionnaire.dto';
 @Injectable()
 export class AdminService {
   constructor(private readonly adminRepository: AdminRepository) {}
-  
+
   async notifyUser(notificationId: string, userId: string) {
     return await this.adminRepository.notifyUser(notificationId, userId);
   }
-  
-  async createNotification(notificationData: { title: string; content: string; }) {
+
+  async createNotification(notificationData: { title: string; content: string }) {
     return await this.adminRepository.createNotification(notificationData);
   }
 
