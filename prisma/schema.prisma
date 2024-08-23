@@ -31,6 +31,7 @@ model User {
   ingameData               IngameData?
   achievements             UserAchievement[]
   UserShopItem             UserShopItem[]
+  notifications            UserNotification[]
 }
 
 model Admin {
@@ -311,4 +312,25 @@ model ModulePhrase {
 
   module_id String
   module Module @relation(fields: [module_id], references: [id])
+}
+
+model Notification {
+  id String @id() @default(uuid())
+  title String
+  content String
+  createdAt DateTime @default(now())
+
+  users UserNotification[]
+}
+
+model UserNotification {
+  id String @id() @default(uuid())
+  createdAt DateTime @default(now())
+  read Boolean @default(false)
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  notificationId String
+  notification Notification @relation(fields: [notificationId], references: [id])
 }

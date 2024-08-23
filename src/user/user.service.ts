@@ -6,6 +6,7 @@ import { TreatmentService } from '../treatment/treatment.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class UserService {
@@ -15,7 +16,14 @@ export class UserService {
     private treatment: TreatmentService,
     private submission: QuestionnaireSubmissionService,
   ) {}
-
+  
+  async getNotifications(id: string, pagination: PaginationDto) {
+    const skip = pagination.pageSize * (pagination.page - 1); 
+    const data = await this.repository.getNotifications(id, pagination.pageSize, skip);
+    const total = await this.repository.getNotificationsCount(id);
+    return { data, total, page: pagination.page, pageSize: pagination.pageSize };
+  }
+  
   async getActualModule(id: string) {
     const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;

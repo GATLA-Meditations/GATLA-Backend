@@ -93,7 +93,7 @@ export class AdminController {
   }
 
   @Post('questionnaire/create')
-  @HttpCode(200)
+  @HttpCode(201)
   async createQuestionnaire(@Body() questionnaireData: createQuestionnaireDto) {
     return await this.adminService.createQuestionnaire(questionnaireData);
   }
@@ -102,5 +102,17 @@ export class AdminController {
   @HttpCode(200)
   async updateQuestionnaire(@Param('id') id: string, @Body() questionnaireData: createQuestionnaireDto) {
     return await this.adminService.updateQuestionnaire(id, questionnaireData);
+  }
+
+  @Post('notification/create')
+  @HttpCode(201)
+  async createNotification(@Body() notificationData: { title: string; content: string }) {
+    return await this.adminService.createNotification(notificationData);
+  }
+
+  @Put('notification/{notificationId}/notify-user/{userId}')
+  @HttpCode(200)
+  async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
+    return await this.adminService.notifyUser(notificationId, userId);
   }
 }

@@ -5,6 +5,27 @@ import UserItemsDto from './dto/get-items.dto';
 @Injectable()
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
+  
+  async getNotificationsCount(id: string) {
+    return this.prisma.userNotification.count({
+      where: {
+        userId: id,
+      },
+    });
+  }
+  
+  async getNotifications(id: string, take: number, skip: number) {
+    return this.prisma.userNotification.findMany({
+      where:{
+        userId: id,
+      },
+      skip,
+      take,
+      include: {
+        notification: {},
+      },
+    });
+  }
 
   async getTokensAndProgress(id: string) {
     return this.prisma.user.findUnique({
