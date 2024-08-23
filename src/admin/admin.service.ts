@@ -2,14 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
-import { ActivityService } from 'src/activity/activity.service';
 
 @Injectable()
 export class AdminService {
-  constructor(
-    private readonly adminRepository: AdminRepository,
-    private readonly activityservice: ActivityService,
-  ) {}
+  constructor(private readonly adminRepository: AdminRepository) {}
 
   async createAdmin(adminData: AdminData) {
     return await this.adminRepository.createAdmin(adminData);
@@ -45,5 +41,25 @@ export class AdminService {
 
   async updateActivitiesFromModules(id: string, activitiesData: { id?: string; order?: number }[]) {
     return await this.adminRepository.updateActivitiesFromModules(id, activitiesData);
+  }
+
+  async getUsers() {
+    return await this.adminRepository.getUsers();
+  }
+
+  async updateUser(
+    id: string,
+    userData: {
+      patient_code?: string;
+      password?: string;
+      treatment?: { id: string };
+    },
+  ) {
+    if (userData.patient_code || userData.password) {
+      await this.adminRepository.updateUserBasicData(id, userData);
+    }
+    if (userData.treatment) {
+      await this.adminRepository.updateUserTreatmentData(id, userData.treatment);
+    }
   }
 }
