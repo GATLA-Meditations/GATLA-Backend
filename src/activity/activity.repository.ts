@@ -46,14 +46,26 @@ export class ActivityRepository {
     });
   }
 
-  async modifyContent(content: ContentDto) {
-    return this.prisma.content.update({
-      where: {
-        id: content.id,
-      },
-      data: {
-        content: content.content,
-      },
-    });
+  async modifyContent(data: { content?: ContentDto; activity?: { id: string; title: string } }) {
+    if (data.content) {
+      this.prisma.content.update({
+        where: {
+          id: data.content.id,
+        },
+        data: {
+          content: data.content.content,
+        },
+      });
+    }
+    if (data.activity) {
+      this.prisma.activity.update({
+        where: {
+          id: data.activity.id,
+        },
+        data: {
+          name: data.activity.title,
+        },
+      });
+    }
   }
 }

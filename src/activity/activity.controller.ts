@@ -4,9 +4,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { createActivityDto } from './dto/create-activity.dto';
 import { ContentDto } from './dto/content.dto';
 import { AdminGuard } from '../auth/guards/admin.guard';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('activity')
 @ApiTags('Activity')
+@UseGuards(JwtGuard)
 export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 
@@ -22,9 +24,10 @@ export class ActivityController {
     return await this.activityService.createActivity(data);
   }
 
-  @Put('/modify-content')
+  @Put('/modify')
   @UseGuards(AdminGuard)
-  async modifyContent(@Body() data: ContentDto) {
+  @HttpCode(200)
+  async modifyContent(@Body() data: { content?: ContentDto; activity?: { id: string; title: string } }) {
     return this.activityService.modifyContent(data);
   }
 }
