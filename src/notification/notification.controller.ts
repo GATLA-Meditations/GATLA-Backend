@@ -27,7 +27,7 @@ export class NotificationController {
       phrasesNotifications: boolean;
     },
   ) {
-    const user_id: string = req.user.id;
+    const user_id: string = req.user.userId;
     return await this.notificationService.updateNotificationSettingsById(user_id, notificationSettings);
   }
 }

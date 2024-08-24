@@ -32,11 +32,17 @@ export class NotificationRepository {
       phrasesNotifications: boolean;
     },
   ) {
-    return this.prisma.notificationPreference.update({
+    return this.prisma.notificationPreference.upsert({
       where: {
         user_id: user_id,
       },
-      data: {
+      create: {
+        User: { connect: { id: user_id } },
+        motivationalNotifications: notificationSettings.motivationalNotifications,
+        meditationNotifications: notificationSettings.meditationNotifications,
+        phrasesNotifications: notificationSettings.phrasesNotifications,
+      },
+      update: {
         motivationalNotifications: notificationSettings.motivationalNotifications,
         meditationNotifications: notificationSettings.meditationNotifications,
         phrasesNotifications: notificationSettings.phrasesNotifications,
