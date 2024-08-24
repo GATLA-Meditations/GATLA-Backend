@@ -12,7 +12,7 @@ export class NotificationController {
   @Get('settings')
   @HttpCode(200)
   async getNotificationSettingsById(@Request() req: any) {
-    const user_id: string = req.user.id;
+    const user_id: string = req.user.userId;
     return await this.notificationService.getNotificationSettingsById(user_id);
   }
 
