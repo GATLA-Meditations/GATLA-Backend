@@ -27,7 +27,7 @@ export class ActivityController {
   @Put('/modify')
   @UseGuards(AdminGuard)
   @HttpCode(200)
-  async modifyContent(@Body() data: { content?: ContentDto; activity?: { id: string; title: string } }) {
+  async modifyContent(@Body() data: { content?: ContentDto[]; activity?: { id: string; title: string } }) {
     return this.activityService.modifyContent(data);
   }
 }
