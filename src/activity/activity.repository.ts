@@ -46,14 +46,29 @@ export class ActivityRepository {
     });
   }
 
-  async modifyContent(content: ContentDto) {
-    return this.prisma.content.update({
-      where: {
-        id: content.id,
-      },
-      data: {
-        content: content.content,
-      },
-    });
+  async modifyContent(data: { content?: ContentDto[]; activity?: { id: string; title: string } }) {
+    if (data.content.length > 0) {
+      data.content.forEach((content) => {
+        this.prisma.content.update({
+          where: {
+            id: content.id,
+          },
+          data: {
+            content: content.content,
+            type: content.type,
+          },
+        });
+      });
+    }
+    if (data.activity) {
+      this.prisma.activity.update({
+        where: {
+          id: data.activity.id,
+        },
+        data: {
+          name: data.activity.title,
+        },
+      });
+    }
   }
 }

@@ -22,6 +22,7 @@ model User {
   renatokens   Int     @default(0)
   progress     Int     @default(0)
 
+  notificationPreference   NotificationPreference?
   streakId                 String?
   streak                   Streak?
   treatments               Treatment[]
@@ -35,10 +36,10 @@ model User {
 }
 
 model Admin {
-  id String @id @default(uuid())
-  email String @unique
+  id       String @id @default(uuid())
+  email    String @unique
   password String
-  name String
+  name     String
 }
 
 model Treatment {
@@ -72,7 +73,7 @@ model Module {
   treatments TreatmentModule[]
   activities ModuleActivity[]
   UserModule UserModule[]
-  phrases ModulePhrase[]
+  phrases    ModulePhrase[]
 }
 
 model TreatmentModule {
@@ -227,14 +228,14 @@ enum ACHIEVEMENT_TYPE {
 model Achievement {
   id String @id() @default(uuid())
 
-  type                  ACHIEVEMENT_TYPE
-  title                 String
-  lockedDescription     String
-  lockedImage           String
-  unlockedDescription   String
-  unlockedImage         String
-  dataKeyId             String
-  dataValue             String
+  type                ACHIEVEMENT_TYPE
+  title               String
+  lockedDescription   String
+  lockedImage         String
+  unlockedDescription String
+  unlockedImage       String
+  dataKeyId           String
+  dataValue           String
 
   dataKey DataKey           @relation(fields: [dataKeyId], references: [id])
   users   UserAchievement[]
@@ -277,28 +278,28 @@ enum ShopItemType {
 }
 
 model ShopItem {
-  id String @id() @default(uuid())
-  type ShopItemType
-  price Int
-  content_url String  
+  id          String       @id() @default(uuid())
+  type        ShopItemType
+  price       Int
+  content_url String
 
   UserShopItem UserShopItem[]
 }
 
 model UserShopItem {
   id String @id() @default(uuid())
-  
+
   userId String
-  User User @relation(fields: [userId], references: [id])
-  
+  User   User   @relation(fields: [userId], references: [id])
+
   shopItemId String
-  ShopItem ShopItem @relation(fields: [shopItemId], references: [id])
+  ShopItem   ShopItem @relation(fields: [shopItemId], references: [id])
 }
 
 model Phrase {
-  id String @id() @default(uuid())
-  author String
-  content String
+  id        String   @id() @default(uuid())
+  author    String
+  content   String
   createdAt DateTime @default(now())
 
   modules ModulePhrase[]
@@ -308,10 +309,20 @@ model ModulePhrase {
   id String @id @default(uuid())
 
   phrase_id String
-  phrase Phrase @relation(fields: [phrase_id], references: [id])
+  phrase    Phrase @relation(fields: [phrase_id], references: [id])
 
   module_id String
-  module Module @relation(fields: [module_id], references: [id])
+  module    Module @relation(fields: [module_id], references: [id])
+}
+
+model NotificationPreference {
+  id                            String  @id @default(uuid())
+  user_id                       String  @unique
+  meditationNotifications       Boolean @default(true)
+  motivationalNotifications     Boolean @default(true)
+  phrasesNotifications          Boolean @default(true)
+
+  User                          User  @relation(fields: [user_id], references: [id])
 }
 
 model Notification {

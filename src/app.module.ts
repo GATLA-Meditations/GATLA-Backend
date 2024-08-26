@@ -15,6 +15,7 @@ import { AchievementModule } from './achievement/achievement.module';
 import { IngameDataModule } from './ingamedata/ingamedata.module';
 import { AdminModule } from './admin/admin.module';
 import ShopModule from './shop/shop.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import ShopModule from './shop/shop.module';
     IngameDataModule,
     AdminModule,
     ShopModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
