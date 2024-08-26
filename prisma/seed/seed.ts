@@ -7,7 +7,7 @@ import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida.seed'
 import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
 import { uploadAchievements } from './seed-logros.seed';
-import { create } from 'domain';
+import { uploadAdmin } from "./admin.seed";
 
 const prisma = new PrismaClient();
 
@@ -35,20 +35,7 @@ async function main() {
   await uploadUserModule();
   await uploadShopItems();
   await uploadAchievements();
-  await createAdmin();
-}
-
-async function createAdmin() {
-  await prisma.admin.upsert({
-    where: { id: 'adminId' },
-    update: {},
-    create: {
-      id: 'adminId',
-      email: 'Admin',
-      password: '1234',
-      name: 'Admin',
-    },
-  });
+  await uploadAdmin();
 }
 
 async function questionnaireSeed() {
@@ -1352,5 +1339,3 @@ async function treatmentSeed() {
     },
   });
 }
-
-
