@@ -1352,5 +1352,3 @@ async function treatmentSeed() {
     },
   });
 }
-
-
