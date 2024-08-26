@@ -1,7 +1,8 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginRequestDto } from './dto/login-request.dto';
 import { AdminLoginRequestDto } from './dto/AdminLoginRequestDto';
+import { AdminGuard } from './guards/admin.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -15,6 +16,7 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(201)
+  @UseGuards(AdminGuard)
   async register(@Body() registerDto: LoginRequestDto) {
     return this.authService.registerUser(registerDto);
   }
