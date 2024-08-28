@@ -32,7 +32,9 @@ export class AdminService {
   }
 
   async deleteUser(patient_code: string) {
-    return await this.adminRepository.deleteUser(patient_code);
+    console.log(patient_code);
+    const user = await this.adminRepository.getUser(patient_code);
+    return await this.adminRepository.deleteUser(user.id);
   }
 
   async createUser(userData: { patient_code: string; password: string }) {

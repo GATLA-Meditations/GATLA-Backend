@@ -7,7 +7,13 @@ import createQuestionnaireDto from './dto/create-questionnaire.dto';
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
-
+  
+  async getUser(patient_code: string) {
+    return this.prisma.user.findUnique({
+      where: { patient_code },
+    });
+  }
+  
   async notifyUser(notificationId: string, userId: string) {
     return this.prisma.userNotification.create({
       data: {
@@ -61,9 +67,9 @@ export class AdminRepository {
     });
   }
 
-  async deleteUser(patient_code: string) {
+  async deleteUser(id: string) {
     return this.prisma.user.delete({
-      where: { patient_code },
+      where: { id },
     });
   }
 
