@@ -31,8 +31,8 @@ export class AdminService {
     return await this.adminRepository.createQuestionnaire(questionnaireData);
   }
 
-  async deleteUser(id: string) {
-    return await this.adminRepository.deleteUser(id);
+  async deleteUser(patient_code: string) {
+    return await this.adminRepository.deleteUser(patient_code);
   }
 
   async createUser(userData: { patient_code: string; password: string }) {

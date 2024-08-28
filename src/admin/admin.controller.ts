@@ -86,10 +86,10 @@ export class AdminController {
     return await this.adminService.createUser(userData);
   }
 
-  @Delete('user/delete/:id')
+  @Delete('user/delete/:patient_code')
   @HttpCode(204)
-  async deleteUser(@Param('id') id: string) {
-    return await this.adminService.deleteUser(id);
+  async deleteUser(@Param('patient_code') patient_code: string) {
+    return await this.adminService.deleteUser(patient_code);
   }
 
   @Post('questionnaire/create')

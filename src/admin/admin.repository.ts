@@ -61,9 +61,9 @@ export class AdminRepository {
     });
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(patient_code: string) {
     return this.prisma.user.delete({
-      where: { id: id },
+      where: { patient_code },
     });
   }
 
