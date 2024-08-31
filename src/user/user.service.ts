@@ -20,7 +20,7 @@ export class UserService {
   async getNotifications(id: string, pagination: PaginationDto) {
     const page = Number(pagination.page);
     const pageSize = Number(pagination.pageSize);
-    const skip = pageSize * (page);
+    const skip = pageSize * page;
     const data = await this.repository.getNotifications(id, pageSize, skip);
     const total = await this.repository.getNotificationsCount(id);
     return { data, total, page: pagination.page, pageSize: pagination.pageSize };
