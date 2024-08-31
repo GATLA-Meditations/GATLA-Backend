@@ -93,6 +93,7 @@ export class UserController {
   @Get('notifications')
   @HttpCode(200)
   async getNotifications(@Request() req: any, @Query() paginationDto: PaginationDto) {
+    console.log(`page: ${paginationDto.page}, pageSize: ${paginationDto.pageSize}`);
     const id: string = req.user.userId;
     return await this.userService.getNotifications(id, paginationDto);
   }
