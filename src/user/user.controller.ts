@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpCode, Param, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { PaginationDto } from './dto/pagination.dto';
 
 @UseGuards(JwtGuard)
 @ApiTags('User')
@@ -66,5 +67,34 @@ export class UserController {
   async setProgress(@Param('progress') progress: number, @Request() req: any) {
     const id: string = req.user.userId;
     return await this.userService.updateProgress(id, progress);
+  }
+
+  @Put('image')
+  @HttpCode(200)
+  async setImage(@Body() body: { url: string }, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateImage(id, body.url);
+  }
+
+  @Put('background')
+  @HttpCode(200)
+  async setBackground(@Body() body: { url: string }, @Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.updateBackground(id, body.url);
+  }
+
+  @Get('personalization-tokens')
+  @HttpCode(200)
+  async getPersonalizationTokens(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getPersonalizationTokens(id);
+  }
+
+  @Get('notifications')
+  @HttpCode(200)
+  async getNotifications(@Request() req: any, @Query() paginationDto: PaginationDto) {
+    console.log(`page: ${paginationDto.page}, pageSize: ${paginationDto.pageSize}`);
+    const id: string = req.user.userId;
+    return await this.userService.getNotifications(id, paginationDto);
   }
 }

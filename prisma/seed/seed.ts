@@ -2,8 +2,12 @@ import { PrismaClient } from '@prisma/client';
 import { uploadCompasionInterior } from './test-compasion-interior.seed';
 import { uploadEmocionesPositivas } from './test-emociones-positivas.seed';
 import { uploadInventarioBienestarEspiritual } from './test-inventario-bienestar-espiritual.seed';
-import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida';
-import { uploadUserModule } from './user-module';
+import { uploadMotivationalPhrases } from './seed-frases-motivacionales.seed';
+import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida.seed';
+import { uploadUserModule } from './user-module.seed';
+import { uploadShopItems } from './shop-items-backgrounds.seed';
+import { uploadAchievements } from './seed-logros.seed';
+import { uploadAdmin } from "./admin.seed";
 
 const prisma = new PrismaClient();
 
@@ -26,6 +30,12 @@ async function main() {
   await uploadInventarioBienestarEspiritual();
   await uploadInventariodeCalidaddeVida();
   await uploadUserModule();
+  await uploadMotivationalPhrases();
+  await uploadInventariodeCalidaddeVida();
+  await uploadUserModule();
+  await uploadShopItems();
+  await uploadAchievements();
+  await uploadAdmin();
 }
 
 async function questionnaireSeed() {

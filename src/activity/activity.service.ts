@@ -34,7 +34,7 @@ export class ActivityService {
     });
   }
 
-  async modifyContent(content: ContentDto) {
+  async modifyContent(content: { content?: ContentDto[]; activity?: { id: string; title: string } }) {
     return this.activityRepository.modifyContent(content);
   }
 

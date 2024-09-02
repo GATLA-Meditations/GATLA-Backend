@@ -6,6 +6,39 @@ import UserItemsDto from './dto/get-items.dto';
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
+  async getNotificationsCount(id: string) {
+    return this.prisma.userNotification.count({
+      where: {
+        userId: id,
+      },
+    });
+  }
+
+  async getNotifications(id: string, take: number, skip: number) {
+    return this.prisma.userNotification.findMany({
+      where: {
+        userId: id,
+      },
+      skip,
+      take,
+      include: {
+        notification: {},
+      },
+    });
+  }
+
+  async getTokensAndProgress(id: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        renatokens: true,
+        progress: true,
+      },
+    });
+  }
+
   async getUserById(id: string) {
     return this.prisma.user.findUnique({
       where: { id: id },
@@ -59,6 +92,28 @@ export class UserRepository {
             createdAt: 'desc',
           },
         },
+      },
+    });
+  }
+
+  async updateUserImage(id: string, url: string) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        image: url,
+      },
+    });
+  }
+
+  async updateUserBackground(id: string, url: string) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        background: url,
       },
     });
   }

@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import ShopRepository from './shop.repository';
 import UserOwnsItemDto from './dto/user-owns-item.dto';
 import AllItemsForUserDto from './dto/all-items-for-user.dto';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { UserService } from 'src/user/user.service';
 import CreateShopItemDto from './dto/create-shop-item.dto';
 
@@ -28,14 +27,16 @@ export default class ShopService {
     const userItems = await this.repository.getUserItems(userId);
     const userOwnsItem = userItems.find((userItem) => userItem.shopItemId === itemId);
     if (userOwnsItem) {
-      throw new HttpErrorByCode['Conflict']('User already owns this item');
+      throw new ConflictException('User already owns this item');
     }
     const user = await this.userService.getUserRenatokens(userId);
     const item = await this.repository.getItemById(itemId);
     if (user.renatokens < item.price) {
-      throw new HttpErrorByCode['Conflict']('Not enough renatokens');
+      throw new ConflictException('Not enough renatokens');
     }
+    await this.repository.buyItem(userId, itemId);
     await this.userService.updateRenatokens(userId, item.price);
+    return item;
   }
 
   async createItem(itemDto: CreateShopItemDto) {

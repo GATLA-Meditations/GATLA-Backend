@@ -6,6 +6,7 @@ import { TreatmentService } from '../treatment/treatment.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class UserService {
@@ -16,10 +17,22 @@ export class UserService {
     private submission: QuestionnaireSubmissionService,
   ) {}
 
+  async getNotifications(id: string, pagination: PaginationDto) {
+    const page = Number(pagination.page);
+    const pageSize = Number(pagination.pageSize);
+    const skip = pageSize * page;
+    const data = await this.repository.getNotifications(id, pageSize, skip);
+    const total = await this.repository.getNotificationsCount(id);
+    return { data, total, page: pagination.page, pageSize: pagination.pageSize };
+  }
+
   async getActualModule(id: string) {
     const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;
-    if (modules.length > 1) {
+    if (modules.length === null) {
+      const treatment = await this.treatment.getActualTreatmentByUserId(id);
+      return treatment.modules;
+    } else if (modules.length > 1) {
       actualModule = this.selectActualModule(id, modules);
     } else {
       actualModule = modules[0];
@@ -30,6 +43,14 @@ export class UserService {
     return actualModule;
   }
 
+  async updateImage(id: string, url: string) {
+    return await this.repository.updateUserImage(id, url);
+  }
+
+  async updateBackground(id: string, url: string) {
+    return await this.repository.updateUserBackground(id, url);
+  }
+
   async subscribeToTreatment(userId: string, treatmentId: string, delayed: boolean = false) {
     const user = await this.repository.getUserById(userId);
     if (user.treatments.find((treatment) => treatment.id === treatmentId)) {
@@ -38,6 +59,10 @@ export class UserService {
     const treatment = await this.repository.subscirbeToTreatment(userId, treatmentId);
     await this.modules.createUserModules(userId, treatmentId, delayed);
     return treatment;
+  }
+
+  async getPersonalizationTokens(id: string) {
+    return await this.repository.getTokensAndProgress(id);
   }
 
   private async getQuestionnaireModule(userId: string, message: string) {
@@ -92,6 +117,7 @@ export class UserService {
     return new UserProfileDto(
       user.patient_code,
       user.image,
+      user.background,
       user.achievements.map((a) => ({
         title: a.Achievement.title,
         description: a.Achievement.unlockedDescription,

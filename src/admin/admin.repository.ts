@@ -2,10 +2,82 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
+import createQuestionnaireDto from './dto/create-questionnaire.dto';
 
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getUser(patient_code: string) {
+    return this.prisma.user.findUnique({
+      where: { patient_code },
+    });
+  }
+
+  async notifyUser(notificationId: string, userId: string) {
+    return this.prisma.userNotification.create({
+      data: {
+        notificationId: notificationId,
+        userId: userId,
+      },
+    });
+  }
+
+  async createNotification(data: { title: string; content: string }) {
+    return this.prisma.notification.create({
+      data,
+    });
+  }
+
+  async getQuestionnaireTreatments(id: string) {
+    return this.prisma.questionnaire.findUnique({
+      where: { id: id },
+      select: {
+        treatments: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+  }
+
+  async disconnectQuestionnaireFromTreatment(id: string) {
+    return this.prisma.questionnaire.update({
+      where: { id: id },
+      data: {
+        treatments: {
+          set: [],
+        },
+      },
+    });
+  }
+
+  async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
+    return this.prisma.questionnaire.create({
+      data: {
+        name: questionnaireData.name,
+        questions: {
+          create: questionnaireData.questions,
+        },
+        treatments: {
+          connect: questionnaireData.treatmentId.map((id) => ({ id: id })),
+        },
+      },
+    });
+  }
+
+  async deleteUser(id: string) {
+    return this.prisma.user.delete({
+      where: { id },
+    });
+  }
+
+  async createUser(data: { patient_code: string; password: string }) {
+    return this.prisma.user.create({
+      data,
+    });
+  }
 
   async createAdmin(adminData: AdminData) {
     return this.prisma.admin.create({
@@ -91,6 +163,54 @@ export class AdminRepository {
     //reconnect them in updated format
     return this.prisma.moduleActivity.createMany({
       data: new_activities_data,
+    });
+  }
+
+  async getUsers() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        patient_code: true,
+        password: true,
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  async updateUserBasicData(
+    id: string,
+    userData: {
+      patient_code?: string;
+      password?: string;
+      treatment?: { id: string };
+    },
+  ) {
+    await this.prisma.user.update({
+      where: { id: id },
+      data: {
+        patient_code: userData.patient_code,
+        password: userData.password,
+      },
+    });
+  }
+
+  async updateUserTreatmentData(id: string, treatment: { id: string }) {
+    //delete current userTreatment
+    await this.prisma.userTreatment.deleteMany({
+      where: { userId: id },
+    });
+
+    //create new connection for treatment
+    await this.prisma.userTreatment.create({
+      data: {
+        user: { connect: { id: id } },
+        treatment: { connect: { id: treatment.id } },
+      },
     });
   }
 }

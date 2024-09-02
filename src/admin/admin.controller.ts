@@ -1,9 +1,12 @@
-import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param, Get } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { UpdateAdmin } from './dto/updateAdmin';
+import { ApiTags } from '@nestjs/swagger';
+import createQuestionnaireDto from './dto/create-questionnaire.dto';
 
+@ApiTags('Admin')
 @Controller('admin')
 @UseGuards(AdminGuard)
 export class AdminController {
@@ -63,5 +66,53 @@ export class AdminController {
   @HttpCode(204)
   async updateActivitiesFromModules(@Param('id') id: string, @Body() activitiesData: { id?: string; order?: number }[]) {
     return await this.adminService.updateActivitiesFromModules(id, activitiesData);
+  }
+
+  @Get('user')
+  @HttpCode(200)
+  async getUsers() {
+    return await this.adminService.getUsers();
+  }
+
+  @Put('user/:id')
+  @HttpCode(204)
+  async updateUser(@Param('id') id: string, @Body() userData: { patient_code?: string; password?: string; treatment?: { id: string } }) {
+    return await this.adminService.updateUser(id, userData);
+  }
+
+  @Post('user/create')
+  @HttpCode(201)
+  async createUser(@Body() userData: { patient_code: string; password: string }) {
+    return await this.adminService.createUser(userData);
+  }
+
+  @Delete('user/delete/:patient_code')
+  @HttpCode(204)
+  async deleteUser(@Param('patient_code') patient_code: string) {
+    return await this.adminService.deleteUser(patient_code);
+  }
+
+  @Post('questionnaire/create')
+  @HttpCode(201)
+  async createQuestionnaire(@Body() questionnaireData: createQuestionnaireDto) {
+    return await this.adminService.createQuestionnaire(questionnaireData);
+  }
+
+  @Put('questionnaire/update/:id')
+  @HttpCode(200)
+  async updateQuestionnaire(@Param('id') id: string, @Body() questionnaireData: createQuestionnaireDto) {
+    return await this.adminService.updateQuestionnaire(id, questionnaireData);
+  }
+
+  @Post('notification/create')
+  @HttpCode(201)
+  async createNotification(@Body() notificationData: { title: string; content: string }) {
+    return await this.adminService.createNotification(notificationData);
+  }
+
+  @Put('notification/{notificationId}/notify-user/{userId}')
+  @HttpCode(200)
+  async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
+    return await this.adminService.notifyUser(notificationId, userId);
   }
 }
