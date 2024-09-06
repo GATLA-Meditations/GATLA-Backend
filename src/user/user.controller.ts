@@ -17,11 +17,11 @@ export class UserController {
     return await this.userService.getActualModule(id);
   }
 
-  @Put('view-time/:time')
+  @Put('view-time/:id/:time')
   @HttpCode(200)
-  async setViewTime(@Param('time') time: number, @Request() req: any) {
-    const id: string = req.user.userId;
-    return await this.userService.updateViewTime(id, time);
+  async setViewTime(@Param('id') id: string, @Param('time') time: number, @Request() req: any) {
+    const userId: string = req.user.userId;
+    return await this.userService.updateViewTime(userId, time, id);
   }
 
   @Put('subscribe-to-treatment/:treatmentId/:delayed')

@@ -4,6 +4,24 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class ModuleRepository {
   constructor(private readonly prisma: PrismaService) {}
+  
+  async updateMedIntroduction(id: string) {
+    return this.prisma.userModule.update({
+      where: { id },
+      data: {
+        medIntroduction: true,
+      },
+    });
+  }
+  
+  async updateWeekIntroduction(id: string) {
+    return this.prisma.userModule.update({
+      where: { id },
+      data: {
+        weekIntroduction: true,
+      },
+    });
+  }
 
   async getModuleById(id: string) {
     return this.prisma.module.findUnique({
