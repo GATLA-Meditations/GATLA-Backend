@@ -3,10 +3,14 @@ import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import { ModuleService } from 'src/module/module.service';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly adminRepository: AdminRepository) {}
+  constructor(
+    private readonly adminRepository: AdminRepository,
+    private readonly modules: ModuleService,
+  ) {}
 
   async notifyUser(notificationId: string, userId: string) {
     return await this.adminRepository.notifyUser(notificationId, userId);
@@ -37,8 +41,14 @@ export class AdminService {
     return await this.adminRepository.deleteUser(user.id);
   }
 
-  async createUser(userData: { patient_code: string; password: string }) {
-    return await this.adminRepository.createUser(userData);
+  async createUser(userData: { patient_code: string; password: string, treatment?: { id: string, delayed: boolean } }) {
+    const treatment = userData.treatment
+    const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
+    if (treatment != null) {
+      await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
+      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
+    }
+    return user
   }
 
   async createAdmin(adminData: AdminData) {

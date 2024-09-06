@@ -82,7 +82,7 @@ export class AdminController {
 
   @Post('user/create')
   @HttpCode(201)
-  async createUser(@Body() userData: { patient_code: string; password: string }) {
+  async createUser(@Body() userData: { patient_code: string; password: string, treatment?: { id: string, delayed: boolean } }) {
     return await this.adminService.createUser(userData);
   }
 
