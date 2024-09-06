@@ -4,7 +4,7 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class ModuleRepository {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async updateMedIntroduction(id: string) {
     return this.prisma.userModule.update({
       where: { id },
@@ -13,7 +13,7 @@ export class ModuleRepository {
       },
     });
   }
-  
+
   async updateWeekIntroduction(id: string) {
     return this.prisma.userModule.update({
       where: { id },

@@ -72,7 +72,7 @@ export class ModuleService {
       return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
     }
   }
-  async checkIfVideoIsMeditation(contentId: string, userModule: any){
+  async checkIfVideoIsMeditation(contentId: string, userModule: any) {
     console.log('userModule:', userModule);
     const module = await this.moduleRepository.getModuleById(userModule.moduleId);
     let isMeditation = false;
@@ -86,8 +86,7 @@ export class ModuleService {
         } else if (index === 1) {
           await this.moduleRepository.updateWeekIntroduction(userModule.id);
           isMeditation = false;
-        }
-        else {
+        } else {
           isMeditation = true;
         }
       }
