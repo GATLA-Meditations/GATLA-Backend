@@ -4,7 +4,7 @@ export class TreatmentDto {
   id: string;
   name: string;
   description: string;
-  modules: SimpleModuleDto[];
+  modules?: SimpleModuleDto[];
 
   constructor(data: TreatmentDto) {
     this.id = data.id;

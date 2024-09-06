@@ -4,6 +4,10 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class TreatmentRepository {
   constructor(private readonly prisma: PrismaService) {}
+   
+  async getAllTreatments() {
+    return this.prisma.treatment.findMany();
+  }
 
   async getTreatmentById(id: string) {
     return this.prisma.treatment.findUnique({
