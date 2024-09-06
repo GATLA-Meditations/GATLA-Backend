@@ -9,7 +9,7 @@ import { AdminGuard } from 'src/auth/guards/admin.guard';
 @ApiTags('Treatment')
 export class TreatmentController {
   constructor(private readonly treatmentService: TreatmentService) {}
-  
+
   @Get(':id')
   @HttpCode(200)
   async getTreatmentById(@Param('id') id: string): Promise<TreatmentDto> {
@@ -22,5 +22,4 @@ export class TreatmentController {
   async getAllTreatments(): Promise<TreatmentDto[]> {
     return this.treatmentService.getAllTreatments();
   }
-
 }
