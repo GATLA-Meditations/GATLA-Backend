@@ -41,14 +41,14 @@ export class AdminService {
     return await this.adminRepository.deleteUser(user.id);
   }
 
-  async createUser(userData: { patient_code: string; password: string, treatment?: { id: string, delayed: boolean } }) {
-    const treatment = userData.treatment
+  async createUser(userData: { patient_code: string; password: string; treatment?: { id: string; delayed: boolean } }) {
+    const treatment = userData.treatment;
     const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
-    return user
+    return user;
   }
 
   async createAdmin(adminData: AdminData) {

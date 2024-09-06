@@ -7,13 +7,13 @@ import createQuestionnaireDto from './dto/create-questionnaire.dto';
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async getUser(patient_code: string) {
     return this.prisma.user.findUnique({
       where: { patient_code },
     });
   }
-  
+
   async notifyUser(notificationId: string, userId: string) {
     return this.prisma.userNotification.create({
       data: {
@@ -201,7 +201,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async updateUserTreatmentData(id: string, treatment: { id: string }) {
     //delete current userTreatment
     await this.prisma.userTreatment.deleteMany({
@@ -216,7 +216,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async subscirbeUsertToTreatment(userId: string, treatmentId: string) {
     await this.prisma.userTreatment.create({
       data: {
