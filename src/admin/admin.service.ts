@@ -71,6 +71,10 @@ export class AdminService {
     return this.adminRepository.updateTreatment(id, treatmentData);
   }
 
+  async getModuleById(id: string) {
+    return await this.modules.getModuleByIdForAdmin(id);
+  }
+
   async createModule(moduleData: { name: string; description: string }) {
     return await this.adminRepository.createModule(moduleData);
   }

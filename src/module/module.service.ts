@@ -20,7 +20,7 @@ export class ModuleService {
         id: activity.activity.id,
         name: activity.activity.name,
       })),
-    }
+    };
   }
 
   async getModuleById(id: string, userId: string) {

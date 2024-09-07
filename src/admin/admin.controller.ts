@@ -56,6 +56,12 @@ export class AdminController {
     return await this.adminService.createModule(moduleData);
   }
 
+  @Get('module/:id')
+  @HttpCode(200)
+  async getModuleById(@Param('id') id: string) {
+    return await this.adminService.getModuleById(id);
+  }
+
   @Put('module/update/:id')
   @HttpCode(200)
   async updateModule(@Param('id') id: string, @Body() moduleData: { name?: string; description?: string }) {
