@@ -5,6 +5,7 @@ import { TreatmentDto } from './dto/treatment.dto';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 import { AdminGuard } from 'src/auth/guards/admin.guard';
 
+@UseGuards(JwtGuard || AdminGuard)
 @Controller('treatment')
 @ApiTags('Treatment')
 export class TreatmentController {
@@ -18,7 +19,6 @@ export class TreatmentController {
 
   @Get('')
   @HttpCode(200)
-  @UseGuards(JwtGuard, AdminGuard)
   async getAllTreatments(): Promise<TreatmentDto[]> {
     return this.treatmentService.getAllTreatments();
   }
