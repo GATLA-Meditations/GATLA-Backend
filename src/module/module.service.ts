@@ -7,6 +7,22 @@ import { ModuleDto, ModuleType } from './dto/module.dto';
 export class ModuleService {
   constructor(private readonly moduleRepository: ModuleRepository) {}
 
+  async getModuleByIdForAdmin(id: string) {
+    console.log('id:', id);
+    const module = await this.moduleRepository.getModuleById(id);
+    console.log('module:', module);
+    if (!module) throw new HttpException('Module not found', 404);
+    return {
+      id: module.id,
+      name: module.name,
+      description: module.description,
+      activities: module.activities.map((activity) => ({
+        id: activity.activity.id,
+        name: activity.activity.name,
+      })),
+    }
+  }
+
   async getModuleById(id: string, userId: string) {
     const userModule = await this.moduleRepository.getUserModuleByModuleIdAndUserId(id, userId);
     if (!userModule) throw new HttpException('Module not found', 404);
