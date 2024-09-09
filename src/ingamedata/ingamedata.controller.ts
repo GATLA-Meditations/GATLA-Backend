@@ -13,4 +13,11 @@ export class IngameDataController {
     const id: string = req.user.userId;
     return await this.ingameDataService.updateMaxStreak(id, maxStreak);
   }
+
+  @Put('weekly/today')
+  @HttpCode(200)
+  async updateWeekly(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.ingameDataService.updateWeekly(id);
+  }
 }

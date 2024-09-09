@@ -8,4 +8,8 @@ export class IngameDataService {
   async updateMaxStreak(id: string, maxStreak: number) {
     return await this.repository.updateMaxStreak(id, maxStreak);
   }
+
+  async updateWeekly(id: string) {
+    return await this.repository.updateWeekly(id);
+  }
 }

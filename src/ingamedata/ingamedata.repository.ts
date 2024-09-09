@@ -15,4 +15,13 @@ export class IngameDataRepository {
       },
     });
   }
+
+  async updateWeekly(id: string) {
+    return this.prisma.ingameData.update({
+      where: { userId: id },
+      data: {
+        lastWeekly: new Date(),
+      },
+    });
+  }
 }
