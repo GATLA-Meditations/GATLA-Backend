@@ -42,7 +42,7 @@ export class AdminRepository {
     });
   }
 
-  async disconnectQuestionnaireFromTreatment(id: string) {
+  async disconnectQuestionnaireFromTreatments(id: string) {
     return this.prisma.questionnaire.update({
       where: { id: id },
       data: {
@@ -67,15 +67,29 @@ export class AdminRepository {
     });
   }
 
+  async addQuestionnaireToTreatment(treatmentId: string, questionnaireId: string) {
+    return this.prisma.treatment.update({
+      where: { id: treatmentId },
+      data: {
+        questionnaires: {
+          connect: { id: questionnaireId },
+        },
+      },
+    });
+  }
+
   async deleteUser(id: string) {
     return this.prisma.user.delete({
       where: { id },
     });
   }
 
-  async createUser(data: { patient_code: string; password: string }) {
+  async createUser(patient_code: string, password: string) {
     return this.prisma.user.create({
-      data,
+      data: {
+        patient_code,
+        password,
+      },
     });
   }
 
@@ -210,6 +224,15 @@ export class AdminRepository {
       data: {
         user: { connect: { id: id } },
         treatment: { connect: { id: treatment.id } },
+      },
+    });
+  }
+
+  async subscirbeUsertToTreatment(userId: string, treatmentId: string) {
+    await this.prisma.userTreatment.create({
+      data: {
+        user: { connect: { id: userId } },
+        treatment: { connect: { id: treatmentId } },
       },
     });
   }

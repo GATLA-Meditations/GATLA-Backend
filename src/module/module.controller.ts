@@ -12,6 +12,6 @@ export class ModuleController {
   @Get(':id')
   @HttpCode(200)
   async getModuleById(@Param('id') id: string, @Request() req: any) {
-    return this.moduleService.getModuleById(id, req.user.userId);
+    return await this.moduleService.getModuleById(id, req.user.userId);
   }
 }

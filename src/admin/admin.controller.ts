@@ -44,6 +44,12 @@ export class AdminController {
     return this.adminService.updateTreatment(id, treatmentData);
   }
 
+  @Put('treatment/:treatmentId/questionnaire/:questionnaireId')
+  @HttpCode(200)
+  async addQuestionnaireToTreatment(@Param('treatmentId') treatmentId: string, @Param('questionnaireId') questionnaireId: string) {
+    return this.adminService.addQuestionnaireToTreatment(treatmentId, questionnaireId);
+  }
+
   @Put('treatment/update/modules/:id')
   @HttpCode(204)
   async updateModulesFromTreatment(@Param('id') id: string, @Body() modules: { id: string; order: number }[]) {
@@ -54,6 +60,12 @@ export class AdminController {
   @HttpCode(200)
   async createModule(@Body() moduleData: { name: string; description: string }) {
     return await this.adminService.createModule(moduleData);
+  }
+
+  @Get('module/:id')
+  @HttpCode(200)
+  async getModuleById(@Param('id') id: string) {
+    return await this.adminService.getModuleById(id);
   }
 
   @Put('module/update/:id')
@@ -82,7 +94,7 @@ export class AdminController {
 
   @Post('user/create')
   @HttpCode(201)
-  async createUser(@Body() userData: { patient_code: string; password: string }) {
+  async createUser(@Body() userData: { patient_code: string; password: string; treatment?: { id: string; delayed: boolean } }) {
     return await this.adminService.createUser(userData);
   }
 

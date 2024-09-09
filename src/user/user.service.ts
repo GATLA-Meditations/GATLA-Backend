@@ -95,8 +95,8 @@ export class UserService {
     });
   }
 
-  async updateViewTime(id: string, time: number) {
-    await this.modules.updateViewTime(id, time);
+  async updateViewTime(id: string, time: number, contentId: string) {
+    return await this.modules.updateViewTime(id, time, contentId);
   }
 
   async getViewTime(id: string) {

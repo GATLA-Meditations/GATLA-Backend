@@ -3,10 +3,14 @@ import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import { ModuleService } from 'src/module/module.service';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly adminRepository: AdminRepository) {}
+  constructor(
+    private readonly adminRepository: AdminRepository,
+    private readonly modules: ModuleService,
+  ) {}
 
   async notifyUser(notificationId: string, userId: string) {
     return await this.adminRepository.notifyUser(notificationId, userId);
@@ -18,13 +22,13 @@ export class AdminService {
 
   async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {
     const treatments = await this.adminRepository.getQuestionnaireTreatments(id);
-    this.disconnectQuestionnaireFromTreatment(id);
+    this.disconnectQuestionnaireFromTreatments(id);
     questionnaireData.treatmentId = treatments.treatments.map((treatment) => treatment.id);
     return await this.adminRepository.createQuestionnaire(questionnaireData);
   }
 
-  async disconnectQuestionnaireFromTreatment(id: string) {
-    return await this.adminRepository.disconnectQuestionnaireFromTreatment(id);
+  async disconnectQuestionnaireFromTreatments(id: string) {
+    return await this.adminRepository.disconnectQuestionnaireFromTreatments(id);
   }
 
   async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
@@ -37,8 +41,14 @@ export class AdminService {
     return await this.adminRepository.deleteUser(user.id);
   }
 
-  async createUser(userData: { patient_code: string; password: string }) {
-    return await this.adminRepository.createUser(userData);
+  async createUser(userData: { patient_code: string; password: string; treatment?: { id: string; delayed: boolean } }) {
+    const treatment = userData.treatment;
+    const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
+    if (treatment != null) {
+      await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
+      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
+    }
+    return user;
   }
 
   async createAdmin(adminData: AdminData) {
@@ -59,6 +69,14 @@ export class AdminService {
 
   async updateTreatment(id: string, treatmentData?: { name?: string; description?: string }) {
     return this.adminRepository.updateTreatment(id, treatmentData);
+  }
+
+  async addQuestionnaireToTreatment(treatmentId: string, questionnaireId: string) {
+    return await this.adminRepository.addQuestionnaireToTreatment(treatmentId, questionnaireId);
+  }
+
+  async getModuleById(id: string) {
+    return await this.modules.getModuleByIdForAdmin(id);
   }
 
   async createModule(moduleData: { name: string; description: string }) {

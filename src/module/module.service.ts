@@ -7,6 +7,22 @@ import { ModuleDto, ModuleType } from './dto/module.dto';
 export class ModuleService {
   constructor(private readonly moduleRepository: ModuleRepository) {}
 
+  async getModuleByIdForAdmin(id: string) {
+    console.log('id:', id);
+    const module = await this.moduleRepository.getModuleById(id);
+    console.log('module:', module);
+    if (!module) throw new HttpException('Module not found', 404);
+    return {
+      id: module.id,
+      name: module.name,
+      description: module.description,
+      activities: module.activities.map((activity) => ({
+        id: activity.activity.id,
+        name: activity.activity.name,
+      })),
+    };
+  }
+
   async getModuleById(id: string, userId: string) {
     const userModule = await this.moduleRepository.getUserModuleByModuleIdAndUserId(id, userId);
     if (!userModule) throw new HttpException('Module not found', 404);
@@ -54,11 +70,15 @@ export class ModuleService {
     this.createTestModule(userId, date);
   }
 
-  async updateViewTime(userId: string, time: number) {
+  async updateViewTime(userId: string, time: number, contentId: string) {
     const date = new Date();
     const userModules = await this.moduleRepository.getUserMinutesSpent(userId);
     const meditationModule = userModules.find((module) => module.moduleId != 'dummy' && module.moduleId != 'tests');
     if (!meditationModule) return;
+    const isVideoMeditation = await this.checkIfVideoIsMeditation(contentId, meditationModule);
+    if (!isVideoMeditation) {
+      return;
+    }
     const minutesSpent = meditationModule.minutesSpent;
     const actualMiuntesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
     if (!actualMiuntesModule) {
@@ -67,6 +87,27 @@ export class ModuleService {
       const addedTime: number = Number(actualMiuntesModule.minutesSpent) + Number(time);
       return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
     }
+  }
+  async checkIfVideoIsMeditation(contentId: string, userModule: any) {
+    console.log('userModule:', userModule);
+    const module = await this.moduleRepository.getModuleById(userModule.moduleId);
+    let isMeditation = false;
+    module.activities.map(async (activity, index) => {
+      if (activity.activity.id === contentId) {
+        console.log('Found activity');
+        if (index === 0) {
+          console.log('Updating weekIntroduction');
+          await this.moduleRepository.updateMedIntroduction(userModule.id);
+          isMeditation = false;
+        } else if (index === 1) {
+          await this.moduleRepository.updateWeekIntroduction(userModule.id);
+          isMeditation = false;
+        } else {
+          isMeditation = true;
+        }
+      }
+    });
+    return isMeditation;
   }
 
   async getViewTime(id: string) {
