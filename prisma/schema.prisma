@@ -59,7 +59,7 @@ model UserTreatment {
   endAnswer   Boolean @default(false)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   treatmentId String
   treatment   Treatment @relation(fields: [treatmentId], references: [id])
@@ -164,7 +164,7 @@ model QuestionnaireSubmission {
   createdAt DateTime @default(now())
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   questionnaireId String
   questionnaire   Questionnaire @relation(fields: [questionnaireId], references: [id])
@@ -192,7 +192,7 @@ model UserModule {
   medIntroduction  Boolean  @default(false)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   moduleId String
   module   Module @relation(fields: [moduleId], references: [id])
@@ -257,7 +257,7 @@ model UserAchievement {
   achivementId String
 
   Achievement Achievement @relation(fields: [achivementId], references: [id])
-  User        User        @relation(fields: [userId], references: [id])
+  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Streak {
@@ -290,7 +290,7 @@ model UserShopItem {
   id String @id() @default(uuid())
 
   userId String
-  User   User   @relation(fields: [userId], references: [id])
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   shopItemId String
   ShopItem   ShopItem @relation(fields: [shopItemId], references: [id])
@@ -322,7 +322,7 @@ model NotificationPreference {
   motivationalNotifications     Boolean @default(true)
   phrasesNotifications          Boolean @default(true)
 
-  User                          User  @relation(fields: [user_id], references: [id])
+  User                          User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Notification {
@@ -340,7 +340,7 @@ model UserNotification {
   read Boolean @default(false)
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   notificationId String
   notification Notification @relation(fields: [notificationId], references: [id])
