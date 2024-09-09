@@ -11,11 +11,11 @@ export class AdminService {
     private readonly adminRepository: AdminRepository,
     private readonly modules: ModuleService,
   ) {}
-  
+
   async notifyUser(notificationId: string, userId: string) {
     return await this.adminRepository.notifyUser(notificationId, userId);
   }
-  
+
   async createNotification(notificationData: { title: string; content: string }) {
     return await this.adminRepository.createNotification(notificationData);
   }
@@ -30,17 +30,17 @@ export class AdminService {
   async disconnectQuestionnaireFromTreatments(id: string) {
     return await this.adminRepository.disconnectQuestionnaireFromTreatments(id);
   }
-  
+
   async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
     return await this.adminRepository.createQuestionnaire(questionnaireData);
   }
-  
+
   async deleteUser(patient_code: string) {
     console.log(patient_code);
     const user = await this.adminRepository.getUser(patient_code);
     return await this.adminRepository.deleteUser(user.id);
   }
-  
+
   async createUser(userData: { patient_code: string; password: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
     const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
@@ -50,23 +50,23 @@ export class AdminService {
     }
     return user;
   }
-  
+
   async createAdmin(adminData: AdminData) {
     return await this.adminRepository.createAdmin(adminData);
   }
-  
+
   async updateAdmin(id: string, adminData: UpdateAdmin) {
     return this.adminRepository.updateAdmin(id, adminData);
   }
-  
+
   async deleteAdmin(id: string): Promise<void> {
     await this.adminRepository.deleteAdmin(id);
   }
-  
+
   async createTreatment(treatmentData: { name: string; description: string }) {
     return this.adminRepository.createTreatment(treatmentData);
   }
-  
+
   async updateTreatment(id: string, treatmentData?: { name?: string; description?: string }) {
     return this.adminRepository.updateTreatment(id, treatmentData);
   }
@@ -82,7 +82,7 @@ export class AdminService {
   async createModule(moduleData: { name: string; description: string }) {
     return await this.adminRepository.createModule(moduleData);
   }
-  
+
   async updateModule(id: string, moduleData: { name?: string; description?: string }) {
     return await this.adminRepository.updateModule(id, moduleData);
   }
