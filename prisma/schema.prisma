@@ -215,6 +215,7 @@ model IngameData {
 
   maxStreak        Int      @default(1)
   lastDayConnected DateTime @default(now())
+  lastWeekly       DateTime @default(now())
   totalWatchTime   Int      @default(0)
 
   user User @relation(fields: [userId], references: [id])
