@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { WeeklyDto } from './dto/weekly.dto';
 
 @Injectable()
 export class IngameDataRepository {
@@ -23,5 +24,45 @@ export class IngameDataRepository {
         lastWeekly: new Date(),
       },
     });
+  }
+
+  async getWeekly(id: string) {
+    const today = new Date();
+    const userData = await this.prisma.ingameData.findFirst({
+      where: {
+        userId: id,
+      },
+    });
+    const oneWeekInMilliseconds = 7 * 24 * 60 * 60 * 1000;
+    const timeDifference = today.getTime() - userData.lastWeekly.getTime();
+    if (timeDifference >= oneWeekInMilliseconds) {
+      const streakData = await this.prisma.streak.findFirst({
+        where: { userId: id },
+      });
+      const minutesSpentOnModule = await this.prisma.userModuleMinutesSpent.aggregate({
+        where: {
+          AND: {
+            userModule: { userId: id },
+            createdAt: {
+              gte: userData.lastWeekly,
+              lte: today,
+            },
+          },
+        },
+        _sum: {
+          minutesSpent: true,
+        },
+      });
+
+      const streak = streakData.streak;
+      const maxStreak = userData.maxStreak;
+
+      const weeklyWatchTime = minutesSpentOnModule._sum.minutesSpent || 0;
+      const totalWatchTime = userData.totalWatchTime; //TODO: ver si vale la pena tener este dato
+
+      return new WeeklyDto(streak, maxStreak, totalWatchTime, weeklyWatchTime);
+    } else {
+      return new BadRequestException('Not time for weekly yet');
+    }
   }
 }

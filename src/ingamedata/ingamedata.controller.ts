@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Param, Put, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpCode, Param, Put, Request, UseGuards } from "@nestjs/common";
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { IngameDataService } from './ingamedata.service';
 
@@ -19,5 +19,12 @@ export class IngameDataController {
   async updateWeekly(@Request() req: any) {
     const id: string = req.user.userId;
     return await this.ingameDataService.updateWeekly(id);
+  }
+
+  @Get('weekly')
+  @HttpCode(200)
+  async getWeekly(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.ingameDataService.getWeekly(id);
   }
 }

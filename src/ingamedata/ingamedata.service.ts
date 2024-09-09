@@ -12,4 +12,8 @@ export class IngameDataService {
   async updateWeekly(id: string) {
     return await this.repository.updateWeekly(id);
   }
+
+  async getWeekly(id: string) {
+    return await this.repository.getWeekly(id);
+  }
 }
