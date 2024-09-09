@@ -42,7 +42,7 @@ export class AdminRepository {
     });
   }
 
-  async disconnectQuestionnaireFromTreatment(id: string) {
+  async disconnectQuestionnaireFromTreatments(id: string) {
     return this.prisma.questionnaire.update({
       where: { id: id },
       data: {
@@ -62,6 +62,17 @@ export class AdminRepository {
         },
         treatments: {
           connect: questionnaireData.treatmentId.map((id) => ({ id: id })),
+        },
+      },
+    });
+  }
+
+  async addQuestionnaireToTreatment(treatmentId: string, questionnaireId: string) {
+    return this.prisma.treatment.update({
+      where: { id: treatmentId },
+      data: {
+        questionnaires: {
+          connect: { id: questionnaireId },
         },
       },
     });

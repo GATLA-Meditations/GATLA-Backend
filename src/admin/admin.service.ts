@@ -22,13 +22,13 @@ export class AdminService {
 
   async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {
     const treatments = await this.adminRepository.getQuestionnaireTreatments(id);
-    this.disconnectQuestionnaireFromTreatment(id);
+    this.disconnectQuestionnaireFromTreatments(id);
     questionnaireData.treatmentId = treatments.treatments.map((treatment) => treatment.id);
     return await this.adminRepository.createQuestionnaire(questionnaireData);
   }
 
-  async disconnectQuestionnaireFromTreatment(id: string) {
-    return await this.adminRepository.disconnectQuestionnaireFromTreatment(id);
+  async disconnectQuestionnaireFromTreatments(id: string) {
+    return await this.adminRepository.disconnectQuestionnaireFromTreatments(id);
   }
 
   async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
@@ -69,6 +69,10 @@ export class AdminService {
 
   async updateTreatment(id: string, treatmentData?: { name?: string; description?: string }) {
     return this.adminRepository.updateTreatment(id, treatmentData);
+  }
+
+  async addQuestionnaireToTreatment(treatmentId: string, questionnaireId: string) {
+    return await this.adminRepository.addQuestionnaireToTreatment(treatmentId, questionnaireId);
   }
 
   async getModuleById(id: string) {
