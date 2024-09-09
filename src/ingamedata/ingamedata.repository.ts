@@ -54,13 +54,34 @@ export class IngameDataRepository {
         },
       });
 
+      const moduleData = await this.prisma.userModule.findFirst({
+        where: {
+          userId: id,
+          startDate: {
+            lte: today, // Use lte for the nearest date before the reference date
+          },
+        },
+        orderBy: {
+          startDate: 'desc',
+        },
+        include: {
+          module: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
+
+      const moduleTitle = moduleData.module.name;
+
       const streak = streakData.streak;
       const maxStreak = userData.maxStreak;
 
       const weeklyWatchTime = minutesSpentOnModule._sum.minutesSpent || 0;
-      const totalWatchTime = userData.totalWatchTime; //TODO: ver si vale la pena tener este dato
+      const totalWatchTime = userData.totalWatchTime;
 
-      return new WeeklyDto(streak, maxStreak, totalWatchTime, weeklyWatchTime);
+      return new WeeklyDto(moduleTitle, streak, maxStreak, totalWatchTime, weeklyWatchTime);
     } else {
       return new BadRequestException('Not time for weekly yet');
     }
