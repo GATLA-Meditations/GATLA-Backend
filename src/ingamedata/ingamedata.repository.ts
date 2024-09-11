@@ -75,7 +75,12 @@ export class IngameDataRepository {
 
       const moduleTitle = moduleData.module.name;
 
-      const streak = streakData.streak;
+      let streakNum = 0;
+      if (streakData) {
+        streakNum = streakData.streak;
+      }
+
+      const streak = streakNum;
       const maxStreak = userData.maxStreak;
 
       const weeklyWatchTime = minutesSpentOnModule._sum.minutesSpent || 0;

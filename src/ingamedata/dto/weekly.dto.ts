@@ -1,5 +1,3 @@
-
-
 export class WeeklyDto {
   moduleTitle: string;
   streak: number;
