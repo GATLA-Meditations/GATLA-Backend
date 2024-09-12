@@ -5,10 +5,11 @@ import { AdminRepository } from './admin.repository';
 import { PrismaService } from '../prisma.service';
 import { ActivityModule } from 'src/activity/activity.module';
 import { ModuleModule } from 'src/module/module.module';
+import { MailService } from 'src/mail/mail.service';
 
 @Module({
   controllers: [AdminController],
-  providers: [AdminService, AdminRepository, PrismaService],
+  providers: [AdminService, AdminRepository, PrismaService, MailService],
   exports: [AdminService],
   imports: [ActivityModule, ModuleModule],
 })
