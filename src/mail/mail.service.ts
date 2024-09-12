@@ -12,7 +12,7 @@ export class MailService {
       secure: false, // true para puerto 465, false para otros puertos
       auth: {
         user: 'renacentia@gmail.com', // Tu correo electrónico
-        pass: 'your-email-password',    // Tu contraseña
+        pass: 'your-email-password', // Tu contraseña
       },
     });
   }
