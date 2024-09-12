@@ -130,6 +130,8 @@ enum ContentType {
   VIDEO
   AUDIO
   TEXT
+  MED_INTRO
+  MED_VIDEO
 }
 
 model Questionnaire {
@@ -188,8 +190,7 @@ model UserModule {
   createdAt        DateTime @default(now())
   startDate        DateTime
   endDate          DateTime
-  weekIntroduction Boolean  @default(false)
-  medIntroduction  Boolean  @default(false)
+  lastViewedOrder  Int      @default(1)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
