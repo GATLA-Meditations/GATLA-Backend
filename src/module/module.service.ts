@@ -94,15 +94,15 @@ export class ModuleService {
   async checkIfUnlockNextActivity(contentId: string, meditationModule) {
     const module = await this.moduleRepository.getModuleById(meditationModule.moduleId);
     const activity = module.activities.find((activity) => activity.activityId === contentId);
-    if( activity.order >= meditationModule.lastViewedOrder) {
-      await this.moduleRepository.unlockNextActivity(meditationModule.id, meditationModule.lastViewedOrder+1);
+    if (activity.order >= meditationModule.lastViewedOrder) {
+      await this.moduleRepository.unlockNextActivity(meditationModule.id, meditationModule.lastViewedOrder + 1);
     }
   }
 
   private async checkIfVideoIsMeditation(contentId: string, userModule: any) {
     const module = await this.moduleRepository.getModuleById(userModule.moduleId);
     const activity = module.activities.find((activity) => activity.activityId === contentId);
-    if(activity.order > userModule.lastViewedOrder) {
+    if (activity.order > userModule.lastViewedOrder) {
       throw new HttpException('Activity not unlocked', 400);
     }
     const videoType = this.findType(activity.activity.contents);
@@ -110,8 +110,9 @@ export class ModuleService {
   }
 
   private findType(contents): ContentType {
-        console.log('contents:', contents);
-        return contents.find((content) => content.content.type === ContentType.MED_INTRO || content.content.type === ContentType.MED_VIDEO).content.type;
+    console.log('contents:', contents);
+    return contents.find((content) => content.content.type === ContentType.MED_INTRO || content.content.type === ContentType.MED_VIDEO)
+      .content.type;
   }
 
   async getViewTime(id: string) {
