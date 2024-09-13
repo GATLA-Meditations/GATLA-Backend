@@ -5,8 +5,7 @@ import { PrismaService } from '../prisma.service';
 export class ModuleRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-
-  async unlockNextActivity(id:string, lastViewedOrder: number) {
+  async unlockNextActivity(id: string, lastViewedOrder: number) {
     return this.prisma.userModule.update({
       where: {
         id,
@@ -29,7 +28,7 @@ export class ModuleRepository {
                   include: {
                     content: {},
                   },
-                }              
+                },
               },
             },
           },

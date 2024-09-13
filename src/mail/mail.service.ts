@@ -7,12 +7,12 @@ export class MailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com', // Cambia a tu proveedor de SMTP
-      port: 587, // O el puerto correspondiente a tu servidor SMTP
-      secure: false, // true para puerto 465, false para otros puertos
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
       auth: {
-        user: 'renacentia@gmail.com', // Tu correo electrónico
-        pass: 'your-email-password', // Tu contraseña
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
   }
@@ -20,11 +20,11 @@ export class MailService {
   async sendMail(to: string, subject: string, text: string, html?: string): Promise<void> {
     try {
       await this.transporter.sendMail({
-        from: 'Renacentia-org', // Cambia por el remitente
+        from: 'Renacentia-org',
         to,
         subject,
         text,
-        html, // Puedes enviar también el cuerpo en HTML si lo necesitas
+        html,
       });
       console.log('Correo enviado correctamente');
     } catch (error) {
