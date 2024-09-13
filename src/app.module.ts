@@ -16,6 +16,7 @@ import { IngameDataModule } from './ingamedata/ingamedata.module';
 import { AdminModule } from './admin/admin.module';
 import ShopModule from './shop/shop.module';
 import { NotificationModule } from './notification/notification.module';
+import { MailService } from './mail/mail.service';
 
 @Module({
   imports: [
@@ -39,6 +40,6 @@ import { NotificationModule } from './notification/notification.module';
     NotificationModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, MailService],
 })
 export class AppModule {}

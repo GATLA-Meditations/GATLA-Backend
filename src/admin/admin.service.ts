@@ -4,12 +4,14 @@ import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ModuleService } from 'src/module/module.service';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AdminService {
   constructor(
     private readonly adminRepository: AdminRepository,
     private readonly modules: ModuleService,
+    private readonly mailService: MailService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
@@ -41,13 +43,18 @@ export class AdminService {
     return await this.adminRepository.deleteUser(user.id);
   }
 
-  async createUser(userData: { patient_code: string; password: string; treatment?: { id: string; delayed: boolean } }) {
+  async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
     const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
+    await this.mailService.sendMail(
+      userData.email,
+      'Credenciales Renacentia',
+      'Bienvenido a Renacentia, tus credenciales son:\n codigo: ' + userData.patient_code + '\n contraseña: ' + userData.password,
+    );
     return user;
   }
 
