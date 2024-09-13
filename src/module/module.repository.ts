@@ -5,20 +5,14 @@ import { PrismaService } from '../prisma.service';
 export class ModuleRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async updateMedIntroduction(id: string) {
-    return this.prisma.userModule.update({
-      where: { id },
-      data: {
-        medIntroduction: true,
-      },
-    });
-  }
 
-  async updateWeekIntroduction(id: string) {
+  async unlockNextActivity(id:string, lastViewedOrder: number) {
     return this.prisma.userModule.update({
-      where: { id },
+      where: {
+        id,
+      },
       data: {
-        weekIntroduction: true,
+        lastViewedOrder: lastViewedOrder,
       },
     });
   }
@@ -29,7 +23,15 @@ export class ModuleRepository {
       include: {
         activities: {
           include: {
-            activity: true,
+            activity: {
+              include: {
+                contents: {
+                  include: {
+                    content: {},
+                  },
+                }              
+              },
+            },
           },
         },
       },
