@@ -8,6 +8,7 @@ import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
 import { uploadAchievements } from './seed-logros.seed';
 import { uploadAdmin } from "./admin.seed";
+import { updateTreatment } from './tratamiento.seed';
 
 const prisma = new PrismaClient();
 
@@ -36,6 +37,7 @@ async function main() {
   await uploadShopItems();
   await uploadAchievements();
   await uploadAdmin();
+  await updateTreatment();
 }
 
 async function questionnaireSeed() {
