@@ -8,6 +8,7 @@ import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
 import { uploadAchievements } from './seed-logros.seed';
 import { uploadAdmin } from "./admin.seed";
+import { updateTreatment } from './tratamiento.seed';
 
 const prisma = new PrismaClient();
 
@@ -36,6 +37,7 @@ async function main() {
   await uploadShopItems();
   await uploadAchievements();
   await uploadAdmin();
+  await updateTreatment();
 }
 
 async function questionnaireSeed() {
@@ -619,6 +621,7 @@ async function treatmentSeed() {
     where: { id: 'contentId2' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId2',
@@ -653,6 +656,7 @@ async function treatmentSeed() {
     where: { id: 'contentId4' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId4',
@@ -687,6 +691,7 @@ async function treatmentSeed() {
     where: { id: 'contentId6' },
     update: {
       content: 'https://youtu.be/4E0ifUSIRzo',
+      type: 'MED_VIDEO'
     },
     create: {
       id: 'contentId6',
@@ -721,6 +726,7 @@ async function treatmentSeed() {
     where: { id: 'contentId8' },
     update: {
       content: 'https://youtu.be/AKYNvmAAQgE',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId8',
@@ -755,6 +761,7 @@ async function treatmentSeed() {
     where: { id: 'contentId10' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId10',
@@ -789,6 +796,7 @@ async function treatmentSeed() {
     where: { id: 'contentId12' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId12',
@@ -823,6 +831,7 @@ async function treatmentSeed() {
     where: { id: 'contentId14' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId14',
@@ -857,6 +866,7 @@ async function treatmentSeed() {
     where: { id: 'contentId16' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId16',
@@ -891,6 +901,7 @@ async function treatmentSeed() {
     where: { id: 'contentId18' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId18',
@@ -925,6 +936,7 @@ async function treatmentSeed() {
     where: { id: 'contentId20' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId20',
@@ -959,6 +971,7 @@ async function treatmentSeed() {
     where: { id: 'contentId22' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId22',
@@ -993,6 +1006,7 @@ async function treatmentSeed() {
     where: { id: 'contentId24' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId24',
@@ -1027,6 +1041,7 @@ async function treatmentSeed() {
     where: { id: 'contentId26' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId26',
@@ -1061,6 +1076,7 @@ async function treatmentSeed() {
     where: { id: 'contentId28' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId28',
@@ -1095,6 +1111,7 @@ async function treatmentSeed() {
     where: { id: 'contentId30' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId30',
@@ -1129,6 +1146,7 @@ async function treatmentSeed() {
     where: { id: 'contentId32' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId32',
@@ -1163,6 +1181,7 @@ async function treatmentSeed() {
     where: { id: 'contentId34' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId34',
@@ -1197,6 +1216,7 @@ async function treatmentSeed() {
     where: { id: 'contentId36' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId36',
@@ -1231,6 +1251,7 @@ async function treatmentSeed() {
     where: { id: 'contentId38' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId38',
@@ -1265,6 +1286,7 @@ async function treatmentSeed() {
     where: { id: 'contentId40' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId40',
@@ -1299,6 +1321,7 @@ async function treatmentSeed() {
     where: { id: 'contentId42' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId42',
@@ -1333,6 +1356,7 @@ async function treatmentSeed() {
     where: { id: 'contentId44' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_INTRO',
     },
     create: {
       id: 'contentId44',
@@ -1367,6 +1391,7 @@ async function treatmentSeed() {
     where: { id: 'contentId46' },
     update: {
       content: 'https://youtu.be/-REiAqmXUh0',
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId46',

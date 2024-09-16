@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { ModuleRepository } from './module.repository';
 import { SimpleActivityDto } from '../activity/dto/simple-activity.dto';
 import { ModuleDto, ModuleType } from './dto/module.dto';
+import { ContentType } from '@prisma/client';
 
 @Injectable()
 export class ModuleService {
@@ -28,7 +29,7 @@ export class ModuleService {
     if (!userModule) throw new HttpException('Module not found', 404);
     return new ModuleDto({
       ...userModule.module,
-      activities: this.getSimpleActivityDto(userModule),
+      activities: this.getSimpleActivityDto(userModule, userModule.lastViewedOrder),
       progress: this.calculateProgress(userModule),
       type: ModuleType.MEDITATION,
     });
@@ -42,7 +43,7 @@ export class ModuleService {
       modules.push(
         new ModuleDto({
           ...module.module,
-          activities: this.getSimpleActivityDto(module),
+          activities: this.getSimpleActivityDto(module, module.lastViewedOrder),
           progress: this.calculateProgress(module),
           type: module.module.id === 'tests' ? ModuleType.QUESTIONNAIRES : ModuleType.MEDITATION,
         }),
@@ -77,6 +78,7 @@ export class ModuleService {
     if (!meditationModule) return;
     const isVideoMeditation = await this.checkIfVideoIsMeditation(contentId, meditationModule);
     if (!isVideoMeditation) {
+      this.checkIfUnlockNextActivity(contentId, meditationModule);
       return;
     }
     const minutesSpent = meditationModule.minutesSpent;
@@ -88,26 +90,29 @@ export class ModuleService {
       return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
     }
   }
-  async checkIfVideoIsMeditation(contentId: string, userModule: any) {
-    console.log('userModule:', userModule);
+
+  async checkIfUnlockNextActivity(contentId: string, meditationModule) {
+    const module = await this.moduleRepository.getModuleById(meditationModule.moduleId);
+    const activity = module.activities.find((activity) => activity.activityId === contentId);
+    if (activity.order >= meditationModule.lastViewedOrder) {
+      await this.moduleRepository.unlockNextActivity(meditationModule.id, meditationModule.lastViewedOrder + 1);
+    }
+  }
+
+  private async checkIfVideoIsMeditation(contentId: string, userModule: any) {
     const module = await this.moduleRepository.getModuleById(userModule.moduleId);
-    let isMeditation = false;
-    module.activities.map(async (activity, index) => {
-      if (activity.activity.id === contentId) {
-        console.log('Found activity');
-        if (index === 0) {
-          console.log('Updating weekIntroduction');
-          await this.moduleRepository.updateMedIntroduction(userModule.id);
-          isMeditation = false;
-        } else if (index === 1) {
-          await this.moduleRepository.updateWeekIntroduction(userModule.id);
-          isMeditation = false;
-        } else {
-          isMeditation = true;
-        }
-      }
-    });
-    return isMeditation;
+    const activity = module.activities.find((activity) => activity.activityId === contentId);
+    if (activity.order > userModule.lastViewedOrder) {
+      throw new HttpException('Activity not unlocked', 400);
+    }
+    const videoType = this.findType(activity.activity.contents);
+    return videoType === ContentType.MED_VIDEO;
+  }
+
+  private findType(contents): ContentType {
+    console.log('contents:', contents);
+    return contents.find((content) => content.content.type === ContentType.MED_INTRO || content.content.type === ContentType.MED_VIDEO)
+      .content.type;
   }
 
   async getViewTime(id: string) {
@@ -118,24 +123,12 @@ export class ModuleService {
     return await this.moduleRepository.getUserIngameData(id);
   }
 
-  private getSimpleActivityDto(userModule: any) {
-    return userModule.module.activities.map((activity, index) => {
-      if (index === 0)
-        return new SimpleActivityDto({
-          id: activity.activityId,
-          name: activity.activity.name,
-          unlocked: true,
-        });
-      if (index === 1)
-        return new SimpleActivityDto({
-          id: activity.activityId,
-          name: activity.activity.name,
-          unlocked: userModule.medIntroduction,
-        });
+  private getSimpleActivityDto(userModule: any, order: number) {
+    return userModule.module.activities.map((activity) => {
       return new SimpleActivityDto({
         id: activity.activityId,
         name: activity.activity.name,
-        unlocked: userModule.weekIntroduction && userModule.medIntroduction,
+        unlocked: activity.order <= order,
       });
     });
   }

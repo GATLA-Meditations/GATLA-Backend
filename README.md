@@ -10,6 +10,10 @@ POSTGRES_DB=db-name
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 DATABASE_URL="postgresql://postgres:postgres@db-gatla:5432/db-name"
+JWT_SECRET="secret"
+
+EMAIL="email"
+EMAIL_PASSWORD="password"
 ```
 ## Run Container
 

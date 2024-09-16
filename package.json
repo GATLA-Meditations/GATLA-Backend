@@ -46,6 +46,7 @@
     "class-validator": "^0.14.1",
     "dotenv-cli": "^7.4.1",
     "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.15",
     "npx": "^10.2.2",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
