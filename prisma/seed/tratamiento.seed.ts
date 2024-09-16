@@ -472,7 +472,7 @@ async function cristianTreatment(prisma: PrismaClient) {
         },
       });
       await prisma.activity.upsert({
-        where: { id: 'cad23' },
+        where: { id: 'ca23' },
         update: {},
         create: {
           id: 'ca23',
