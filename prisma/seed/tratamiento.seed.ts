@@ -853,7 +853,7 @@ async function cristianTreatment(prisma: PrismaClient) {
         },
       });
       await prisma.content.upsert({
-        where: { id: 'ccd22' },
+        where: { id: 'cc22' },
         update: {
           content: 'https://youtu.be/-REiAqmXUh0',
           type: 'MED_INTRO',
