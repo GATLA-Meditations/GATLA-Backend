@@ -235,5 +235,15 @@ export class AdminRepository {
         treatment: { connect: { id: treatmentId } },
       },
     });
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        treatments: {
+          connect: {
+            id: treatmentId,
+          },
+        },
+      },
+    });
   }
 }
