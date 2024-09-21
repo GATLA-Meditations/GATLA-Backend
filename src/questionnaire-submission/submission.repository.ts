@@ -7,10 +7,10 @@ import { SubmissionCreateDto } from './dto/submission-create.dto';
 export class QuestionnaireSubmissionRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async createSubmission(submission: SubmissionCreateDto): Promise<QuestionnaireSubmission> {
+  public async createSubmission(submission: SubmissionCreateDto, userId: string): Promise<QuestionnaireSubmission> {
     return this.prisma.questionnaireSubmission.create({
       data: {
-        userId: submission.userId,
+        userId: userId,
         questionnaireId: submission.questionnaireId,
         answers: {
           create: submission.answers.map((answer) => ({

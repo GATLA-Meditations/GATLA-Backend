@@ -5,6 +5,7 @@ import { AdminGuard } from '../auth/guards/admin.guard';
 import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import { ShopItemType } from '@prisma/client';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -128,5 +129,11 @@ export class AdminController {
   @HttpCode(200)
   async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
     return await this.adminService.notifyUser(notificationId, userId);
+  }
+
+  @Post('shop-item')
+  @HttpCode(201)
+  async createShopItem(@Body() shopItemData: { type: ShopItemType; price: number; content_url: string }) {
+    return await this.adminService.createShopItem(shopItemData);
   }
 }

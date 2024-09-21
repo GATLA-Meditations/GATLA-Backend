@@ -5,6 +5,7 @@ import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ModuleService } from 'src/module/module.service';
 import { MailService } from 'src/mail/mail.service';
+import { ShopItemType } from '@prisma/client';
 
 @Injectable()
 export class AdminService {
@@ -120,5 +121,9 @@ export class AdminService {
     if (userData.treatment) {
       await this.adminRepository.updateUserTreatmentData(id, userData.treatment);
     }
+  }
+
+  async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
+    return await this.adminRepository.createShopItem(shopItemData);
   }
 }

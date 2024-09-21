@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import { ShopItemType } from '@prisma/client';
 
 @Injectable()
 export class AdminRepository {
@@ -244,6 +245,12 @@ export class AdminRepository {
           },
         },
       },
+    });
+  }
+
+  async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
+    return this.prisma.shopItem.create({
+      data: shopItemData,
     });
   }
 }

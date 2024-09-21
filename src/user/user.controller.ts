@@ -97,4 +97,11 @@ export class UserController {
     const id: string = req.user.userId;
     return await this.userService.getNotifications(id, paginationDto);
   }
+
+  @Get('view-time')
+  @HttpCode(200)
+  async getViewTime(@Request() req: any) {
+    const id: string = req.user.userId;
+    return await this.userService.getViewTime(id);
+  }
 }
