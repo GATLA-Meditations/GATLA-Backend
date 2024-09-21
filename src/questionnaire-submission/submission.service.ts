@@ -16,9 +16,9 @@ export class QuestionnaireSubmissionService {
     private treatment: TreatmentService,
   ) {}
 
-  public async createSubmission(submission: SubmissionCreateDto) {
+  public async createSubmission(submission: SubmissionCreateDto, userId: string) {
     await this.checkQuestionnaireExists(submission);
-    return this.repository.createSubmission(submission);
+    return this.repository.createSubmission(submission, userId);
   }
 
   private async checkQuestionnaireExists(submission: SubmissionCreateDto): Promise<boolean> {

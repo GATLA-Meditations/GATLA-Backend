@@ -33,7 +33,7 @@ export class UserService {
       const treatment = await this.treatment.getActualTreatmentByUserId(id);
       return treatment.modules;
     } else if (modules.length > 1) {
-      actualModule = this.selectActualModule(id, modules);
+      actualModule = await this.selectActualModule(id, modules);
     } else {
       actualModule = modules[0];
     }
@@ -148,12 +148,12 @@ export class UserService {
     return await this.repository.updateUserProgress(id, progress);
   }
 
-  private selectActualModule(userId: string, modules: ModuleDto[]): ModuleDto {
-    modules.forEach(async (module) => {
+  private async selectActualModule(userId: string, modules: ModuleDto[]) {
+    for (let module of modules) {
       if (module.id === 'tests') {
         if (!(await this.checkIfUserHasAnsweredAllQuestions(userId))) return module;
       }
-    });
+    }
     return modules.find((module) => module.id !== 'tests');
   }
 
@@ -164,12 +164,13 @@ export class UserService {
     const userTreatment = await this.treatment.getActualTreatmentByUserId(userId);
     const questionnaires = userTreatment.questionnaires;
     const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(userId, stratDate, today);
-    questionnaires.forEach((questionnaire) => {
+    if (questionnaireAnswers.length === 0) { return false; }
+    for (const questionnaire of questionnaires) {
       const answers = questionnaireAnswers.filter((answer) => answer.questionnaireId === questionnaire.id);
       if (answers.length === 0) {
-        return false;
+      return false;
       }
-    });
+    }
     return true;
   }
 }

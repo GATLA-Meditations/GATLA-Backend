@@ -116,7 +116,14 @@ export class ModuleService {
   }
 
   async getViewTime(id: string) {
-    return await this.moduleRepository.getUserMinutesSpent(id);
+    const modules = await this.moduleRepository.getUserMinutesSpent(id);
+    let time = 0;
+    modules.forEach((module) => {
+      module.minutesSpent.forEach((minutes) => {
+        time += minutes.minutesSpent;
+      });
+    });
+    return time;
   }
 
   async getUserIngameData(id: string) {
