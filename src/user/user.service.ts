@@ -149,7 +149,7 @@ export class UserService {
   }
 
   private async selectActualModule(userId: string, modules: ModuleDto[]) {
-    for (let module of modules) {
+    for (const module of modules) {
       if (module.id === 'tests') {
         if (!(await this.checkIfUserHasAnsweredAllQuestions(userId))) return module;
       }
@@ -164,11 +164,13 @@ export class UserService {
     const userTreatment = await this.treatment.getActualTreatmentByUserId(userId);
     const questionnaires = userTreatment.questionnaires;
     const questionnaireAnswers = await this.submission.getUserQuestionnaireAnswers(userId, stratDate, today);
-    if (questionnaireAnswers.length === 0) { return false; }
+    if (questionnaireAnswers.length === 0) {
+      return false;
+    }
     for (const questionnaire of questionnaires) {
       const answers = questionnaireAnswers.filter((answer) => answer.questionnaireId === questionnaire.id);
       if (answers.length === 0) {
-      return false;
+        return false;
       }
     }
     return true;

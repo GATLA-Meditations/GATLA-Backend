@@ -8,13 +8,13 @@ import { ShopItemType } from '@prisma/client';
 @Injectable()
 export class AdminRepository {
   constructor(private readonly prisma: PrismaService) {}
-  
+
   async getUser(patient_code: string) {
     return this.prisma.user.findUnique({
       where: { patient_code },
     });
   }
-  
+
   async notifyUser(notificationId: string, userId: string) {
     return this.prisma.userNotification.create({
       data: {
@@ -29,7 +29,7 @@ export class AdminRepository {
       data,
     });
   }
-  
+
   async getQuestionnaireTreatments(id: string) {
     return this.prisma.questionnaire.findUnique({
       where: { id: id },
@@ -42,7 +42,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async disconnectQuestionnaireFromTreatments(id: string) {
     return this.prisma.questionnaire.update({
       where: { id: id },
@@ -53,7 +53,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async createQuestionnaire(questionnaireData: createQuestionnaireDto) {
     return this.prisma.questionnaire.create({
       data: {
@@ -67,7 +67,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async addQuestionnaireToTreatment(treatmentId: string, questionnaireId: string) {
     return this.prisma.treatment.update({
       where: { id: treatmentId },
@@ -84,7 +84,7 @@ export class AdminRepository {
       where: { id },
     });
   }
-  
+
   async createUser(patient_code: string, password: string) {
     return this.prisma.user.create({
       data: {
@@ -99,26 +99,26 @@ export class AdminRepository {
       data: adminData,
     });
   }
-  
+
   async updateAdmin(id: string, adminData: UpdateAdmin) {
     return this.prisma.admin.update({
       where: { id: id },
       data: adminData,
     });
   }
-  
+
   async deleteAdmin(id: string) {
     return this.prisma.admin.delete({
       where: { id: id },
     });
   }
-  
+
   createTreatment(treatmentData: { name: string; description: string }) {
     return this.prisma.treatment.create({
       data: treatmentData,
     });
   }
-  
+
   async updateTreatment(id: string, treatmentData: { name?: string; description?: string }) {
     return this.prisma.treatment.update({
       where: { id: id },
@@ -128,7 +128,7 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async createModule(moduleData: { name: string; description: string }) {
     return this.prisma.treatment.create({
       data: moduleData,
@@ -144,19 +144,19 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async updateModulesFromTreatment(treatment_id: string, modules: { id: string; order: number }[]) {
     //disconnect all modules from treatment
     await this.prisma.treatmentModule.deleteMany({
       where: { treatment_id: treatment_id },
     });
-    
+
     const new_module_data: { treatment_id: string; module_id: string; order: number }[] = modules.map((module) => ({
       treatment_id: treatment_id,
       module_id: module.id, // Map id from modules to module_id
       order: module.order, // Preserve the order from modules
     }));
-    
+
     //reconnect them in updated form
     return this.prisma.treatmentModule.createMany({
       data: new_module_data,
@@ -168,19 +168,19 @@ export class AdminRepository {
     await this.prisma.moduleActivity.deleteMany({
       where: { moduleId: module_id },
     });
-    
+
     const new_activities_data: { activityId: string; moduleId: string; order: number }[] = activitiesData.map((activity) => ({
       activityId: activity.id, // Map id from modules to module_id
       moduleId: module_id,
       order: activity.order, // Preserve the order from modules
     }));
-    
+
     //reconnect them in updated format
     return this.prisma.moduleActivity.createMany({
       data: new_activities_data,
     });
   }
-  
+
   async getUsers() {
     return this.prisma.user.findMany({
       select: {
@@ -213,13 +213,13 @@ export class AdminRepository {
       },
     });
   }
-  
+
   async updateUserTreatmentData(id: string, treatment: { id: string }) {
     //delete current userTreatment
     await this.prisma.userTreatment.deleteMany({
       where: { userId: id },
     });
-    
+
     //create new connection for treatment
     await this.prisma.userTreatment.create({
       data: {
@@ -247,8 +247,8 @@ export class AdminRepository {
       },
     });
   }
-  
-  async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string; }) {
+
+  async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return this.prisma.shopItem.create({
       data: shopItemData,
     });
