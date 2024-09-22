@@ -7,7 +7,7 @@ export class MailService {
 
   constructor() {
     this.transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
+      host: 'email-smtp.us-east-1.amazonaws.com',
       port: 587,
       secure: false,
       auth: {
@@ -20,7 +20,7 @@ export class MailService {
   async sendMail(to: string, subject: string, text: string, html?: string): Promise<void> {
     try {
       await this.transporter.sendMail({
-        from: 'Renacentia-org',
+        from: 'Renacentia noreply@renacentia.org',
         to,
         subject,
         text,
