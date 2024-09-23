@@ -163,7 +163,7 @@ export class ModuleRepository {
         },
       });
     }
-    if(ingameData.totalWatchTime === null) {
+    if (ingameData.totalWatchTime === null) {
       ingameData.totalWatchTime = 0;
     }
     return this.prisma.ingameData.update({
