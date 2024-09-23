@@ -34,8 +34,12 @@ export class UserService {
       return treatment.modules;
     } else if (modules.length > 1) {
       actualModule = await this.selectActualModule(id, modules);
+      console.log("Mas de una opcion de modulo disponible")
+      console.log(actualModule);
     } else {
       actualModule = modules[0];
+      console.log("Solo una opcion de modulo disponible")
+      console.log(actualModule);
     }
     if (actualModule.id === 'tests') {
       return await this.getQuestionnaireModule(id, 'Answer the questionnaires to continue your treatment');
