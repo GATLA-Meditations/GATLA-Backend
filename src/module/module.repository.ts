@@ -59,14 +59,16 @@ export class ModuleRepository {
   }
 
   async findActualModuleFromUser(userId: string) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
     return this.prisma.userModule.findMany({
       where: {
         userId: userId,
         startDate: {
-          lte: new Date(),
+          lte: today,
         },
         endDate: {
-          gte: new Date(),
+          gte: today,
         },
       },
       include: {
