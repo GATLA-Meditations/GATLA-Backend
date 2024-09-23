@@ -66,7 +66,7 @@ export class ModuleRepository {
           lte: new Date(),
         },
         endDate: {
-          gt: new Date(),
+          gte: new Date(),
         },
       },
       include: {
@@ -149,6 +149,16 @@ export class ModuleRepository {
   async getUserIngameData(id: string) {
     return this.prisma.ingameData.findFirst({
       where: { userId: id },
+    });
+  }
+
+  async updateMaxMinutesSpent(userId: string, time: number) {
+    const ingameData = await this.getUserIngameData(userId);
+    return this.prisma.ingameData.update({
+      where: { userId: userId },
+      data: {
+        totalWatchTime: ingameData.totalWatchTime + time,
+      },
     });
   }
 }
