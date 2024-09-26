@@ -1,9 +1,9 @@
 export class AnswerCreateDto {
   answer: string;
-  questionId: string;
+  id: string;
 
-  constructor(answer: string, questionId: string) {
+  constructor(answer: string, id: string) {
     this.answer = answer;
-    this.questionId = questionId;
+    this.id = id;
   }
 }

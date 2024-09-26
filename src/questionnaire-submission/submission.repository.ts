@@ -15,7 +15,7 @@ export class QuestionnaireSubmissionRepository {
         answers: {
           create: submission.answers.map((answer) => ({
             answer: answer.answer,
-            questionId: answer.questionId,
+            questionId: answer.id,
           })),
         },
       },

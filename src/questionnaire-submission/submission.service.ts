@@ -32,8 +32,9 @@ export class QuestionnaireSubmissionService {
   private async checkAnswersAreValid(answers: AnswerCreateDto[], questionnaire): Promise<boolean> {
     answers.map((response) => {
       const question = questionnaire.questions.find((question) => {
-        if (question.id === response.questionId) return question;
+        if (question.id === response.id) return question;
       });
+      if (!question) throw new InvalidAnswerException(`Question with id: ${response.id} does not exist`);
       if (question.type == 'NUMERIC') this.checkNumericAnswer(question, response);
     });
     return true;
