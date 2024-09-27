@@ -96,6 +96,7 @@ export class UserService {
   }
 
   async updateViewTime(id: string, time: number, contentId: string) {
+    await this.updateProgress(id, time * 1.7);
     return await this.modules.updateViewTime(id, time, contentId);
   }
 
@@ -143,7 +144,7 @@ export class UserService {
     const addedProgress = actualProgress.progress + progress;
     if (addedProgress > 100) {
       progress = addedProgress - 100;
-      await this.updateRenatokens(id, 1);
+      await this.repository.addUserRenatokens(id, 1);
     }
     return await this.repository.updateUserProgress(id, progress);
   }
