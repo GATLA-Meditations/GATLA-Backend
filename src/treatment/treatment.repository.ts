@@ -18,6 +18,7 @@ export class TreatmentRepository {
             module: true,
           },
         },
+        questionnaires: true,
       },
     });
   }
