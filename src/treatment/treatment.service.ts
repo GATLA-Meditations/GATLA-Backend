@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import { TreatmentRepository } from './treatment.repository';
 import { TreatmentDto } from './dto/treatment.dto';
 import { SimpleModuleDto } from '../module/dto/simple-module.dto';
+import TreatmentCreateDto from './dto/treatment-create.dto';
 
 @Injectable()
 export class TreatmentService {
@@ -40,5 +41,9 @@ export class TreatmentService {
 
   async updateEndQuestionnaireAnswers(id: string) {
     return await this.treatmentRepository.updateEndQuestionnaireAnswers(id);
+  }
+
+  async createTreatment(treatmentData: TreatmentCreateDto) {
+    return await this.treatmentRepository.createCompleteTreatment(treatmentData);
   }
 }
