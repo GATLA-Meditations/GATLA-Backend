@@ -1,29 +1,29 @@
-import { ContentType } from "@prisma/client";
+import { ContentType } from '@prisma/client';
 
 export default class TreatmentCreateDto {
-    name: string;
-    description: string;
-    modules: ModuleCreateDto[];
-    questionnaires: string[];
+  name: string;
+  description: string;
+  modules: ModuleCreateDto[];
+  questionnaires: string[];
 }
 
 export class ModuleCreateDto {
-    order: number;
-    name: string;
-    description: string;
-    activities: ActivityCreateDto[];
+  order: number;
+  name: string;
+  description: string;
+  activities: ActivityCreateDto[];
 }
 
 export class ActivityCreateDto {
-    order: number;
-    name: string;
-    contents: ContentCreateDto[];
+  order: number;
+  name: string;
+  contents: ContentCreateDto[];
 }
 
 export class ContentCreateDto {
-    order: number;
-    type: ContentType;
-    content: string;
+  order: number;
+  type: ContentType;
+  content: string;
 }
 // ! Ejemplo de JSON para crear un tratamiento
 // {
@@ -54,4 +54,3 @@ export class ContentCreateDto {
 //       "ID_Cuestionario_2"
 //     ]
 //   }
-  

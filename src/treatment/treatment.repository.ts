@@ -76,8 +76,8 @@ export class TreatmentRepository {
         questionnaires: {
           connect: treatmentData.questionnaires.map((questionnaire) => ({ id: questionnaire })),
         },
-      }
-    })
+      },
+    });
     for (const module of treatmentData.modules) {
       const createdModule = await this.prisma.module.create({
         data: {
@@ -89,8 +89,8 @@ export class TreatmentRepository {
               order: module.order,
             },
           },
-        }
-      })
+        },
+      });
       for (const activity of module.activities) {
         const createdActivity = await this.prisma.activity.create({
           data: {
@@ -98,11 +98,11 @@ export class TreatmentRepository {
             modules: {
               connect: {
                 id: createdModule.id,
-                order: activity.order
+                order: activity.order,
               },
             },
-          }
-        })
+          },
+        });
         for (const content of activity.contents) {
           await this.prisma.content.create({
             data: {
@@ -114,12 +114,10 @@ export class TreatmentRepository {
                   order: content.order,
                 },
               },
-            }
-          })
+            },
+          });
         }
       }
     }
   }
-
-  
 }
