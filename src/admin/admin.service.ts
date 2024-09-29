@@ -6,6 +6,8 @@ import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ModuleService } from 'src/module/module.service';
 import { MailService } from 'src/mail/mail.service';
 import { ShopItemType } from '@prisma/client';
+import { TreatmentService } from 'src/treatment/treatment.service';
+import TreatmentCreateDto from 'src/treatment/dto/treatment-create.dto';
 
 @Injectable()
 export class AdminService {
@@ -13,6 +15,7 @@ export class AdminService {
     private readonly adminRepository: AdminRepository,
     private readonly modules: ModuleService,
     private readonly mailService: MailService,
+    private readonly treatmentService: TreatmentService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
@@ -71,8 +74,8 @@ export class AdminService {
     await this.adminRepository.deleteAdmin(id);
   }
 
-  async createTreatment(treatmentData: { name: string; description: string }) {
-    return this.adminRepository.createTreatment(treatmentData);
+  async createTreatment(treatmentData: TreatmentCreateDto) {
+    return await this.treatmentService.createTreatment(treatmentData);
   }
 
   async updateTreatment(id: string, treatmentData?: { name?: string; description?: string }) {
