@@ -66,6 +66,7 @@ export class UserRepository {
       where: { userId: id },
     });
   }
+
   async changeUserPassword(id: string, password: string) {
     return this.prisma.user.update({
       where: {
@@ -139,6 +140,19 @@ export class UserRepository {
       select: {
         renatokens: true,
         id: true,
+      },
+    });
+  }
+
+  async addUserRenatokens(id: string, tokens: number) {
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        renatokens: {
+          increment: tokens,
+        },
       },
     });
   }
