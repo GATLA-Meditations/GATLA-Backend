@@ -11,6 +11,9 @@ export class AuthRepository {
       where: {
         patient_code: patientCode,
       },
+      include: {
+        streak: true,
+      },
     });
   }
 
