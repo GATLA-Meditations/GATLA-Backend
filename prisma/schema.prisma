@@ -33,6 +33,7 @@ model User {
   achievements             UserAchievement[]
   UserShopItem             UserShopItem[]
   notifications            UserNotification[]
+  cualitativeQuestionSubmision QualitativeQuestionUser[]
 }
 
 model Admin {
@@ -74,6 +75,7 @@ model Module {
   activities ModuleActivity[]
   UserModule UserModule[]
   phrases    ModulePhrase[]
+  qualitativeQuestions QualitativeQuestion[]
 }
 
 model TreatmentModule {
@@ -345,4 +347,25 @@ model UserNotification {
 
   notificationId String
   notification Notification @relation(fields: [notificationId], references: [id])
+}
+
+model QualitativeQuestion {
+  id String @id() @default(uuid())
+  question String
+
+  userSubmisions QualitativeQuestionUser[]
+
+  moduleId String
+  module Module @relation(fields: [moduleId], references: [id])
+}
+
+model QualitativeQuestionUser {
+  id String @id @default(uuid())
+  answer String
+
+  qualitativeQuestionId String
+  qualitativeQuestion QualitativeQuestion @relation(references: [id], fields: [qualitativeQuestionId])
+
+  userId String
+  user User @relation(references: [id], fields: [userId])
 }

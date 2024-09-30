@@ -17,6 +17,7 @@ import { AdminModule } from './admin/admin.module';
 import ShopModule from './shop/shop.module';
 import { NotificationModule } from './notification/notification.module';
 import { MailService } from './mail/mail.service';
+import { QualitativeQuestionModule } from './qualitative-question/qualitative.question.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { MailService } from './mail/mail.service';
     AdminModule,
     ShopModule,
     NotificationModule,
+    QualitativeQuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService],
