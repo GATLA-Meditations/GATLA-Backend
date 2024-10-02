@@ -7,6 +7,6 @@ import { PrismaService } from '../prisma.service';
 @Module({
   controllers: [StreakController],
   providers: [StreakService, StreakRespository, PrismaService],
-  exports: [StreakService],
+  exports: [StreakService, StreakRespository],
 })
 export class StreakModule {}
