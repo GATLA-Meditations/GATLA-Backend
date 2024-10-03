@@ -16,7 +16,16 @@ export class StreakRespository {
         },
         lastUpdate: new Date(),
       },
+      include: { user: { include: { ingameData: true } } },
     });
+
+    if (!currentStreak.user.ingameData) {
+      await this.prisma.ingameData.create({
+        data: {
+          user: { connect: { id: userId } },
+        },
+      });
+    }
 
     await this.prisma.ingameData.updateMany({
       data: {

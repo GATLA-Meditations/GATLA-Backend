@@ -7,7 +7,7 @@ import { PrismaService } from '../prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from '../../config/configuration';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { StreakModule } from 'src/streak/streak.module';
+import { StreakRespository } from '../streak/streak.respository';
 
 @Module({
   controllers: [AuthController],
@@ -20,8 +20,7 @@ import { StreakModule } from 'src/streak/streak.module';
       envFilePath: `${process.cwd()}/.env`,
       load: [configuration],
     }),
-    StreakModule,
   ],
-  providers: [AuthService, AuthRepository, PrismaService, JwtStrategy],
+  providers: [AuthService, AuthRepository, PrismaService, JwtStrategy, StreakRespository],
 })
 export class AuthModule {}
