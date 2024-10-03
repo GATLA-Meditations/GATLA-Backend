@@ -12,8 +12,8 @@ import { StreakRespository } from '../streak/streak.respository';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly authRepository: AuthRepository,
     private readonly streakRepository: StreakRespository,
+    private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
