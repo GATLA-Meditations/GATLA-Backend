@@ -39,7 +39,7 @@ export class AuthService {
       lastUpdate.getDate() === today.getDate();
 
     //Update streak
-    if (isSameDay!) await this.streakRepository.incrementStreak(user.id, 1);
+    if (!isSameDay) await this.streakRepository.incrementStreak(user.id, 1);
 
     return new JwtDto(jwt);
   }
