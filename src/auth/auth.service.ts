@@ -7,10 +7,12 @@ import { JwtDto } from './dto/jwt.dto';
 import { RegisterRequestDto } from './dto/register-request.dto';
 import * as bcrypt from 'bcrypt';
 import { AdminLoginRequestDto } from './dto/AdminLoginRequestDto';
+import { StreakRespository } from '../streak/streak.respository';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly streakRepository: StreakRespository,
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
@@ -26,6 +28,19 @@ export class AuthService {
       },
       { secret: this.configService.get<string>('JWT_SECRET') },
     );
+
+    const today = new Date();
+    const lastUpdate = new Date(user.streak.lastUpdate);
+
+    // Check if the last update was done on a different day
+    const isSameDay =
+      lastUpdate.getFullYear() === today.getFullYear() &&
+      lastUpdate.getMonth() === today.getMonth() &&
+      lastUpdate.getDate() === today.getDate();
+
+    //Update streak
+    if (!isSameDay) await this.streakRepository.incrementStreak(user.id, 1);
+
     return new JwtDto(jwt);
   }
 

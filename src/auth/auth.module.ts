@@ -7,6 +7,7 @@ import { PrismaService } from '../prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { configuration } from '../../config/configuration';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { StreakRespository } from '../streak/streak.respository';
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       load: [configuration],
     }),
   ],
-  providers: [AuthService, AuthRepository, PrismaService, JwtStrategy],
+  providers: [AuthService, AuthRepository, PrismaService, JwtStrategy, StreakRespository],
 })
 export class AuthModule {}

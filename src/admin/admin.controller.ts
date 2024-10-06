@@ -6,6 +6,7 @@ import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
+import TreatmentCreateDto from 'src/treatment/dto/treatment-create.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -35,7 +36,7 @@ export class AdminController {
 
   @Post('treatment/create')
   @HttpCode(200)
-  async createTreatment(@Body() treatmentData: { name: string; description: string }) {
+  async createTreatment(@Body() treatmentData: TreatmentCreateDto) {
     return await this.adminService.createTreatment(treatmentData);
   }
 

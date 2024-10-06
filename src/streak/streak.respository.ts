@@ -6,7 +6,7 @@ export class StreakRespository {
   constructor(private readonly prisma: PrismaService) {}
 
   async incrementStreak(userId: string, increment: number) {
-    return this.prisma.streak.update({
+    const currentStreak = await this.prisma.streak.update({
       where: {
         userId,
       },
@@ -16,7 +16,30 @@ export class StreakRespository {
         },
         lastUpdate: new Date(),
       },
+      include: { user: { include: { ingameData: true } } },
     });
+
+    if (!currentStreak.user.ingameData) {
+      await this.prisma.ingameData.create({
+        data: {
+          user: { connect: { id: userId } },
+        },
+      });
+    }
+
+    await this.prisma.ingameData.updateMany({
+      data: {
+        maxStreak: currentStreak.streak,
+      },
+      where: {
+        userId: userId,
+        maxStreak: {
+          lte: currentStreak.streak,
+        },
+      },
+    });
+
+    return currentStreak;
   }
 
   async getStreakByUserId(userId: string) {
