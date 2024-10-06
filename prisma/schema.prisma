@@ -34,6 +34,16 @@ model User {
   UserShopItem             UserShopItem[]
   notifications            UserNotification[]
   cualitativeQuestionSubmision QualitativeQuestionUser[]
+  tokens                   Token[]
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  token     String
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Admin {
@@ -188,11 +198,11 @@ model QuestionnaireAnswer {
 }
 
 model UserModule {
-  id               String   @id() @default(uuid())
-  createdAt        DateTime @default(now())
-  startDate        DateTime
-  endDate          DateTime
-  lastViewedOrder  Int      @default(1)
+  id              String   @id() @default(uuid())
+  createdAt       DateTime @default(now())
+  startDate       DateTime
+  endDate         DateTime
+  lastViewedOrder Int      @default(1)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -319,34 +329,34 @@ model ModulePhrase {
 }
 
 model NotificationPreference {
-  id                            String  @id @default(uuid())
-  user_id                       String  @unique
-  meditationNotifications       Boolean @default(true)
-  motivationalNotifications     Boolean @default(true)
-  phrasesNotifications          Boolean @default(true)
+  id                        String  @id @default(uuid())
+  user_id                   String  @unique
+  meditationNotifications   Boolean @default(true)
+  motivationalNotifications Boolean @default(true)
+  phrasesNotifications      Boolean @default(true)
 
-  User                          User  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  User User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model Notification {
-  id String @id() @default(uuid())
-  title String
-  content String
+  id        String   @id() @default(uuid())
+  title     String
+  content   String
   createdAt DateTime @default(now())
 
   users UserNotification[]
 }
 
 model UserNotification {
-  id String @id() @default(uuid())
+  id        String   @id() @default(uuid())
   createdAt DateTime @default(now())
-  read Boolean @default(false)
+  read      Boolean  @default(false)
 
   userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   notificationId String
-  notification Notification @relation(fields: [notificationId], references: [id])
+  notification   Notification @relation(fields: [notificationId], references: [id])
 }
 
 model QualitativeQuestion {

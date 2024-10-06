@@ -45,6 +45,7 @@
     "bcrypt": "^5.1.1",
     "class-validator": "^0.14.1",
     "dotenv-cli": "^7.4.1",
+    "firebase-admin": "^12.6.0",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.15",
     "npx": "^10.2.2",
