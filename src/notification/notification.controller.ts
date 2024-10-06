@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { NotificationService } from './notification.service';
 import { NotificationMessageDto } from './dto/notification-message.dto';
+import { NotificationTokenDto } from './dto/notification-token.dto';
 
 @Controller('notification')
 @ApiTags('Notification')
@@ -37,4 +38,12 @@ export class NotificationController {
   async sendPushNotification(@Body() message: NotificationMessageDto) {
     return await this.notificationService.sendPushNotification(message);
   }
+
+  @Post('token')
+  @HttpCode(201)
+  async saveToken(@Request() req: any, @Body() token: NotificationTokenDto) {
+    const user_id: string = req.user.userId;
+    return await this.notificationService.saveToken(user_id, token);
+  }
+
 }

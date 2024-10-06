@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { NotificationRepository } from './notification.repository';
 import { NotificationMessageDto } from './dto/notification-message.dto';
 import * as firebaseAdmin from 'firebase-admin';
+import { NotificationTokenDto } from './dto/notification-token.dto';
 
 @Injectable()
 export class NotificationService {
@@ -33,5 +34,12 @@ export class NotificationService {
         },
       });
     });
+  }
+
+  async saveToken(userId: string, tokenDto: NotificationTokenDto) {
+    const token = await this.notificationRepository.getNotificationTokenByUserIdAndToken(userId, tokenDto.token);
+    if (!token) {
+      await this.notificationRepository.createToken(userId, tokenDto.token);
+    }
   }
 }

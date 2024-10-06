@@ -57,4 +57,22 @@ export class NotificationRepository {
       },
     });
   }
+
+  async getNotificationTokenByUserIdAndToken(userId: string, token: string) {
+    return this.prisma.token.findFirst({
+      where: {
+        userId: userId,
+        token: token,
+      },
+    });
+  }
+
+  async createToken(userId: string, token: string) {
+    return this.prisma.token.create({
+      data: {
+        userId,
+        token,
+      },
+    });
+  }
 }
