@@ -45,5 +45,4 @@ export class NotificationController {
     const user_id: string = req.user.userId;
     return await this.notificationService.saveToken(user_id, token);
   }
-
 }
