@@ -26,7 +26,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prepare": "husky install",
-    "dev": "npm run db:apply && npm run db:seed && npm run start:dev:no-watch"
+    "dev": "npx prisma migrate reset --force && npm run start:dev:no-watch"
   },
   "prisma": {
     "seed": "ts-node prisma/seed/seed.ts"
@@ -45,6 +45,7 @@
     "bcrypt": "^5.1.1",
     "class-validator": "^0.14.1",
     "dotenv-cli": "^7.4.1",
+    "firebase-admin": "^12.6.0",
     "node-cron": "^3.0.3",
     "nodemailer": "^6.9.15",
     "npx": "^10.2.2",
