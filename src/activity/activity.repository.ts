@@ -5,8 +5,7 @@ import { ContentDto } from './dto/content.dto';
 
 @Injectable()
 export class ActivityRepository {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async getActivityById(id: string) {
     return this.prisma.activity.findUnique({
