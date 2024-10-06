@@ -5,6 +5,14 @@ import { PrismaService } from '../prisma.service';
 export class NotificationRepository {
   constructor(private readonly prisma: PrismaService) {}
 
+  async getNotificationTokensByUserId(user_id: string) {
+    return this.prisma.token.findMany({
+      where: {
+        userId: user_id,
+      },
+    });
+  }
+
   async getNotificationSettingsById(user_id: string) {
     const notPref = await this.prisma.notificationPreference.findUnique({
       where: { user_id: user_id },
