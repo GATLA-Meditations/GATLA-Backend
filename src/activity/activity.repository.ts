@@ -47,28 +47,32 @@ export class ActivityRepository {
   }
 
   async modifyContent(data: { content?: ContentDto[]; activity?: { id: string; title: string } }) {
-    if (data.content.length > 0) {
-      data.content.forEach((content) => {
-        this.prisma.content.update({
+    try {
+      if (data.content && data.content.length > 0) {
+        for (const content of data.content) {
+          await this.prisma.content.update({
+            where: {
+              id: content.id,
+            },
+            data: {
+              content: content.content,
+              type: content.type,
+            },
+          });
+        }
+      }
+      if (data.activity) {
+        await this.prisma.activity.update({
           where: {
-            id: content.id,
+            id: data.activity.id,
           },
           data: {
-            content: content.content,
-            type: content.type,
+            name: data.activity.title,
           },
         });
-      });
-    }
-    if (data.activity) {
-      this.prisma.activity.update({
-        where: {
-          id: data.activity.id,
-        },
-        data: {
-          name: data.activity.title,
-        },
-      });
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 }
