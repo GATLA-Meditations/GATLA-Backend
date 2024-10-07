@@ -55,6 +55,7 @@ export class ModuleService {
   async createUserModules(userId: string, treatmentId: string, delayed: boolean = false) {
     const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
     let date = new Date();
+    date.setUTCHours(0, 0, 0, 0);
     this.createTestModule(userId, date);
     if (delayed) {
       for (let _ of modules) {

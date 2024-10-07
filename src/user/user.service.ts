@@ -29,7 +29,7 @@ export class UserService {
   async getActualModule(id: string) {
     const modules = await this.modules.getActualModuleByUserId(id);
     let actualModule;
-    if (modules.length === null || modules == null) {
+    if (modules == null || modules.length === 0) {
       const treatment = await this.treatment.getActualTreatmentByUserId(id);
       return treatment.modules;
     } else if (modules.length > 1) {
