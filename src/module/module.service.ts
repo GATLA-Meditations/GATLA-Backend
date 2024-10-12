@@ -136,6 +136,10 @@ export class ModuleService {
     return await this.moduleRepository.getUserIngameData(id);
   }
 
+  async getUserModuleMinutesSpent(id: string) {
+    return await this.moduleRepository.getUserMinutesSpent(id);
+  }
+
   private getSimpleActivityDto(userModule: any, order: number) {
     return userModule.module.activities.map((activity) => {
       return new SimpleActivityDto({
