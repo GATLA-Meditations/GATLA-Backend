@@ -7,6 +7,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
 import { PaginationDto } from './dto/pagination.dto';
+import { UserModule} from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -175,5 +176,16 @@ export class UserService {
       }
     }
     return true;
+  }
+
+  private async calculateWeeklyProgress(userModule: UserModule) {
+    const module = await this.modules.getModuleById(userModule.moduleId, userModule.userId);
+    const numActivities = module.activities.length;
+    const minutes = await this.modules.getUserModuleMinutesSpent(userModule.id);
+
+    const total = numActivities + 7;
+    const progress = minutes.length + userModule.lastViewedOrder;
+
+    return Math.round((progress / total) * 100);
   }
 }
