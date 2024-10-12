@@ -257,14 +257,14 @@ export class AdminRepository {
 
   async updateContentInActivity(activityId: string, content: ContentModifyDto) {
     await this.prisma.activityContent.updateMany({
-        where: {
-          activityId: activityId,
-          contentId: content.id,
-        },
-        data: {
-          order: content.order,
-        },
-    })
+      where: {
+        activityId: activityId,
+        contentId: content.id,
+      },
+      data: {
+        order: content.order,
+      },
+    });
     return this.prisma.content.update({
       where: { id: content.id },
       data: {
