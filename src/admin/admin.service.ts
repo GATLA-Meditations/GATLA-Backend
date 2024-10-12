@@ -132,7 +132,7 @@ export class AdminService {
 
   async updateContentsInActivity(activityId: string, contents: ContentModifyDto[]) {
     for (const content of contents) {
-      if(content.id) {
+      if (content.id) {
         await this.adminRepository.updateContentInActivity(content.id, content);
       } else {
         await this.adminRepository.createContentInActivity(activityId, content);
