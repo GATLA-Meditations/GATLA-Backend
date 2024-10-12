@@ -7,7 +7,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
 import { PaginationDto } from './dto/pagination.dto';
-import { UserModule} from '@prisma/client';
+import { UserModule } from '@prisma/client';
 
 @Injectable()
 export class UserService {
