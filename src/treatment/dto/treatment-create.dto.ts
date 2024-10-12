@@ -25,6 +25,20 @@ export class ContentCreateDto {
   type: ContentType;
   content: string;
 }
+
+export class ModuleModifyDto {
+  id?: string;
+  order: number;
+  name: string;
+  description: string;
+}
+
+export class ContentModifyDto {
+  id?: string;
+  order: number;
+  type: ContentType;
+  content: string;
+}
 // ! Ejemplo de JSON para crear un tratamiento
 // {
 //     "name": "Nombre del tratamiento",

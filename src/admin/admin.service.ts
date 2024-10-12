@@ -7,7 +7,7 @@ import { ModuleService } from 'src/module/module.service';
 import { MailService } from 'src/mail/mail.service';
 import { ShopItemType } from '@prisma/client';
 import { TreatmentService } from 'src/treatment/treatment.service';
-import TreatmentCreateDto from 'src/treatment/dto/treatment-create.dto';
+import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
 @Injectable()
 export class AdminService {
@@ -128,5 +128,19 @@ export class AdminService {
 
   async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return await this.adminRepository.createShopItem(shopItemData);
+  }
+
+  async updateContentsInActivity(activityId: string, contents: ContentModifyDto[]) {
+    for (const content of contents) {
+      if(content.id) {
+        await this.adminRepository.updateContentInActivity(content.id, content);
+      } else {
+        await this.adminRepository.createContentInActivity(activityId, content);
+      }
+    }
+  }
+
+  async disconectContentFromActivity(activityId: string, contentId: string) {
+    return await this.adminRepository.disconectContentFromActivity(activityId, contentId);
   }
 }

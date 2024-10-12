@@ -6,7 +6,7 @@ import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
-import TreatmentCreateDto from 'src/treatment/dto/treatment-create.dto';
+import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -136,5 +136,17 @@ export class AdminController {
   @HttpCode(201)
   async createShopItem(@Body() shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return await this.adminService.createShopItem(shopItemData);
+  }
+
+  @Put('activity/:id/update-content')
+  @HttpCode(200)
+  async updateActivityContent(@Param('id') id: string, @Body() contents: ContentModifyDto[]) {
+    return await this.adminService.updateContentsInActivity(id, contents);
+  }
+
+  @Delete('activity/:id/diconect-content/:contentId')
+  @HttpCode(200)
+  async deleteActivityContent(@Param('id') id: string, @Param('contentId') contentId: string) {
+    return await this.adminService.disconectContentFromActivity(id, contentId);
   }
 }
