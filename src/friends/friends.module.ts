@@ -4,6 +4,6 @@ import FriendsRepository from './friends.repository';
 import { PrismaService } from 'src/prisma.service';
 
 @Module({
-  providers: [FriendsService, FriendsRepository, PrismaService]
+  providers: [FriendsService, FriendsRepository, PrismaService],
 })
 export class FriendsModule {}
