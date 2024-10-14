@@ -59,7 +59,7 @@ export class AdminController {
   }
 
   @Put('treatment/:id/create-module')
-  @HttpCode(204)
+  @HttpCode(200)
   async createModuleForTreatment(@Param('id') id: string) {
     return this.adminService.createModuleForTreatment(id);
   }
