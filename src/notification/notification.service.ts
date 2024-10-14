@@ -28,7 +28,7 @@ export class NotificationService {
     tokens.map((token) => {
       firebaseAdmin.messaging().send({
         token: token.token,
-        notification: {
+        data: {
           title: message.title,
           body: message.body,
         },
