@@ -155,4 +155,10 @@ export class AdminController {
   async deleteActivityContent(@Param('id') id: string, @Param('contentId') contentId: string) {
     return await this.adminService.disconectContentFromActivity(id, contentId);
   }
+
+  @Get('user/:patient_code')
+  @HttpCode(200)
+  async getUserById(@Param('patient_code') patient_code: string) {
+    return await this.adminService.getUserById(patient_code);
+  }
 }
