@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenida a Renacentia.org</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      background-color: #ffffff;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .header img {
+      max-width: 100%;
+      height: auto;
+    }
+    .content {
+      padding: 20px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .credentials {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f1f8ff;
+      border-radius: 8px;
+    }
+    .credentials p {
+      margin: 5px 0;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <img src="https://renacentia-admin-bucket.s3.amazonaws.com/images/renacentia-logo.png" alt="Renacentia Logo">
+  </div>
+  <div class="content">
+    <h2>Bienvenido a Renacentia.org</h2>
+    <p>Nos complace darte la bienvenida a nuestra plataforma. A continuación, encontrarás tus credenciales de acceso. Por favor, guárdalas de forma segura.</p>
+
+    <div class="credentials">
+      <p><strong>Código de paciente:</strong> {{patientCode}}</p>
+      <p><strong>Contraseña:</strong> {{password}}</p>
+    </div>
+
+    <p>Si tienes alguna duda o necesitas ayuda, no dudes en ponerte en contacto con nuestro equipo de soporte.</p>
+  </div>
+</div>
+
+</body>
+</html>

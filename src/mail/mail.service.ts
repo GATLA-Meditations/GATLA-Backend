@@ -19,4 +19,22 @@ export class MailService {
       console.error('Error enviando el correo:', error);
     }
   }
+
+  async sendWelcomeEmail(to: string, subject: string, patientCode: string, password: string): Promise<void> {
+    try {
+      await this.mailerService.sendMail({
+        from: 'Renacentia eugenio@renacentia.org',
+        to,
+        subject,
+        template: 'welcome',
+        context: {
+          patientCode: patientCode,
+          password: password,
+        },
+      });
+      console.log('Correo enviado correctamente');
+    } catch (error) {
+      console.error('Error enviando el correo:', error);
+    }
+  }
 }
