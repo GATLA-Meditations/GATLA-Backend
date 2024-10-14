@@ -99,7 +99,7 @@ export class ActivityRepository {
     });
     return {
       ...activity,
-      order: moduleActivity.order
-    }
+      order: moduleActivity.order,
+    };
   }
 }
