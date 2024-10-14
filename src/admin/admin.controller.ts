@@ -132,7 +132,7 @@ export class AdminController {
     return await this.adminService.createNotification(notificationData);
   }
 
-  @Put('notification/{notificationId}/notify-user/{userId}')
+  @Put('notification/:notificationId/notify-user/:userId')
   @HttpCode(200)
   async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
     return await this.adminService.notifyUser(notificationId, userId);

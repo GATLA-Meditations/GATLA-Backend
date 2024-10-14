@@ -90,12 +90,16 @@ export class ActivityRepository {
       },
     });
 
-    await this.prisma.moduleActivity.create({
+    const moduleActivity = await this.prisma.moduleActivity.create({
       data: {
         moduleId: id,
         activityId: activity.id,
         order: module.activities.length + 1,
       },
     });
+    return {
+      ...activity,
+      order: moduleActivity.order
+    }
   }
 }
