@@ -58,6 +58,12 @@ export class AdminController {
     return this.adminService.updateModulesFromTreatment(id, modules);
   }
 
+  @Put('treatment/:id/create-module')
+  @HttpCode(204)
+  async createModuleForTreatment(@Param('id') id: string) {
+    return this.adminService.createModuleForTreatment(id);
+  }
+
   @Post('module/create')
   @HttpCode(200)
   async createModule(@Body() moduleData: { name: string; description: string }) {

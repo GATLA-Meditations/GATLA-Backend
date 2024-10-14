@@ -129,4 +129,8 @@ export class AdminService {
   async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return await this.adminRepository.createShopItem(shopItemData);
   }
+
+  async createModuleForTreatment(id: string) {
+    return await this.treatmentService.createModule(id);
+  }
 }

@@ -173,4 +173,23 @@ export class TreatmentRepository {
       },
     });
   }
+
+  async createModule(id: string, modulesInTreatment: number) {
+    const module = await this.prisma.module.create({
+      data: {
+        name: 'new module',
+        description: 'Sample description',
+      },
+    });
+
+    await this.prisma.treatmentModule.create({
+      data: {
+        treatment_id: id,
+        module_id: module.id,
+        order: modulesInTreatment + 1,
+      },
+    });
+
+    return module;
+  }
 }
