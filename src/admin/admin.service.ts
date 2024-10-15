@@ -152,6 +152,6 @@ export class AdminService {
   async getUserById(id: string) {
     const user = await this.adminRepository.getUserById(id);
     if (!user) throw new HttpException('User not found', 404);
-    return new UserDataDto(user.patient_code, user.password, user.treatments);
+    return new UserDataDto(user.id, user.patient_code, user.password, user.treatments);
   }
 }
