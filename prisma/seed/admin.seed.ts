@@ -8,7 +8,7 @@ export async function uploadAdmin() {
 }
 
 async function admin(prisma: PrismaClient) {
-  const hashedPassword = await bcrypt.hash('fake_user', 10); // 10 is the salt rounds
+  const hashedPassword = await bcrypt.hash('fake_user', 10);
 
   await prisma.admin.upsert({
     where: { id: 'fake_admin' },
