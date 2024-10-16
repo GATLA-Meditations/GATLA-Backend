@@ -58,6 +58,12 @@ export class AdminController {
     return this.adminService.updateModulesFromTreatment(id, modules);
   }
 
+  @Put('treatment/:id/create-module')
+  @HttpCode(200)
+  async createModuleForTreatment(@Param('id') id: string) {
+    return this.adminService.createModuleForTreatment(id);
+  }
+
   @Post('module/create')
   @HttpCode(200)
   async createModule(@Body() moduleData: { name: string; description: string }) {
@@ -126,7 +132,7 @@ export class AdminController {
     return await this.adminService.createNotification(notificationData);
   }
 
-  @Put('notification/{notificationId}/notify-user/{userId}')
+  @Put('notification/:notificationId/notify-user/:userId')
   @HttpCode(200)
   async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
     return await this.adminService.notifyUser(notificationId, userId);
@@ -149,4 +155,11 @@ export class AdminController {
   async deleteActivityContent(@Param('id') id: string, @Param('contentId') contentId: string) {
     return await this.adminService.disconectContentFromActivity(id, contentId);
   }
+
+  @Get('user/:patient_code')
+  @HttpCode(200)
+  async getUserById(@Param('patient_code') patient_code: string) {
+    return await this.adminService.getUserById(patient_code);
+  }
+
 }

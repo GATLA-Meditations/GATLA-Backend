@@ -24,6 +24,13 @@ export class ActivityController {
     return await this.activityService.createActivity(data);
   }
 
+  @Post('/module/:id')
+  @UseGuards(AdminGuard)
+  @HttpCode(200)
+  async createActivityForModuleById(@Param('id') id: string) {
+    return await this.activityService.createActivityForModuleById(id);
+  }
+
   @Put('/modify')
   @UseGuards(AdminGuard)
   @HttpCode(200)

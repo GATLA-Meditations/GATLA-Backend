@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
@@ -8,6 +8,8 @@ import { MailService } from 'src/mail/mail.service';
 import { ShopItemType } from '@prisma/client';
 import { TreatmentService } from 'src/treatment/treatment.service';
 import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
+import { UserDataDto } from './dto/user-data.dto';
+
 
 @Injectable()
 export class AdminService {
@@ -142,5 +144,15 @@ export class AdminService {
 
   async disconectContentFromActivity(activityId: string, contentId: string) {
     return await this.adminRepository.disconectContentFromActivity(activityId, contentId);
+  }
+
+  async createModuleForTreatment(id: string) {
+    return await this.treatmentService.createModule(id);
+  }
+
+  async getUserById(id: string) {
+    const user = await this.adminRepository.getUserById(id);
+    if (!user) throw new HttpException('User not found', 404);
+    return new UserDataDto(user.id, user.patient_code, user.password, user.treatments);
   }
 }

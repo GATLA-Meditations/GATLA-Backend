@@ -10,6 +10,7 @@ import { PaginationDto } from './dto/pagination.dto';
 import { UserModule } from '@prisma/client';
 import { AchievementService } from 'src/achievement/achievement.service';
 
+
 @Injectable()
 export class UserService {
   constructor(

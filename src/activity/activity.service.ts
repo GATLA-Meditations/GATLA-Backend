@@ -41,4 +41,8 @@ export class ActivityService {
   async createContent(data: CreateContentDto): Promise<ContentDto> {
     return this.activityRepository.createContent(data);
   }
+
+  async createActivityForModuleById(id: string) {
+    return await this.activityRepository.createActivityForModuleById(id);
+  }
 }

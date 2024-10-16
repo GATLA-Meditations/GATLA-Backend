@@ -46,4 +46,10 @@ export class TreatmentService {
   async createTreatment(treatmentData: TreatmentCreateDto) {
     return await this.treatmentRepository.createCompleteTreatment(treatmentData);
   }
+
+  async createModule(id: string) {
+    const treatment = await this.treatmentRepository.getTreatmentById(id);
+    if (!treatment) throw new HttpException('Treatment not found', 404);
+    return await this.treatmentRepository.createModule(id, treatment.modules.length);
+  }
 }

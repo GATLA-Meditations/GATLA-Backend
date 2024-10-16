@@ -224,8 +224,8 @@ export class AdminRepository {
     //create new connection for treatment
     await this.prisma.userTreatment.create({
       data: {
-        user: { connect: { id: id } },
-        treatment: { connect: { id: treatment.id } },
+        userId: id,
+        treatmentId: treatment.id,
       },
     });
   }
@@ -296,6 +296,15 @@ export class AdminRepository {
       where: {
         activityId,
         contentId,
+      },
+    });
+  }
+
+  async getUserById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        treatments: true,
       },
     });
   }
