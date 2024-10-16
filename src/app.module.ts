@@ -18,6 +18,7 @@ import ShopModule from './shop/shop.module';
 import { NotificationModule } from './notification/notification.module';
 import { MailService } from './mail/mail.service';
 import { ModuleQuestionModule } from './module-question/module.question.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ModuleQuestionModule } from './module-question/module.question.module';
     AdminModule,
     ShopModule,
     NotificationModule,
+    FriendsModule,
     ModuleQuestionModule,
   ],
   controllers: [AppController],
