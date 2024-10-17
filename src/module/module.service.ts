@@ -179,7 +179,6 @@ export class ModuleService {
     const activities = await this.moduleRepository.getActivitiesByModuleId(id);
     for (const activity of activities) {
       await this.moduleRepository.disconnectActivityFromModuleAndDeleteIfEmpty(activity.id);
-
     }
     return await this.moduleRepository.deleteModule(id);
   }
