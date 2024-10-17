@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { ApiTags } from '@nestjs/swagger';
 import { createActivityDto } from './dto/create-activity.dto';
@@ -36,5 +36,12 @@ export class ActivityController {
   @HttpCode(200)
   async modifyContent(@Body() data: { content?: ContentDto[]; activity?: { id: string; title: string } }) {
     return this.activityService.modifyContent(data);
+  }
+
+  @UseGuards(AdminGuard)
+  @Delete('/:id')
+  @HttpCode(200)
+  async deleteActivity(@Param('id') id: string) {
+    return await this.activityService.deleteActivity(id);
   }
 }

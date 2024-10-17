@@ -26,6 +26,6 @@ export class TreatmentController {
   @Delete(':id')
   @HttpCode(200)
   async deleteTreatment(@Param('id') id: string) {
-    return this.treatmentService.deleteTreatment(id);
+    return await this.treatmentService.deleteTreatment(id);
   }
 }
