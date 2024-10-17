@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, Param, UseGuards } from '@nestjs/common';
 import { TreatmentService } from './treatment.service';
 import { ApiTags } from '@nestjs/swagger';
 import { TreatmentDto } from './dto/treatment.dto';
@@ -21,5 +21,11 @@ export class TreatmentController {
   @HttpCode(200)
   async getAllTreatments(): Promise<TreatmentDto[]> {
     return this.treatmentService.getAllTreatments();
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  async deleteTreatment(@Param('id') id: string) {
+    return this.treatmentService.deleteTreatment(id);
   }
 }

@@ -110,8 +110,8 @@ export class UserService {
   async getUserIngameData(id: string) {
     const achievements = await this.achievement.getAchievementByUserId(id);
 
-    return await {
-      ...this.modules.getUserIngameData(id),
+    return {
+      ...(await this.modules.getUserIngameData(id)),
       achivements: achievements.length,
     };
   }
