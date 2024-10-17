@@ -52,4 +52,22 @@ export class TreatmentService {
     if (!treatment) throw new HttpException('Treatment not found', 404);
     return await this.treatmentRepository.createModule(id, treatment.modules.length);
   }
+
+  async deleteTreatment(id: string) {
+    const modules = await this.treatmentRepository.getModulesByTreatmentId(id);
+    if (modules != null && modules.length > 0) {
+      for (const module of modules) {
+        if (!(await this.checkItHasNoUsers(module.module.id))) {
+          throw new HttpException('Treatment has users', 400);
+        }
+        await this.treatmentRepository.deleteTreatmentModule(module.id);
+      }
+    }
+    return await this.treatmentRepository.deleteTreatment(id);
+  }
+
+  async checkItHasNoUsers(id: string) {
+    const userModules = await this.treatmentRepository.getUserModulesByModuleId(id);
+    return userModules == null || userModules.length === 0;
+  }
 }

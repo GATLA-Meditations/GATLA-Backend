@@ -192,4 +192,32 @@ export class TreatmentRepository {
 
     return module;
   }
+
+  async getModulesByTreatmentId(id: string) {
+    return this.prisma.treatmentModule.findMany({
+      where: { treatment_id: id },
+      select: {
+        id: true,
+        module: {},
+      },
+    });
+  }
+
+  async getUserModulesByModuleId(id: string) {
+    return this.prisma.userModule.findMany({
+      where: { moduleId: id },
+    });
+  }
+
+  async deleteTreatment(id: string) {
+    return this.prisma.treatment.delete({
+      where: { id: id },
+    });
+  }
+
+  async deleteTreatmentModule(treatmentModuleId: string) {
+    return this.prisma.treatmentModule.delete({
+      where: { id: treatmentModuleId },
+    });
+  }
 }
