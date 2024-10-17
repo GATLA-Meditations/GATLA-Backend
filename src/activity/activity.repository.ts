@@ -102,4 +102,39 @@ export class ActivityRepository {
       order: moduleActivity.order,
     };
   }
+
+  async getContentsByActivityId(id: string) {
+    return this.prisma.activityContent.findMany({
+      where: {
+        activityId: id,
+      },
+      select: {
+        id: true,
+        content: {},
+      },
+    });
+  }
+
+  async deleteContentIfEmpty(id: string) {
+    const activityContents = await this.prisma.moduleActivity.findMany({
+      where: {
+        activityId: id,
+      },
+    });
+    if (activityContents == null || activityContents.length === 0) {
+      await this.prisma.activityContent.delete({
+        where: {
+          id,
+        },
+      });
+    }
+  }
+
+  delete(id: string) {
+    return this.prisma.activity.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

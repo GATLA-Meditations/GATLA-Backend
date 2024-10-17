@@ -45,4 +45,14 @@ export class ActivityService {
   async createActivityForModuleById(id: string) {
     return await this.activityRepository.createActivityForModuleById(id);
   }
+
+  async deleteActivity(id: string) {
+    const contents = await this.activityRepository.getContentsByActivityId(id);
+    if (contents != null && contents.length > 0) {
+      for (const content of contents) {
+        await this.activityRepository.deleteContentIfEmpty(content.id);
+      }
+    }
+    return this.activityRepository.delete(id);
+  }
 }
