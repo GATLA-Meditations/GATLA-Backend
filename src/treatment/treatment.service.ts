@@ -61,6 +61,7 @@ export class TreatmentService {
           throw new HttpException('Treatment has users', 400);
         }
         await this.treatmentRepository.deleteTreatmentModule(module.id);
+        await this.treatmentRepository.deleteModuleIfHasNoConnections(module.module.id);
       }
     }
     return await this.treatmentRepository.deleteTreatment(id);

@@ -220,4 +220,15 @@ export class TreatmentRepository {
       where: { id: treatmentModuleId },
     });
   }
+
+  async deleteModuleIfHasNoConnections(moduleId: string) {
+    const moduleConnections = await this.prisma.treatmentModule.findMany({
+      where: { module_id: moduleId },
+    });
+    if (moduleConnections === null || moduleConnections.length === 0) {
+      return this.prisma.module.delete({
+        where: { id: moduleId },
+      });
+    }
+  }
 }
