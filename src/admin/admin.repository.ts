@@ -308,4 +308,10 @@ export class AdminRepository {
       },
     });
   }
+
+  async deleteContent(id: string) {
+    return this.prisma.content.delete({
+      where: { id },
+    });
+  }
 }
