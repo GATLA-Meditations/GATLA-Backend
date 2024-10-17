@@ -161,4 +161,10 @@ export class AdminController {
   async getUserById(@Param('patient_code') patient_code: string) {
     return await this.adminService.getUserById(patient_code);
   }
+
+  @Delete('content-delete/:id')
+  @HttpCode(200)
+  async deleteContent(@Param('id') id: string) {
+    return await this.adminService.deleteContent(id);
+  }
 }

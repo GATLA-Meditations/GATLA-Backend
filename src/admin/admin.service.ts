@@ -154,4 +154,8 @@ export class AdminService {
     if (!user) throw new HttpException('User not found', 404);
     return new UserDataDto(user.id, user.patient_code, user.password, user.treatments);
   }
+
+  async deleteContent(id: string) {
+    return await this.adminRepository.deleteContent(id);
+  }
 }
