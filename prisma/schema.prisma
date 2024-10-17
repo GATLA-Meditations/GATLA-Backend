@@ -86,7 +86,7 @@ model Module {
   activities ModuleActivity[]
   UserModule UserModule[]
   phrases    ModulePhrase[]
-  moduleQuestions QuestionModule[]
+  qualitativeQuestions QualitativeQuestion[]
 }
 
 model TreatmentModule {
@@ -113,10 +113,10 @@ model ModuleActivity {
   order Int
 
   moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   activityId String
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }
 
 model Content {
@@ -133,10 +133,10 @@ model ActivityContent {
   order     Int
 
   activityId String
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   contentId String
-  content   Content @relation(fields: [contentId], references: [id])
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 
 enum ContentType {
@@ -380,5 +380,5 @@ model QuestionModuleUser {
   moduleQuestion QuestionModule @relation(references: [id], fields: [moduleQuestionId])
 
   userId String
-  user User @relation(references: [id], fields: [userId])
+  user   User   @relation(references: [id], fields: [userId])
 }

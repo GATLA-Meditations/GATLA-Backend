@@ -175,4 +175,47 @@ export class ModuleRepository {
       },
     });
   }
+
+  async getActivitiesByModuleId(moduleId: string) {
+    return this.prisma.moduleActivity.findMany({
+      where: {
+        moduleId: moduleId,
+      },
+      select: {
+        id: true,
+        activity: {},
+      },
+    });
+  }
+
+  async disconnectActivityFromModuleAndDeleteIfEmpty(moduleActivityId: string) {
+    const activityId = await this.prisma.moduleActivity.delete({
+      where: {
+        id: moduleActivityId,
+      },
+      select: {
+        activityId: true,
+      },
+    });
+    const activities = await this.prisma.moduleActivity.findMany({
+      where: {
+        activityId: activityId.activityId,
+      },
+    });
+    if (activities === null || activities.length === 0) {
+      return this.prisma.activity.delete({
+        where: {
+          id: activityId.activityId,
+        },
+      });
+    }
+  }
+
+  async deleteModule(moduleId: string) {
+    return this.prisma.module.delete({
+      where: {
+        id: moduleId,
+      },
+    });
+  }
 }
