@@ -9,6 +9,7 @@ import { ShopItemType } from '@prisma/client';
 import { TreatmentService } from 'src/treatment/treatment.service';
 import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 import { UserDataDto } from './dto/user-data.dto';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable()
 export class AdminService {
@@ -17,14 +18,15 @@ export class AdminService {
     private readonly modules: ModuleService,
     private readonly mailService: MailService,
     private readonly treatmentService: TreatmentService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
-    return await this.adminRepository.notifyUser(notificationId, userId);
+    return await this.notificationService.notifyUser(notificationId, userId);
   }
 
   async createNotification(notificationData: { title: string; content: string }) {
-    return await this.adminRepository.createNotification(notificationData);
+    return await this.notificationService.createNotification(notificationData);
   }
 
   async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {

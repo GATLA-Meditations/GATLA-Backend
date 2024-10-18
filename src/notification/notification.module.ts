@@ -7,5 +7,6 @@ import { PrismaService } from '../prisma.service';
 @Module({
   controllers: [NotificationController],
   providers: [NotificationService, NotificationRepository, PrismaService],
+  exports: [NotificationService],
 })
 export class NotificationModule {}
