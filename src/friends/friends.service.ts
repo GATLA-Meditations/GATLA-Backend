@@ -7,7 +7,7 @@ export class FriendsService {
   constructor(
     private readonly repository: FriendsRepository,
     private readonly notificationService: NotificationService,
-    ) {}
+  ) {}
 
   async addFriend(userId: string, friendId: string) {
     if (await this.isFriend(userId, friendId)) {
@@ -40,5 +40,4 @@ export class FriendsService {
       await this.notificationService.notifyUser(notification.id, friendId);
     }
   }
-
 }
