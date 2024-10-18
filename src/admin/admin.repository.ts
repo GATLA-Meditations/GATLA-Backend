@@ -16,21 +16,6 @@ export class AdminRepository {
     });
   }
 
-  async notifyUser(notificationId: string, userId: string) {
-    return this.prisma.userNotification.create({
-      data: {
-        notificationId: notificationId,
-        userId: userId,
-      },
-    });
-  }
-
-  async createNotification(data: { title: string; content: string }) {
-    return this.prisma.notification.create({
-      data,
-    });
-  }
-
   async getQuestionnaireTreatments(id: string) {
     return this.prisma.questionnaire.findUnique({
       where: { id: id },
