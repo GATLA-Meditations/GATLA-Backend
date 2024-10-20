@@ -86,7 +86,7 @@ model Module {
   activities           ModuleActivity[]
   UserModule           UserModule[]
   phrases              ModulePhrase[]
-  moduleQuestions      QuestionModule[]
+  moduleQuestions      QuestionModuleModule[]
 }
 
 model TreatmentModule {
@@ -367,9 +367,21 @@ model QuestionModule {
   metadata  String
 
   userSubmisions QuestionModuleUser[]
+  module QuestionModuleModule[]
+}
 
-  moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+model QuestionModuleModule {
+  id String @id() @default(uuid())
+
+  order Int
+
+  questionModuleId String
+  questionModule  QuestionModule   @relation(fields: [questionModuleId], references: [id])
+
+  moduleId        String
+  module          Module           @relation(fields: [moduleId], references: [id])
+
+  @@unique([questionModuleId, moduleId]) // Composite unique constraint
 }
 
 model QuestionModuleUser {

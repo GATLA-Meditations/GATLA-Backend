@@ -7,8 +7,9 @@ import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida.seed'
 import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
 import { uploadAchievements } from './seed-logros.seed';
-import { uploadAdmin } from "./admin.seed";
+import { uploadAdmin } from './admin.seed';
 import { updateTreatment } from './tratamiento.seed';
+import { uploadModuleQuestions } from './module.questions.seed';
 
 const prisma = new PrismaClient();
 
@@ -38,6 +39,7 @@ async function main() {
   await uploadAchievements();
   await uploadAdmin();
   await updateTreatment();
+  await uploadModuleQuestions();
 }
 
 async function questionnaireSeed() {
@@ -691,7 +693,7 @@ async function treatmentSeed() {
     where: { id: 'contentId6' },
     update: {
       content: 'https://youtu.be/4E0ifUSIRzo',
-      type: 'MED_VIDEO'
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId6',

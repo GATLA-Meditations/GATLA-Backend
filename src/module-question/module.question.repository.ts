@@ -7,6 +7,7 @@ import { AnswersDto } from './dto/answers.dto';
 export class ModuleQuestionRepository {
   constructor(private prism: PrismaService) {}
 
+  // Fetches the questions related to the active module
   async getQuestions(userId: string) {
     const today = new Date();
     const currentModule = await this.prism.userModule.findMany({
@@ -14,10 +15,10 @@ export class ModuleQuestionRepository {
         AND: {
           userId: userId,
           startDate: {
-            lte: today, // Ensures that startDate is less than or equal to today's date
+            lte: today,
           },
           endDate: {
-            gte: today, // Ensures that endDate is greater than or equal to today's date
+            gte: today,
           },
         },
       },
@@ -26,7 +27,11 @@ export class ModuleQuestionRepository {
           include: {
             moduleQuestions: {
               include: {
-                userSubmisions: true,
+                questionModule: {
+                  include: {
+                    userSubmisions: true, // Assuming this is renamed properly
+                  },
+                },
               },
             },
           },
@@ -35,9 +40,10 @@ export class ModuleQuestionRepository {
     });
 
     if (!currentModule || currentModule.length === 0) {
-      return new BadRequestException('User does not have module');
+      return new BadRequestException('User does not have a module');
     }
 
+    // Check if today is the last day of the current module
     const isLastDay = currentModule.some((module) => {
       const endDate = new Date(module.endDate);
       return (
@@ -49,39 +55,44 @@ export class ModuleQuestionRepository {
       isLastDay &&
       currentModule.some((module) =>
         module.module.moduleQuestions.some((qualitativeQuestion) =>
-          qualitativeQuestion.userSubmisions.every((submission) => submission.userId !== userId),
+          qualitativeQuestion.questionModule.userSubmisions.every((submission) => submission.userId !== userId),
         ),
       )
     ) {
       return currentModule.flatMap((module) => {
-        return module.module.moduleQuestions.map((question) => {
+        return module.module.moduleQuestions.map((moduleQuestion) => {
+          const question = moduleQuestion.questionModule;
           return new QuestionsDto(question.id, question.question, question.type, question.metadata);
         });
       });
     }
+
     return new BadRequestException('Not time for qualitative question');
   }
 
-  async submitAnswer(userId: string, questionsId: string, questionAnswer: string) {
-    const answer = await this.prism.questionModuleUser.findFirst({
+  // Submitting an answer to a specific question
+  async submitAnswer(userId: string, questionId: string, questionAnswer: string) {
+    const existingAnswer = await this.prism.questionModuleUser.findFirst({
       where: {
         userId: userId,
+        moduleQuestionId: questionId,
       },
     });
 
-    if (answer) {
-      return new BadRequestException('User already have answer');
+    if (existingAnswer) {
+      return new BadRequestException('User already submitted an answer for this question');
     } else {
       return this.prism.questionModuleUser.create({
         data: {
           userId: userId,
           answer: questionAnswer,
-          moduleQuestionId: questionsId,
+          moduleQuestionId: questionId,
         },
       });
     }
   }
 
+  // Check if it's the right time to answer questions
   async isTimeForQuestions(userId: string) {
     const today = new Date();
     const currentModule = await this.prism.userModule.findMany({
@@ -89,10 +100,10 @@ export class ModuleQuestionRepository {
         AND: {
           userId: userId,
           startDate: {
-            lte: today, // Ensures that startDate is less than or equal to today's date
+            lte: today,
           },
           endDate: {
-            gte: today, // Ensures that endDate is greater than or equal to today's date
+            gte: today,
           },
         },
       },
@@ -101,7 +112,11 @@ export class ModuleQuestionRepository {
           include: {
             moduleQuestions: {
               include: {
-                userSubmisions: true,
+                questionModule: {
+                  include: {
+                    userSubmisions: true,
+                  },
+                },
               },
             },
           },
@@ -110,7 +125,7 @@ export class ModuleQuestionRepository {
     });
 
     if (!currentModule || currentModule.length === 0) {
-      return new BadRequestException('User does not have module');
+      return new BadRequestException('User does not have a module');
     }
 
     const isLastDay = currentModule.some((module) => {
@@ -124,17 +139,18 @@ export class ModuleQuestionRepository {
       isLastDay &&
       currentModule.some((module) =>
         module.module.moduleQuestions.some((qualitativeQuestion) =>
-          qualitativeQuestion.userSubmisions.every((submission) => submission.userId !== userId),
+          qualitativeQuestion.questionModule.userSubmisions.every((submission) => submission.userId !== userId),
         ),
       )
     );
   }
 
+  // Bulk submit multiple answers for a module
   async submitAnswers(userId: string, answers: AnswersDto[]) {
     const data = answers.map((answer) => ({
       userId,
-      moduleQuestionId: answer.id, // access the individual answer's id
-      answer: answer.answer, // access the individual answer's response
+      moduleQuestionId: answer.id,
+      answer: answer.answer,
     }));
 
     return this.prism.questionModuleUser.createMany({
