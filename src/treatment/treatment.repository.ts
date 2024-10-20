@@ -140,7 +140,7 @@ export class TreatmentRepository {
       }
     }
     //connect the questionnaires to the tratment and return te complete treatment
-    return await this.prisma.treatment.update({
+    return this.prisma.treatment.update({
       where: { id: treatment.id },
       data: {
         questionnaires: {
