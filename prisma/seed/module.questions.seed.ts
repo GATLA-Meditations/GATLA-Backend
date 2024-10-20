@@ -711,4 +711,627 @@ async function moduleQuestions(prisma: PrismaClient) {
       order: 7,
     },
   });
+
+  // Semana 1 (moduleId1)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId1' },
+    update: {},
+    create: {
+      id: 'i1-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId1' },
+    update: {},
+    create: {
+      id: 'q1-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId1' },
+    update: {},
+    create: {
+      id: 'q2-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId1' },
+    update: {},
+    create: {
+      id: 'i2-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId1' },
+    update: {},
+    create: {
+      id: 'q3-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId1' },
+    update: {},
+    create: {
+      id: 'q4-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId1' },
+    update: {},
+    create: {
+      id: 'q5-moduleId1',
+      moduleId: 'moduleId1',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 2 (moduleId2)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId2' },
+    update: {},
+    create: {
+      id: 'i1-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId2' },
+    update: {},
+    create: {
+      id: 'q1-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId2' },
+    update: {},
+    create: {
+      id: 'q2-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId2' },
+    update: {},
+    create: {
+      id: 'i2-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId2' },
+    update: {},
+    create: {
+      id: 'q3-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId2' },
+    update: {},
+    create: {
+      id: 'q4-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId2' },
+    update: {},
+    create: {
+      id: 'q5-moduleId2',
+      moduleId: 'moduleId2',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId3' },
+    update: {},
+    create: {
+      id: 'i1-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId3' },
+    update: {},
+    create: {
+      id: 'q1-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId3' },
+    update: {},
+    create: {
+      id: 'q2-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId3' },
+    update: {},
+    create: {
+      id: 'i2-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId3' },
+    update: {},
+    create: {
+      id: 'q3-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId3' },
+    update: {},
+    create: {
+      id: 'q4-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId3' },
+    update: {},
+    create: {
+      id: 'q5-moduleId3',
+      moduleId: 'moduleId3',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 4 (moduleId4)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId4' },
+    update: {},
+    create: {
+      id: 'i1-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId4' },
+    update: {},
+    create: {
+      id: 'q1-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId4' },
+    update: {},
+    create: {
+      id: 'q2-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId4' },
+    update: {},
+    create: {
+      id: 'i2-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId4' },
+    update: {},
+    create: {
+      id: 'q3-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId4' },
+    update: {},
+    create: {
+      id: 'q4-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId4' },
+    update: {},
+    create: {
+      id: 'q5-moduleId4',
+      moduleId: 'moduleId4',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 5 (moduleId5)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId5' },
+    update: {},
+    create: {
+      id: 'i1-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId5' },
+    update: {},
+    create: {
+      id: 'q1-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId5' },
+    update: {},
+    create: {
+      id: 'q2-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId5' },
+    update: {},
+    create: {
+      id: 'i2-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId5' },
+    update: {},
+    create: {
+      id: 'q3-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId5' },
+    update: {},
+    create: {
+      id: 'q4-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId5' },
+    update: {},
+    create: {
+      id: 'q5-moduleId5',
+      moduleId: 'moduleId5',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 6 (moduleId6)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId6' },
+    update: {},
+    create: {
+      id: 'i1-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId6' },
+    update: {},
+    create: {
+      id: 'q1-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId6' },
+    update: {},
+    create: {
+      id: 'q2-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId6' },
+    update: {},
+    create: {
+      id: 'i2-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId6' },
+    update: {},
+    create: {
+      id: 'q3-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId6' },
+    update: {},
+    create: {
+      id: 'q4-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId6' },
+    update: {},
+    create: {
+      id: 'q5-moduleId6',
+      moduleId: 'moduleId6',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 7 (moduleId7)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId7' },
+    update: {},
+    create: {
+      id: 'i1-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId7' },
+    update: {},
+    create: {
+      id: 'q1-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId7' },
+    update: {},
+    create: {
+      id: 'q2-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId7' },
+    update: {},
+    create: {
+      id: 'i2-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId7' },
+    update: {},
+    create: {
+      id: 'q3-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId7' },
+    update: {},
+    create: {
+      id: 'q4-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId7' },
+    update: {},
+    create: {
+      id: 'q5-moduleId7',
+      moduleId: 'moduleId7',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
+
+  // Semana 8 (moduleId8)
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i1-moduleId8' },
+    update: {},
+    create: {
+      id: 'i1-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'intro_1',
+      order: 1,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q1-moduleId8' },
+    update: {},
+    create: {
+      id: 'q1-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'question_1',
+      order: 2,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q2-moduleId8' },
+    update: {},
+    create: {
+      id: 'q2-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'question_2',
+      order: 3,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'i2-moduleId8' },
+    update: {},
+    create: {
+      id: 'i2-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'intro_2',
+      order: 4,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q3-moduleId8' },
+    update: {},
+    create: {
+      id: 'q3-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'question_3',
+      order: 5,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q4-moduleId8' },
+    update: {},
+    create: {
+      id: 'q4-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'question_4',
+      order: 6,
+    },
+  });
+
+  await prisma.questionModuleModule.upsert({
+    where: { id: 'q5-moduleId8' },
+    update: {},
+    create: {
+      id: 'q5-moduleId8',
+      moduleId: 'moduleId8',
+      questionModuleId: 'question_5',
+      order: 7,
+    },
+  });
 }
