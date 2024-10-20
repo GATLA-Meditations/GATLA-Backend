@@ -86,7 +86,7 @@ model Module {
   activities           ModuleActivity[]
   UserModule           UserModule[]
   phrases              ModulePhrase[]
-  qualitativeQuestions QualitativeQuestion[]
+  moduleQuestions      QuestionModule[]
 }
 
 model TreatmentModule {
