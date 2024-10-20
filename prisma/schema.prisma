@@ -22,20 +22,20 @@ model User {
   renatokens   Int     @default(0)
   progress     Int     @default(0)
 
-  friendsId                  String[]  @default([])
-  notificationPreference   NotificationPreference?
-  streakId                 String?
-  streak                   Streak?
-  treatments               Treatment[]
-  questionnaireSubmissions QuestionnaireSubmission[]
-  UserModule               UserModule[]
-  UserTreatment            UserTreatment[]
-  ingameData               IngameData?
-  achievements             UserAchievement[]
-  UserShopItem             UserShopItem[]
-  notifications            UserNotification[]
+  friendsId                    String[]                  @default([])
+  notificationPreference       NotificationPreference?
+  streakId                     String?
+  streak                       Streak?
+  treatments                   Treatment[]
+  questionnaireSubmissions     QuestionnaireSubmission[]
+  UserModule                   UserModule[]
+  UserTreatment                UserTreatment[]
+  ingameData                   IngameData?
+  achievements                 UserAchievement[]
+  UserShopItem                 UserShopItem[]
+  notifications                UserNotification[]
   moduleQuestionSubmision QuestionModuleUser[]
-  tokens                   Token[]
+  tokens                       Token[]
 }
 
 model Token {
@@ -82,10 +82,10 @@ model Module {
   name        String
   description String
 
-  treatments TreatmentModule[]
-  activities ModuleActivity[]
-  UserModule UserModule[]
-  phrases    ModulePhrase[]
+  treatments           TreatmentModule[]
+  activities           ModuleActivity[]
+  UserModule           UserModule[]
+  phrases              ModulePhrase[]
   qualitativeQuestions QualitativeQuestion[]
 }
 
@@ -94,10 +94,10 @@ model TreatmentModule {
   order Int
 
   treatment_id String
-  treatment    Treatment @relation(fields: [treatment_id], references: [id])
+  treatment    Treatment @relation(fields: [treatment_id], references: [id], onDelete: Cascade)
 
   module_id String
-  module    Module @relation(fields: [module_id], references: [id])
+  module    Module @relation(fields: [module_id], references: [id], onDelete: Cascade)
 }
 
 model Activity {
@@ -368,8 +368,8 @@ model QuestionModule {
 
   userSubmisions QuestionModuleUser[]
 
-  moduleId  String
-  module    Module @relation(fields: [moduleId], references: [id])
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
 }
 
 model QuestionModuleUser {
