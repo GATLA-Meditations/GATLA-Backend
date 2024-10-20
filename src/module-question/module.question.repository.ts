@@ -14,12 +14,12 @@ export class ModuleQuestionRepository {
       where: {
         AND: {
           userId: userId,
-          startDate: {
-            lte: today,
-          },
-          endDate: {
-            gte: today,
-          },
+          // startDate: {
+          //   lte: today,
+          // },
+          // endDate: {
+          //   gte: today,
+          // },
         },
       },
       include: {
@@ -67,7 +67,12 @@ export class ModuleQuestionRepository {
       });
     }
 
-    return new BadRequestException('Not time for qualitative question');
+    return currentModule.flatMap((module) => {
+      return module.module.moduleQuestions.map((moduleQuestion) => {
+        const question = moduleQuestion.questionModule;
+        return new QuestionsDto(question.id, question.question, question.type, question.metadata);
+      });
+    });
   }
 
   // Submitting an answer to a specific question
