@@ -22,7 +22,7 @@ export class MailService {
 
   async sendWelcomeEmail(to: string, subject: string, patientCode: string, password: string): Promise<void> {
     try {
-      await this.mailerService.sendMail({
+      this.mailerService.sendMail({
         from: 'Renacentia eugenio@renacentia.org',
         to,
         subject,
