@@ -7,7 +7,7 @@ export async function uploadShopItems() {
 }
 
 async function addShopItems(prisma: PrismaClient) {
-  await prisma.shopItem.upsert({
+  /*await prisma.shopItem.upsert({
     where: {
       id: 'image-number-1',
     },
@@ -55,5 +55,5 @@ async function addShopItems(prisma: PrismaClient) {
       type: 'BACKGROUND',
       price: 5,
     },
-  });
+  });*/
 }
