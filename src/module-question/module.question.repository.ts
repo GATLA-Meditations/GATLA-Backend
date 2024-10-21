@@ -59,12 +59,7 @@ export class ModuleQuestionRepository {
         ),
       )
     ) {
-      return currentModule.flatMap((module) => {
-        return module.module.moduleQuestions.map((moduleQuestion) => {
-          const question = moduleQuestion.questionModule;
-          return new QuestionsDto(question.id, question.question, question.type, question.metadata);
-        });
-      });
+      return new BadRequestException('User does not need to get questions');
     }
 
     return currentModule.flatMap((module) => {
