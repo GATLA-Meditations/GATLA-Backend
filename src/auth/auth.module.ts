@@ -22,5 +22,6 @@ import { StreakRespository } from '../streak/streak.respository';
     }),
   ],
   providers: [AuthService, AuthRepository, PrismaService, JwtStrategy, StreakRespository],
+  exports: [AuthService],
 })
 export class AuthModule {}
