@@ -75,4 +75,47 @@ export class NotificationRepository {
       },
     });
   }
+
+  async notifyUser(notificationId: string, userId: string) {
+    return this.prisma.userNotification.create({
+      data: {
+        notificationId,
+        userId,
+      },
+    });
+  }
+
+  async createNotification(notificationData: { title: string; content: string }) {
+    return this.prisma.notification.create({
+      data: {
+        title: notificationData.title,
+        content: notificationData.content,
+      },
+    });
+  }
+
+  async getNotificationsByUserId(userId: string) {
+    return this.prisma.userNotification.findMany({
+      where: {
+        userId: userId,
+      },
+      select: {
+        id: true,
+        notification: {},
+        userId: true,
+        read: true,
+      },
+    });
+  }
+
+  markNotificationAsRead(notificationId: string) {
+    return this.prisma.userNotification.update({
+      where: {
+        id: notificationId,
+      },
+      data: {
+        read: true,
+      },
+    });
+  }
 }

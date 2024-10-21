@@ -4,6 +4,7 @@ import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
+import { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
 @Injectable()
 export class AdminRepository {
@@ -12,21 +13,6 @@ export class AdminRepository {
   async getUser(patient_code: string) {
     return this.prisma.user.findUnique({
       where: { patient_code },
-    });
-  }
-
-  async notifyUser(notificationId: string, userId: string) {
-    return this.prisma.userNotification.create({
-      data: {
-        notificationId: notificationId,
-        userId: userId,
-      },
-    });
-  }
-
-  async createNotification(data: { title: string; content: string }) {
-    return this.prisma.notification.create({
-      data,
     });
   }
 
@@ -223,8 +209,8 @@ export class AdminRepository {
     //create new connection for treatment
     await this.prisma.userTreatment.create({
       data: {
-        user: { connect: { id: id } },
-        treatment: { connect: { id: treatment.id } },
+        userId: id,
+        treatmentId: treatment.id,
       },
     });
   }
@@ -251,6 +237,66 @@ export class AdminRepository {
   async createShopItem(shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return this.prisma.shopItem.create({
       data: shopItemData,
+    });
+  }
+
+  async updateContentInActivity(activityId: string, content: ContentModifyDto) {
+    await this.prisma.activityContent.updateMany({
+      where: {
+        activityId: activityId,
+        contentId: content.id,
+      },
+      data: {
+        order: content.order,
+      },
+    });
+    return this.prisma.content.update({
+      where: { id: content.id },
+      data: {
+        type: content.type,
+        content: content.content,
+      },
+    });
+  }
+
+  async createContentInActivity(activityId: string, content: ContentModifyDto) {
+    const createdContent = await this.prisma.content.create({
+      data: {
+        type: content.type,
+        content: content.content,
+      },
+    });
+    await this.prisma.activityContent.create({
+      data: {
+        activityId: activityId,
+        contentId: createdContent.id,
+        order: content.order,
+      },
+    });
+    return createdContent;
+  }
+
+  async disconectContentFromActivity(activityId: string, contentId: string) {
+    return this.prisma.activityContent.deleteMany({
+      where: {
+        activityId,
+        contentId,
+      },
+    });
+  }
+
+  async getUserById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        treatments: true,
+      },
+    });
+  }
+
+  async deleteContent(id: string) {
+    return this.prisma.content.delete({
+      where: { id },
     });
   }
 }

@@ -140,7 +140,7 @@ export class TreatmentRepository {
       }
     }
     //connect the questionnaires to the tratment and return te complete treatment
-    return await this.prisma.treatment.update({
+    return this.prisma.treatment.update({
       where: { id: treatment.id },
       data: {
         questionnaires: {
@@ -172,5 +172,63 @@ export class TreatmentRepository {
         questionnaires: true,
       },
     });
+  }
+
+  async createModule(id: string, modulesInTreatment: number) {
+    const module = await this.prisma.module.create({
+      data: {
+        name: 'new module',
+        description: 'Sample description',
+      },
+    });
+
+    await this.prisma.treatmentModule.create({
+      data: {
+        treatment_id: id,
+        module_id: module.id,
+        order: modulesInTreatment + 1,
+      },
+    });
+
+    return module;
+  }
+
+  async getModulesByTreatmentId(id: string) {
+    return this.prisma.treatmentModule.findMany({
+      where: { treatment_id: id },
+      select: {
+        id: true,
+        module: {},
+      },
+    });
+  }
+
+  async getUserModulesByModuleId(id: string) {
+    return this.prisma.userModule.findMany({
+      where: { moduleId: id },
+    });
+  }
+
+  async deleteTreatment(id: string) {
+    return this.prisma.treatment.delete({
+      where: { id: id },
+    });
+  }
+
+  async deleteTreatmentModule(treatmentModuleId: string) {
+    return this.prisma.treatmentModule.delete({
+      where: { id: treatmentModuleId },
+    });
+  }
+
+  async deleteModuleIfHasNoConnections(moduleId: string) {
+    const moduleConnections = await this.prisma.treatmentModule.findMany({
+      where: { module_id: moduleId },
+    });
+    if (moduleConnections === null || moduleConnections.length === 0) {
+      return this.prisma.module.delete({
+        where: { id: moduleId },
+      });
+    }
   }
 }

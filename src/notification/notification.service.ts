@@ -28,7 +28,7 @@ export class NotificationService {
     tokens.map((token) => {
       firebaseAdmin.messaging().send({
         token: token.token,
-        notification: {
+        data: {
           title: message.title,
           body: message.body,
         },
@@ -41,5 +41,21 @@ export class NotificationService {
     if (!token) {
       await this.notificationRepository.createToken(userId, tokenDto.token);
     }
+  }
+
+  async notifyUser(notificationId: string, userId: string) {
+    return await this.notificationRepository.notifyUser(notificationId, userId);
+  }
+
+  async createNotification(notificationData: { title: string; content: string }) {
+    return await this.notificationRepository.createNotification(notificationData);
+  }
+
+  async getNotificationsByUserId(userId: string) {
+    return this.notificationRepository.getNotificationsByUserId(userId);
+  }
+
+  async markNotificationAsRead(notificationId: string) {
+    return this.notificationRepository.markNotificationAsRead(notificationId);
   }
 }

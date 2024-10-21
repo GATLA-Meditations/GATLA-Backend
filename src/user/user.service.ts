@@ -7,6 +7,8 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { QuestionnaireSubmissionService } from '../questionnaire-submission/submission.service';
 import { PaginationDto } from './dto/pagination.dto';
+import { UserModule } from '@prisma/client';
+import { AchievementService } from 'src/achievement/achievement.service';
 
 @Injectable()
 export class UserService {
@@ -15,6 +17,7 @@ export class UserService {
     private modules: ModuleService,
     private treatment: TreatmentService,
     private submission: QuestionnaireSubmissionService,
+    private achievement: AchievementService,
   ) {}
 
   async getNotifications(id: string, pagination: PaginationDto) {
@@ -105,7 +108,12 @@ export class UserService {
   }
 
   async getUserIngameData(id: string) {
-    return await this.modules.getUserIngameData(id);
+    const achievements = await this.achievement.getAchievementByUserId(id);
+
+    return {
+      ...(await this.modules.getUserIngameData(id)),
+      achivements: achievements.length,
+    };
   }
 
   async changeUserPassword(id: string, password: ChangePasswordDto) {
@@ -175,5 +183,16 @@ export class UserService {
       }
     }
     return true;
+  }
+
+  private async calculateWeeklyProgress(userModule: UserModule) {
+    const module = await this.modules.getModuleById(userModule.moduleId, userModule.userId);
+    const numActivities = module.activities.length;
+    const minutes = await this.modules.getUserModuleMinutesSpent(userModule.id);
+
+    const total = numActivities + 7;
+    const progress = minutes.length + userModule.lastViewedOrder;
+
+    return Math.round((progress / total) * 100);
   }
 }

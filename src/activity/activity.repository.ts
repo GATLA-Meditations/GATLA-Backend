@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { CreateContentDto } from './dto/create-content.dto';
 import { ContentDto } from './dto/content.dto';
@@ -74,5 +74,67 @@ export class ActivityRepository {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async createActivityForModuleById(id: string) {
+    const module = await this.prisma.module.findUnique({
+      where: { id: id },
+      include: { activities: true },
+    });
+
+    if (!module) return new HttpException('No module found', 404);
+
+    const activity = await this.prisma.activity.create({
+      data: {
+        name: 'New activity',
+      },
+    });
+
+    const moduleActivity = await this.prisma.moduleActivity.create({
+      data: {
+        moduleId: id,
+        activityId: activity.id,
+        order: module.activities.length + 1,
+      },
+    });
+    return {
+      ...activity,
+      order: moduleActivity.order,
+    };
+  }
+
+  async getContentsByActivityId(id: string) {
+    return this.prisma.activityContent.findMany({
+      where: {
+        activityId: id,
+      },
+      select: {
+        id: true,
+        content: {},
+      },
+    });
+  }
+
+  async deleteContentIfEmpty(id: string) {
+    const activityContents = await this.prisma.moduleActivity.findMany({
+      where: {
+        activityId: id,
+      },
+    });
+    if (activityContents == null || activityContents.length === 0) {
+      await this.prisma.activityContent.delete({
+        where: {
+          id,
+        },
+      });
+    }
+  }
+
+  delete(id: string) {
+    return this.prisma.activity.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { NotificationService } from './notification.service';
@@ -44,5 +44,18 @@ export class NotificationController {
   async saveToken(@Request() req: any, @Body() token: NotificationTokenDto) {
     const user_id: string = req.user.userId;
     return await this.notificationService.saveToken(user_id, token);
+  }
+
+  @Get()
+  @HttpCode(200)
+  async getNotifications(@Request() req: any) {
+    const user_id: string = req.user.userId;
+    return this.notificationService.getNotificationsByUserId(user_id);
+  }
+
+  @Put('mark-as-read/:id')
+  @HttpCode(200)
+  async markNotificationAsRead(@Param('id') notificationId: string) {
+    return this.notificationService.markNotificationAsRead(notificationId);
   }
 }

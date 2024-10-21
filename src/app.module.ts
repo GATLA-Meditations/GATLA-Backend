@@ -17,7 +17,8 @@ import { AdminModule } from './admin/admin.module';
 import ShopModule from './shop/shop.module';
 import { NotificationModule } from './notification/notification.module';
 import { MailService } from './mail/mail.service';
-import { QualitativeQuestionModule } from './qualitative-question/qualitative.question.module';
+import { ModuleQuestionModule } from './module-question/module.question.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { QualitativeQuestionModule } from './qualitative-question/qualitative.qu
     AdminModule,
     ShopModule,
     NotificationModule,
-    QualitativeQuestionModule,
+    ModuleQuestionModule,
+    FriendsModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService],

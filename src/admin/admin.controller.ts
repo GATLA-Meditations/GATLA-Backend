@@ -6,7 +6,7 @@ import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
 import createQuestionnaireDto from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
-import TreatmentCreateDto from 'src/treatment/dto/treatment-create.dto';
+import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -56,6 +56,12 @@ export class AdminController {
   @HttpCode(204)
   async updateModulesFromTreatment(@Param('id') id: string, @Body() modules: { id: string; order: number }[]) {
     return this.adminService.updateModulesFromTreatment(id, modules);
+  }
+
+  @Put('treatment/:id/create-module')
+  @HttpCode(200)
+  async createModuleForTreatment(@Param('id') id: string) {
+    return this.adminService.createModuleForTreatment(id);
   }
 
   @Post('module/create')
@@ -126,7 +132,7 @@ export class AdminController {
     return await this.adminService.createNotification(notificationData);
   }
 
-  @Put('notification/{notificationId}/notify-user/{userId}')
+  @Put('notification/:notificationId/notify-user/:userId')
   @HttpCode(200)
   async notifyUser(@Param('notificationId') notificationId: string, @Param('userId') userId: string) {
     return await this.adminService.notifyUser(notificationId, userId);
@@ -136,5 +142,29 @@ export class AdminController {
   @HttpCode(201)
   async createShopItem(@Body() shopItemData: { type: ShopItemType; price: number; content_url: string }) {
     return await this.adminService.createShopItem(shopItemData);
+  }
+
+  @Put('activity/:id/update-content')
+  @HttpCode(200)
+  async updateActivityContent(@Param('id') id: string, @Body() contents: ContentModifyDto[]) {
+    return await this.adminService.updateContentsInActivity(id, contents);
+  }
+
+  @Delete('activity/:id/diconect-content/:contentId')
+  @HttpCode(200)
+  async deleteActivityContent(@Param('id') id: string, @Param('contentId') contentId: string) {
+    return await this.adminService.disconectContentFromActivity(id, contentId);
+  }
+
+  @Get('user/:patient_code')
+  @HttpCode(200)
+  async getUserById(@Param('patient_code') patient_code: string) {
+    return await this.adminService.getUserById(patient_code);
+  }
+
+  @Delete('content-delete/:id')
+  @HttpCode(200)
+  async deleteContent(@Param('id') id: string) {
+    return await this.adminService.deleteContent(id);
   }
 }

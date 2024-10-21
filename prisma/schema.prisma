@@ -22,19 +22,20 @@ model User {
   renatokens   Int     @default(0)
   progress     Int     @default(0)
 
-  notificationPreference   NotificationPreference?
-  streakId                 String?
-  streak                   Streak?
-  treatments               Treatment[]
-  questionnaireSubmissions QuestionnaireSubmission[]
-  UserModule               UserModule[]
-  UserTreatment            UserTreatment[]
-  ingameData               IngameData?
-  achievements             UserAchievement[]
-  UserShopItem             UserShopItem[]
-  notifications            UserNotification[]
-  cualitativeQuestionSubmision QualitativeQuestionUser[]
-  tokens                   Token[]
+  friendsId                    String[]                  @default([])
+  notificationPreference       NotificationPreference?
+  streakId                     String?
+  streak                       Streak?
+  treatments                   Treatment[]
+  questionnaireSubmissions     QuestionnaireSubmission[]
+  UserModule                   UserModule[]
+  UserTreatment                UserTreatment[]
+  ingameData                   IngameData?
+  achievements                 UserAchievement[]
+  UserShopItem                 UserShopItem[]
+  notifications                UserNotification[]
+  moduleQuestionSubmision QuestionModuleUser[]
+  tokens                       Token[]
 }
 
 model Token {
@@ -81,11 +82,11 @@ model Module {
   name        String
   description String
 
-  treatments TreatmentModule[]
-  activities ModuleActivity[]
-  UserModule UserModule[]
-  phrases    ModulePhrase[]
-  qualitativeQuestions QualitativeQuestion[]
+  treatments           TreatmentModule[]
+  activities           ModuleActivity[]
+  UserModule           UserModule[]
+  phrases              ModulePhrase[]
+  moduleQuestions      QuestionModuleModule[]
 }
 
 model TreatmentModule {
@@ -93,10 +94,10 @@ model TreatmentModule {
   order Int
 
   treatment_id String
-  treatment    Treatment @relation(fields: [treatment_id], references: [id])
+  treatment    Treatment @relation(fields: [treatment_id], references: [id], onDelete: Cascade)
 
   module_id String
-  module    Module @relation(fields: [module_id], references: [id])
+  module    Module @relation(fields: [module_id], references: [id], onDelete: Cascade)
 }
 
 model Activity {
@@ -112,10 +113,10 @@ model ModuleActivity {
   order Int
 
   moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   activityId String
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 }
 
 model Content {
@@ -132,10 +133,10 @@ model ActivityContent {
   order     Int
 
   activityId String
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
   contentId String
-  content   Content @relation(fields: [contentId], references: [id])
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
 }
 
 enum ContentType {
@@ -359,23 +360,37 @@ model UserNotification {
   notification   Notification @relation(fields: [notificationId], references: [id])
 }
 
-model QualitativeQuestion {
-  id String @id() @default(uuid())
-  question String
+model QuestionModule {
+  id        String @id() @default(uuid())
+  question  String
+  type      String
+  metadata  String
 
-  userSubmisions QualitativeQuestionUser[]
-
-  moduleId String
-  module Module @relation(fields: [moduleId], references: [id])
+  userSubmisions QuestionModuleUser[]
+  module QuestionModuleModule[]
 }
 
-model QualitativeQuestionUser {
+model QuestionModuleModule {
+  id String @id() @default(uuid())
+
+  order Int
+
+  questionModuleId String
+  questionModule  QuestionModule   @relation(fields: [questionModuleId], references: [id])
+
+  moduleId        String
+  module          Module           @relation(fields: [moduleId], references: [id])
+
+  @@unique([questionModuleId, moduleId]) // Composite unique constraint
+}
+
+model QuestionModuleUser {
   id String @id @default(uuid())
   answer String
 
-  qualitativeQuestionId String
-  qualitativeQuestion QualitativeQuestion @relation(references: [id], fields: [qualitativeQuestionId])
+  moduleQuestionId String
+  moduleQuestion QuestionModule @relation(references: [id], fields: [moduleQuestionId])
 
   userId String
-  user User @relation(references: [id], fields: [userId])
+  user   User   @relation(references: [id], fields: [userId])
 }

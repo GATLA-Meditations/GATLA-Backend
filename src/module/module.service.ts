@@ -75,16 +75,22 @@ export class ModuleService {
   async updateViewTime(userId: string, time: number, contentId: string) {
     await this.updateMainViewTime(userId, time);
     const date = new Date();
+
     const userModules = await this.moduleRepository.getUserMinutesSpent(userId);
     const meditationModule = userModules.find((module) => module.moduleId != 'dummy' && module.moduleId != 'tests');
+
     if (!meditationModule) return;
+
     const isVideoMeditation = await this.checkIfVideoIsMeditation(contentId, meditationModule);
+
     if (!isVideoMeditation) {
       this.checkIfUnlockNextActivity(contentId, meditationModule);
       return;
     }
+
     const minutesSpent = meditationModule.minutesSpent;
     const actualMiuntesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
+
     if (!actualMiuntesModule) {
       return await this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
     } else {
@@ -136,6 +142,10 @@ export class ModuleService {
     return await this.moduleRepository.getUserIngameData(id);
   }
 
+  async getUserModuleMinutesSpent(id: string) {
+    return await this.moduleRepository.getUserMinutesSpent(id);
+  }
+
   private getSimpleActivityDto(userModule: any, order: number) {
     return userModule.module.activities.map((activity) => {
       return new SimpleActivityDto({
@@ -163,5 +173,13 @@ export class ModuleService {
 
   private async createTestModule(userId: string, date: Date) {
     await this.moduleRepository.createUserModule(userId, 'tests', date);
+  }
+
+  async deleteModule(id: string) {
+    const activities = await this.moduleRepository.getActivitiesByModuleId(id);
+    for (const activity of activities) {
+      await this.moduleRepository.disconnectActivityFromModuleAndDeleteIfEmpty(activity.id);
+    }
+    return await this.moduleRepository.deleteModule(id);
   }
 }
