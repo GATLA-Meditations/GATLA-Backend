@@ -34,7 +34,7 @@ model User {
   achievements                 UserAchievement[]
   UserShopItem                 UserShopItem[]
   notifications                UserNotification[]
-  cualitativeQuestionSubmision QualitativeQuestionUser[]
+  moduleQuestionSubmision QuestionModuleUser[]
   tokens                       Token[]
 }
 
@@ -86,7 +86,7 @@ model Module {
   activities           ModuleActivity[]
   UserModule           UserModule[]
   phrases              ModulePhrase[]
-  qualitativeQuestions QualitativeQuestion[]
+  moduleQuestions      QuestionModuleModule[]
 }
 
 model TreatmentModule {
@@ -360,22 +360,36 @@ model UserNotification {
   notification   Notification @relation(fields: [notificationId], references: [id])
 }
 
-model QualitativeQuestion {
-  id       String @id() @default(uuid())
-  question String
+model QuestionModule {
+  id        String @id() @default(uuid())
+  question  String
+  type      String
+  metadata  String
 
-  userSubmisions QualitativeQuestionUser[]
-
-  moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+  userSubmisions QuestionModuleUser[]
+  module QuestionModuleModule[]
 }
 
-model QualitativeQuestionUser {
-  id     String @id @default(uuid())
+model QuestionModuleModule {
+  id String @id() @default(uuid())
+
+  order Int
+
+  questionModuleId String
+  questionModule  QuestionModule   @relation(fields: [questionModuleId], references: [id])
+
+  moduleId        String
+  module          Module           @relation(fields: [moduleId], references: [id])
+
+  @@unique([questionModuleId, moduleId]) // Composite unique constraint
+}
+
+model QuestionModuleUser {
+  id String @id @default(uuid())
   answer String
 
-  qualitativeQuestionId String
-  qualitativeQuestion   QualitativeQuestion @relation(references: [id], fields: [qualitativeQuestionId])
+  moduleQuestionId String
+  moduleQuestion QuestionModule @relation(references: [id], fields: [moduleQuestionId])
 
   userId String
   user   User   @relation(references: [id], fields: [userId])

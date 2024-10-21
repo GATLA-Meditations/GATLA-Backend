@@ -7,8 +7,10 @@ import { uploadInventariodeCalidaddeVida } from './inventario-calidad-vida.seed'
 import { uploadUserModule } from './user-module.seed';
 import { uploadShopItems } from './shop-items-backgrounds.seed';
 import { uploadAchievements } from './seed-logros.seed';
-import { uploadAdmin } from "./admin.seed";
+import { uploadAdmin } from './admin.seed';
 import { updateTreatment } from './tratamiento.seed';
+import { uploadModuleQuestions } from './module.questions.seed';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -38,6 +40,7 @@ async function main() {
   await uploadAchievements();
   await uploadAdmin();
   await updateTreatment();
+  await uploadModuleQuestions();
 }
 
 async function questionnaireSeed() {
@@ -88,20 +91,25 @@ async function questionnaireSeed() {
 }
 
 async function userSeed() {
+  // Hash the password using bcrypt
+  const hashedPassword = await bcrypt.hash('fake_user', 10); // 10 is the salt rounds
+
   await prisma.user.upsert({
     where: { id: 'userId' },
     update: {
       image:
         'https://media.discordapp.net/attachments/1232427585737195630/1247661124543844476/blank-profile-picture-973460_960_720.png?ex=66696838&is=666816b8&hm=d38422eae0d1a478d8233dc4cc63a92e564f3104b13e8b4e17fa99ddf656cbcc&=&format=webp&quality=lossless&width=662&height=662',
+      password: hashedPassword,
     },
     create: {
       id: 'userId',
       patient_code: 'gtl-705',
-      password: 'fake_user',
+      password: hashedPassword,
       image:
         'https://media.discordapp.net/attachments/1232427585737195630/1247661124543844476/blank-profile-picture-973460_960_720.png?ex=66696838&is=666816b8&hm=d38422eae0d1a478d8233dc4cc63a92e564f3104b13e8b4e17fa99ddf656cbcc&=&format=webp&quality=lossless&width=662&height=662',
     },
   });
+
   await prisma.ingameData.upsert({
     where: { id: 'ingameDataId' },
     update: {},
@@ -691,7 +699,7 @@ async function treatmentSeed() {
     where: { id: 'contentId6' },
     update: {
       content: 'https://youtu.be/4E0ifUSIRzo',
-      type: 'MED_VIDEO'
+      type: 'MED_VIDEO',
     },
     create: {
       id: 'contentId6',

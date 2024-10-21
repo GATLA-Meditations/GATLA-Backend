@@ -10,6 +10,7 @@ import { TreatmentService } from 'src/treatment/treatment.service';
 import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { NotificationService } from '../notification/notification.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AdminService {
@@ -66,7 +67,23 @@ export class AdminService {
   }
 
   async createAdmin(adminData: AdminData) {
-    return await this.adminRepository.createAdmin(adminData);
+    // Hash the admin password before saving it
+    const hashedPassword = await this.hashPassword(adminData.password);
+
+    // Create a new admin object with the hashed password
+    const newAdmin = {
+      ...adminData,
+      password: hashedPassword,
+    };
+
+    // Save the admin in the repository
+    return await this.adminRepository.createAdmin(newAdmin);
+  }
+
+  // Method to hash the password (same as in previous code)
+  private async hashPassword(password: string): Promise<string> {
+    const saltRounds = 10; // Number of salt rounds for bcrypt
+    return await bcrypt.hash(password, saltRounds);
   }
 
   async updateAdmin(id: string, adminData: UpdateAdmin) {
