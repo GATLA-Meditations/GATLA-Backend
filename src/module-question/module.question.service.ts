@@ -18,7 +18,7 @@ export class ModuleQuestionService {
     return await this.repository.isTimeForQuestions(userId);
   }
 
-  async submitAnswers(userId: any, answers: AnswersDto[]) {
-    return await this.repository.submitAnswers(userId, answers);
+  async submitAnswers(userId: string, answers: AnswersDto[]) {
+    return this.repository.submitAnswers(userId, answers);
   }
 }

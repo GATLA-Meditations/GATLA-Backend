@@ -14,12 +14,12 @@ export class ModuleQuestionRepository {
       where: {
         AND: {
           userId: userId,
-          // startDate: {
-          //   lte: today,
-          // },
-          // endDate: {
-          //   gte: today,
-          // },
+          startDate: {
+            lte: today,
+          },
+          endDate: {
+            gte: today,
+          },
         },
       },
       include: {
@@ -153,7 +153,7 @@ export class ModuleQuestionRepository {
   // Bulk submit multiple answers for a module
   async submitAnswers(userId: string, answers: AnswersDto[]) {
     const data = answers.map((answer) => ({
-      userId,
+      userId: userId,
       moduleQuestionId: answer.id,
       answer: answer.answer,
     }));

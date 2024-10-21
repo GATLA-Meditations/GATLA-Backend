@@ -23,14 +23,15 @@ export class ModuleQuestionController {
 
   @Post('/answers')
   @HttpCode(HttpStatus.CREATED)
-  async submitAnswers(@Request() req: any, @Body() answers: AnswersDto[]) {
-    const userId = req.user.id;
+  async submitAnswers(@Request() req: any, @Body('answers') answers: AnswersDto[]) {
+    const userId = req.user.userId;
+    console.log(userId);
     return await this.service.submitAnswers(userId, answers);
   }
 
   @Post('/answer/:id')
   async submitAnswer(@Param('id') questionId: string, @Request() req: any, @Body() answer: string) {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     return this.service.submitAnswer(userId, questionId, answer);
   }
 }
