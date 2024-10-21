@@ -134,13 +134,17 @@ export class AdminService {
   }
 
   async updateContentsInActivity(activityId: string, contents: ContentModifyDto[]) {
+    const updatedContents = [];
     for (const content of contents) {
       if (content.id) {
-        await this.adminRepository.updateContentInActivity(content.id, content);
+        const updated = await this.adminRepository.updateContentInActivity(content.id, content);
+        updatedContents.push(updated);
       } else {
-        await this.adminRepository.createContentInActivity(activityId, content);
+        const newContents = await this.adminRepository.createContentInActivity(activityId, content);
+        updatedContents.push(newContents);
       }
     }
+    return updatedContents;
   }
 
   async disconectContentFromActivity(activityId: string, contentId: string) {
