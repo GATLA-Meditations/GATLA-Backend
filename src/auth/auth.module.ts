@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { configuration } from '../../config/configuration';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { StreakRespository } from '../streak/streak.respository';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,7 @@ import { StreakRespository } from '../streak/streak.respository';
       envFilePath: `${process.cwd()}/.env`,
       load: [configuration],
     }),
+    MailModule,
   ],
   providers: [AuthService, AuthRepository, PrismaService, JwtStrategy, StreakRespository],
   exports: [AuthService],

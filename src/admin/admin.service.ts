@@ -60,11 +60,7 @@ export class AdminService {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
-    await this.mailService.sendMail(
-      userData.email,
-      'Credenciales Renacentia',
-      'Bienvenido a Renacentia, tus credenciales son:\n codigo: ' + userData.patient_code + '\n contraseña: ' + userData.password,
-    );
+    await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
     return user;
   }
 
