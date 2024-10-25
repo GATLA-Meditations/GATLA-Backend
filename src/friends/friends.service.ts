@@ -40,4 +40,15 @@ export class FriendsService {
       await this.notificationService.notifyUser(notification.id, friendId);
     }
   }
+
+  async congratulateFriend(userId: string, friendId: string, message: string) {
+    if (!(await this.isFriend(userId, friendId))) {
+      throw new HttpException('Users are not friends', 400);
+    }
+    const notificationToFriend = await this.notificationService.createNotification({
+      title: 'Congratulations',
+      content: message,
+    });
+    await this.notificationService.notifyUser(notificationToFriend.id, friendId);
+  }
 }
