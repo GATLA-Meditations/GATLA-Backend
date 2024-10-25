@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param, Get } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Put, UseGuards, Request, Delete, Param, Get, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
@@ -166,5 +166,11 @@ export class AdminController {
   @HttpCode(200)
   async deleteContent(@Param('id') id: string) {
     return await this.adminService.deleteContent(id);
+  }
+
+  @Get('users-paginated')
+  @HttpCode(200)
+  async getUsersPaginated(@Query('page') page: number, @Query('size') size: number) {
+    return this.adminService.getUsersPaginated(page, size);
   }
 }

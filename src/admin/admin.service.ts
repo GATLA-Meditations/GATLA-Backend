@@ -181,4 +181,8 @@ export class AdminService {
   async deleteContent(id: string) {
     return await this.adminRepository.deleteContent(id);
   }
+
+  async getUsersPaginated(page: number, size: number) {
+    return this.adminRepository.getUsersPaginated(page, size);
+  }
 }

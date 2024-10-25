@@ -299,4 +299,14 @@ export class AdminRepository {
       where: { id },
     });
   }
+
+  async getUsersPaginated(page: number, size: number) {
+    const skip = (page - 1) * size;
+    const take = size;
+
+    return this.prisma.user.findMany({
+      skip: skip,
+      take: take,
+    });
+  }
 }
