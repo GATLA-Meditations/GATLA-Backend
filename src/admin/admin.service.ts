@@ -11,6 +11,7 @@ import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatmen
 import { UserDataDto } from './dto/user-data.dto';
 import { NotificationService } from '../notification/notification.service';
 import * as bcrypt from 'bcrypt';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AdminService {
@@ -20,6 +21,7 @@ export class AdminService {
     private readonly mailService: MailService,
     private readonly treatmentService: TreatmentService,
     private readonly notificationService: NotificationService,
+    private readonly authService: AuthService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
@@ -53,16 +55,12 @@ export class AdminService {
 
   async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
-    const user = await this.adminRepository.createUser(userData.patient_code, userData.password);
+    const user = await this.authService.registerUser({ patientCode: userData.patient_code, password: userData.password });
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
-    await this.mailService.sendMail(
-      userData.email,
-      'Credenciales Renacentia',
-      'Bienvenido a Renacentia, tus credenciales son:\n codigo: ' + userData.patient_code + '\n contraseña: ' + userData.password,
-    );
+    await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
     return user;
   }
 
