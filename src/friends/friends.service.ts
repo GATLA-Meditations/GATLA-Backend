@@ -33,11 +33,10 @@ export class FriendsService {
     await this.repository.deleteFriend(userId, friendId);
   }
 
-  async notifyFriends(userId: any, messageData: { title: string; content: string }) {
+  async notifyFriends(userId: string, messageData: { title: string; content: string }) {
     const friends = await this.repository.getFriends(userId);
-    const notification = await this.notificationService.createNotification(messageData);
     for (const friendId in friends) {
-      await this.notificationService.notifyUser(notification.id, friendId);
+      await this.repository.notifyFriend(userId, friendId, messageData);
     }
   }
 
@@ -46,9 +45,13 @@ export class FriendsService {
       throw new HttpException('Users are not friends', 400);
     }
     const notificationToFriend = await this.notificationService.createNotification({
-      title: 'Congratulations',
+      title: 'Felicitaciones!',
       content: message,
     });
     await this.notificationService.notifyUser(notificationToFriend.id, friendId);
+  }
+
+  async getFriendNotifications(userId: string) {
+    return this.repository.getFriendNotifications(userId);
   }
 }

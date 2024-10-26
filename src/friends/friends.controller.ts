@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, HttpCode, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { FriendsService } from './friends.service';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { AdminGuard } from '../auth/guards/admin.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Friends')
 @Controller('friends')
 export class FriendsController {
   constructor(private readonly friendsService: FriendsService) {}
@@ -35,5 +37,13 @@ export class FriendsController {
   async congratulateFriend(@Request() req: any, @Param('friendId') friendId: string, @Body('message') message: string) {
     const userId = req.user.userId;
     return await this.friendsService.congratulateFriend(userId, friendId, message);
+  }
+
+  @UseGuards(JwtGuard)
+  @Get('notifications')
+  @HttpCode(200)
+  async getFriendNotifications(@Request() req: any) {
+    const userId = req.user.userId;
+    return this.friendsService.getFriendNotifications(userId);
   }
 }
