@@ -59,7 +59,7 @@ async function moduleQuestions(prisma: PrismaClient) {
       id: 'question_3',
       question: '¿Cómo sentiste tus dolores esta semana?',
       type: 'quantitative',
-      metadata: '{ options: ["muy mal", "mal", "regular", "bien", "muy bien"] }',
+      metadata: '{ "options": ["muy mal", "mal", "regular", "bien", "muy bien"] }',
     },
   });
 
@@ -81,7 +81,7 @@ async function moduleQuestions(prisma: PrismaClient) {
       id: 'question_5',
       question: '¿Cómo dormiste esta semana?',
       type: 'quantitative',
-      metadata: '{ options: ["muy mal", "mal", "regular", "bien", "muy bien"] }',
+      metadata: '{ "options": ["muy mal", "mal", "regular", "bien", "muy bien"] }',
     },
   });
 
