@@ -179,4 +179,11 @@ export class AdminService {
   async deleteContent(id: string) {
     return await this.adminRepository.deleteContent(id);
   }
+
+  async getUsersPaginated(page: number, size: number, code?: string) {
+    if (code == null) {
+      return this.adminRepository.getUsersPaginated(page, size);
+    }
+    return this.adminRepository.getUsersPaginatedWithFilter(page, size, code);
+  }
 }
