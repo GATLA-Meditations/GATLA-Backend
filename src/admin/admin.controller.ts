@@ -52,6 +52,12 @@ export class AdminController {
     return this.adminService.addQuestionnaireToTreatment(treatmentId, questionnaireId);
   }
 
+  @Delete('treatment/:treatmentId/questionnaire/:questionnaireId')
+  @HttpCode(200)
+  async removeQuestionnaireFromTreatment(@Param('treatmentId') treatmentId: string, @Param('questionnaireId') questionnaireId: string) {
+    return this.adminService.removeQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
+
   @Put('treatment/update/modules/:id')
   @HttpCode(204)
   async updateModulesFromTreatment(@Param('id') id: string, @Body() modules: { id: string; order: number }[]) {

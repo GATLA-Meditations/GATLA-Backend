@@ -186,4 +186,8 @@ export class AdminService {
     }
     return this.adminRepository.getUsersPaginatedWithFilter(page, size, code);
   }
+
+  removeQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
+    return this.treatmentService.disconnectQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
 }
