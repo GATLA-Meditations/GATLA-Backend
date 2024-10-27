@@ -309,4 +309,17 @@ export class AdminRepository {
       take: take,
     });
   }
+
+  getUsersPaginatedWithFilter(page: number, size: number, code: string) {
+    return this.prisma.user.findMany({
+      where: {
+        patient_code: {
+          contains: code,
+        },
+      },
+      skip: (page - 1) * size,
+      take: size,
+    });
+  }
 }
+

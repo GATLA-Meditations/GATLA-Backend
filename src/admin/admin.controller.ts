@@ -170,7 +170,9 @@ export class AdminController {
 
   @Get('users-paginated')
   @HttpCode(200)
-  async getUsersPaginated(@Query('page') page: number, @Query('size') size: number) {
-    return this.adminService.getUsersPaginated(page, size);
+  async getUsersPaginated(@Query('page') page: number, @Query('size') size: number, @Query('code') code?: string) {
+    const parsedPage = Number(page);
+    const parsedSize = Number(size);
+    return this.adminService.getUsersPaginated(parsedPage, parsedSize, code);
   }
 }
