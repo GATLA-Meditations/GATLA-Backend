@@ -55,4 +55,31 @@ export default class FriendsRepository {
       },
     });
   }
+
+  async notifyFriend(userId: string, friendId: string, messageData: { title: string; content: string }) {
+    return this.prismaService.friendAchievement.create({
+      data: {
+        title: messageData.title,
+        description: messageData.content,
+        friendId: userId,
+        user: {
+          connect: {
+            id: friendId,
+          },
+        },
+      },
+    });
+  }
+
+  async getFriendNotifications(userId: string) {
+    return this.prismaService.friendAchievement.findMany({
+      where: { friendId: userId },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        user: {},
+      },
+    });
+  }
 }
