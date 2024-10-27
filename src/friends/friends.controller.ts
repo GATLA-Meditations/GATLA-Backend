@@ -28,4 +28,12 @@ export class FriendsController {
     const userId = req.user.userId;
     return await this.friendsService.notifyFriends(userId, messageData);
   }
+
+  @UseGuards(JwtGuard)
+  @Post('congratulate-friend/:friendId')
+  @HttpCode(200)
+  async congratulateFriend(@Request() req: any, @Param('friendId') friendId: string, @Body('message') message: string) {
+    const userId = req.user.userId;
+    return await this.friendsService.congratulateFriend(userId, friendId, message);
+  }
 }

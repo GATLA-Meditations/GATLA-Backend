@@ -18,7 +18,9 @@ export class QuestionnaireSubmissionService {
 
   public async createSubmission(submission: SubmissionCreateDto, userId: string) {
     await this.checkQuestionnaireExists(submission);
-    return this.repository.createSubmission(submission, userId);
+    const onlyAnswers = submission.answers.filter((answer) => answer.answer !== null && answer.answer !== undefined);
+    const updatedSubmission = { ...submission, answers: onlyAnswers };
+    return this.repository.createSubmission(updatedSubmission, userId);
   }
 
   private async checkQuestionnaireExists(submission: SubmissionCreateDto): Promise<boolean> {

@@ -59,15 +59,21 @@ export class ModuleQuestionRepository {
         ),
       )
     ) {
-      return new BadRequestException('User does not need to get questions');
+      return currentModule.flatMap((module) => {
+        return module.module.moduleQuestions.map((moduleQuestion) => {
+          const question = moduleQuestion.questionModule;
+          return new QuestionsDto(question.id, question.question, question.type, question.metadata);
+        });
+      });
     }
-
     return currentModule.flatMap((module) => {
       return module.module.moduleQuestions.map((moduleQuestion) => {
         const question = moduleQuestion.questionModule;
         return new QuestionsDto(question.id, question.question, question.type, question.metadata);
       });
     });
+    // todo: un-mock once it works
+    // return new BadRequestException('User does not need to get questions');
   }
 
   // Submitting an answer to a specific question
