@@ -18,7 +18,9 @@ export class QuestionnaireSubmissionService {
 
   public async createSubmission(submission: SubmissionCreateDto, userId: string) {
     await this.checkQuestionnaireExists(submission);
-    const onlyAnswers = submission.answers.filter((answer) => answer.answer !== null && answer.answer !== undefined);
+    const onlyAnswers = submission.answers.map((answer) => {
+      return { id: answer.id, answer: !answer.answer ? 'n/a' : answer.answer };
+    });
     const updatedSubmission = { ...submission, answers: onlyAnswers };
     return this.repository.createSubmission(updatedSubmission, userId);
   }
@@ -36,6 +38,7 @@ export class QuestionnaireSubmissionService {
       const question = questionnaire.questions.find((question) => {
         if (question.id === response.id) return question;
       });
+      if (!response.answer) return;
       if (!question) throw new InvalidAnswerException(`Question with id: ${response.id} does not exist`);
       if (question.type == 'NUMERIC') this.checkNumericAnswer(question, response);
     });
