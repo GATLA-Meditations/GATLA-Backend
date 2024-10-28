@@ -1,8 +1,9 @@
-import { Controller, Get, NotFoundException, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, Res, UseGuards } from '@nestjs/common';
 import { Questionnaire } from '@prisma/client';
 import { QuestionnaireService } from './questionnaire.service';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @UseGuards(JwtGuard)
 @ApiTags('Questionnaire')
@@ -20,5 +21,10 @@ export class QuestionnaireController {
   @Get()
   async getAll(): Promise<Questionnaire[]> {
     return await this.service.getAllQuestionnaires();
+  }
+
+  @Get(':id/export')
+  async exportToCsv(@Param('id') id: string, @Res() res: Response) {
+    return await this.service.exportToCsv(id, res);
   }
 }

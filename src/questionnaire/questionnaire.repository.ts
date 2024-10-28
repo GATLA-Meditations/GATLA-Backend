@@ -30,4 +30,19 @@ export class QuestionnaireRepository {
       include: { questions: true },
     });
   }
+
+  async findByIdIncludeQuestionsAndSubmissions(id: string) {
+    return this.prisma.questionnaire.findUnique({
+      where: { id },
+      include: {
+        questions: true,
+        questionnaireSubmissions: {
+          include: {
+            answers: true,
+            user: true,
+          },
+        },
+      },
+    });
+  }
 }
