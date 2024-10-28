@@ -31,7 +31,6 @@ export class AchievementRepository {
       },
     });
     return await results.map((result) => {
-      console.log(result);
       return new AchievementUser(result);
     });
   }
