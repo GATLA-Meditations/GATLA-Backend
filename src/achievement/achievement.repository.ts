@@ -168,10 +168,58 @@ export class AchievementRepository {
     await updateModuleAchievements(userModulesDone, userId, this.prisma);
 
     async function updateTestAchievements(
-      userQuestionares: { id: string; createdAt: Date; userId: string; questionnaireId: string }[],
+      userQuestionnaires: { id: string; createdAt: Date; userId: string; questionnaireId: string }[],
       userId: string,
       prisma: PrismaService,
-    ) {}
+    ) {
+      interface TestAchievement {
+        options: {
+          id: string;
+          number: number;
+        };
+      }
+
+      // Get all achievements related to "Finalidad del test"
+      const testAchievements = await prisma.achievement.findMany({
+        where: { dataKeyId: 'Finalidad del test' },
+        include: { dataKey: true },
+      });
+
+      // Count occurrences for each questionnaire ID completed by the user
+      const completedTestCounts = userQuestionnaires.reduce(
+        (acc, questionnaire) => {
+          acc[questionnaire.questionnaireId] = (acc[questionnaire.questionnaireId] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
+      // Filter achievements based on completion criteria
+      const userTestAchievementsCompleted = testAchievements
+        .filter((achievement) => {
+          try {
+            const value: TestAchievement = JSON.parse(achievement.dataValue);
+            // Check if the required questionnaire ID meets the completion number criteria
+            return completedTestCounts[value.options.id] >= value.options.number;
+          } catch (error) {
+            console.error('Invalid JSON dataValue:', error);
+            return false;
+          }
+        })
+        .map((achievement) => achievement.id);
+
+      // Prepare user achievements for insertion
+      const userAchievements = userTestAchievementsCompleted.map((id) => ({
+        achivementId: id,
+        userId: userId,
+      }));
+
+      // Insert user achievements, skipping duplicates
+      await prisma.userAchievement.createMany({
+        skipDuplicates: true,
+        data: userAchievements,
+      });
+    }
 
     await updateTestAchievements(userQuestionares, userId, this.prisma);
   }
