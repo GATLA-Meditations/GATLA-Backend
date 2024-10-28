@@ -21,13 +21,13 @@ export class AchievementUser {
   dataValue: string;
   createdAt: Date;
 
-  constructor(element: { achievement: _AchievementDto; createdAt: Date }) {
-    this.id = element.achievement.id;
-    this.title = element.achievement.title;
-    this.unlockedDescription = element.achievement.unlockedDescription;
-    this.unlockedImage = element.achievement.unlockedImage;
-    this.dataKey = element.achievement.dataKey.dataKey;
-    this.dataValue = element.achievement.dataValue;
+  constructor(element: { Achievement: _AchievementDto; createdAt: Date }) {
+    this.id = element.Achievement.id;
+    this.title = element.Achievement.title;
+    this.unlockedDescription = element.Achievement.unlockedDescription;
+    this.unlockedImage = element.Achievement.unlockedImage;
+    this.dataKey = element.Achievement.dataKey.dataKey;
+    this.dataValue = element.Achievement.dataValue;
     this.createdAt = element.createdAt;
   }
 }
