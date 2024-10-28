@@ -31,7 +31,8 @@ export class AchievementRepository {
       },
     });
     return await results.map((result) => {
-      new AchievementUser(result);
+      console.log(result);
+      return new AchievementUser(result);
     });
   }
 
@@ -179,13 +180,13 @@ export class AchievementRepository {
         };
       }
 
-      // Get all achievements related to "Finalidad del test"
+      // Fetch relevant achievements
       const testAchievements = await prisma.achievement.findMany({
         where: { dataKeyId: 'Finalidad del test' },
         include: { dataKey: true },
       });
 
-      // Count occurrences for each questionnaire ID completed by the user
+      // Count occurrences for each questionnaire ID
       const completedTestCounts = userQuestionnaires.reduce(
         (acc, questionnaire) => {
           acc[questionnaire.questionnaireId] = (acc[questionnaire.questionnaireId] || 0) + 1;
@@ -199,7 +200,13 @@ export class AchievementRepository {
         .filter((achievement) => {
           try {
             const value: TestAchievement = JSON.parse(achievement.dataValue);
-            // Check if the required questionnaire ID meets the completion number criteria
+
+            // Ensure `options.id` and `options.number` exist in `dataValue`
+            if (!value?.options?.id || typeof value.options.number !== 'number') {
+              throw new Error('Invalid dataValue structure');
+            }
+
+            // Check if the specified questionnaire ID meets the required completion count
             return completedTestCounts[value.options.id] >= value.options.number;
           } catch (error) {
             console.error('Invalid JSON dataValue:', error);
@@ -214,7 +221,6 @@ export class AchievementRepository {
         userId: userId,
       }));
 
-      // Insert user achievements, skipping duplicates
       await prisma.userAchievement.createMany({
         skipDuplicates: true,
         data: userAchievements,

@@ -267,11 +267,14 @@ model UserAchievement {
   id String @id() @default(uuid())
 
   createdAt    DateTime @default(now())
+
   userId       String
   achivementId String
 
   Achievement Achievement @relation(fields: [achivementId], references: [id])
   User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achivementId])
 }
 
 model Streak {
