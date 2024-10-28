@@ -19,6 +19,10 @@ export class AchievementService {
   public async getAllAchievements(): Promise<AchievementDto[]> {
     return (await transformAchievements(await this.achievementRepository.getAchievements())) as AchievementDto[];
   }
+
+  public async updateUserAchievements(userId: string): Promise<any> {
+    return await this.achievementRepository.updateAchievement(userId);
+  }
 }
 
 async function transformAchievements(achievement: any[]) {
