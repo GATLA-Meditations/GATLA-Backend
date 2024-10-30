@@ -195,6 +195,7 @@ export class AdminService {
   }
 
   private async addCommunityFriends(id: string) {
+    console.log('Adding friends to user', id);
     const users = await this.adminRepository.getUsers();
     let friends = 0;
 
@@ -203,7 +204,8 @@ export class AdminService {
       const randomUser = users[randomIndex];
 
       if (randomUser.id !== id && randomUser.friendsId.length < 3) {
-        await this.friendService.addFriend(id, randomUser.id);
+        console.log('Adding friend', randomUser.id);
+        await this.adminRepository.addFriend(id, randomUser.id);
         friends++;
       }
 

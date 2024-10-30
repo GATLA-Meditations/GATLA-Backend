@@ -322,4 +322,23 @@ export class AdminRepository {
       take: size,
     });
   }
+
+  async addFriend(id: string, friendId: string) {
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        friendsId: {
+          push: friendId,
+        },
+      },
+    });
+    await this.prisma.user.update({
+      where: { id: friendId },
+      data: {
+        friendsId: {
+          push: id,
+        },
+      },
+    });
+  }
 }
