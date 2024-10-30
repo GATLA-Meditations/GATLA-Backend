@@ -12,7 +12,6 @@ import { UserDataDto } from './dto/user-data.dto';
 import { NotificationService } from '../notification/notification.service';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
-import { FriendsService } from '../friends/friends.service';
 
 @Injectable()
 export class AdminService {
@@ -23,7 +22,6 @@ export class AdminService {
     private readonly treatmentService: TreatmentService,
     private readonly notificationService: NotificationService,
     private readonly authService: AuthService,
-    private readonly friendService: FriendsService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
