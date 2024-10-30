@@ -173,6 +173,7 @@ export class AdminRepository {
         id: true,
         patient_code: true,
         password: true,
+        friendsId: true,
         treatments: {
           select: {
             id: true,

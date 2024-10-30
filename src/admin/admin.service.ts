@@ -12,6 +12,7 @@ import { UserDataDto } from './dto/user-data.dto';
 import { NotificationService } from '../notification/notification.service';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from '../auth/auth.service';
+import { FriendsService } from '../friends/friends.service';
 
 @Injectable()
 export class AdminService {
@@ -22,6 +23,7 @@ export class AdminService {
     private readonly treatmentService: TreatmentService,
     private readonly notificationService: NotificationService,
     private readonly authService: AuthService,
+    private readonly friendService: FriendsService,
   ) {}
 
   async notifyUser(notificationId: string, userId: string) {
@@ -56,6 +58,7 @@ export class AdminService {
   async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
     const user = await this.authService.registerUser({ patientCode: userData.patient_code, password: userData.password });
+    await this.addCommunityFriends(user.id);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
@@ -189,5 +192,22 @@ export class AdminService {
 
   removeQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
     return this.treatmentService.disconnectQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
+
+  private async addCommunityFriends(id: string) {
+    const users = await this.adminRepository.getUsers();
+    let friends = 0;
+
+    while (friends < 3 && users.length > 0) {
+      const randomIndex = Math.floor(Math.random() * users.length);
+      const randomUser = users[randomIndex];
+
+      if (randomUser.id !== id && randomUser.friendsId.length < 3) {
+        await this.friendService.addFriend(id, randomUser.id);
+        friends++;
+      }
+
+      users.splice(randomIndex, 1);
+    }
   }
 }
