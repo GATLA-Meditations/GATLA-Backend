@@ -8,6 +8,7 @@ import { RegisterRequestDto } from './dto/register-request.dto';
 import * as bcrypt from 'bcrypt';
 import { AdminLoginRequestDto } from './dto/AdminLoginRequestDto';
 import { StreakRespository } from '../streak/streak.respository';
+import { FriendsService } from '../friends/friends.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly friendsService: FriendsService,
   ) {}
 
   public async login(login: LoginRequestDto) {
@@ -40,6 +42,7 @@ export class AuthService {
 
     //Update streak
     if (!isSameDay) await this.streakRepository.incrementStreak(user.id, 1);
+    await this.friendsService.updateFriendNotifications(user.id);
 
     return new JwtDto(jwt);
   }

@@ -1,12 +1,15 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import FriendsRepository from './friends.repository';
 import { NotificationService } from '../notification/notification.service';
+import { AchievementService } from '../achievement/achievement.service';
+import { UserAchievementDto } from '../achievement/dto/achievement.dto';
 
 @Injectable()
 export class FriendsService {
   constructor(
     private readonly repository: FriendsRepository,
     private readonly notificationService: NotificationService,
+    private readonly achievementService: AchievementService,
   ) {}
 
   async addFriend(userId: string, friendId: string) {
@@ -51,7 +54,19 @@ export class FriendsService {
     await this.notificationService.notifyUser(notificationToFriend.id, friendId);
   }
 
-  async getFriendNotifications(userId: string) {
+  async getFriendsNotifications(userId: string) {
     return this.repository.getFriendNotifications(userId);
+  }
+
+  async updateFriendNotifications(userId: string) {
+    const user = await this.repository.getUserById(userId);
+    const newAchievements = (await this.achievementService.updateUserAchievements(userId)) as UserAchievementDto[];
+    for (const userAchievement of newAchievements) {
+      const achievement = await this.achievementService.getAchievementById(userAchievement.achivementId);
+      await this.notifyFriends(userId, {
+        title: `${user.patient_code} sigue avanzando en su camino de sanación y crecimiento.`,
+        content: `¡${user.patient_code} ha alcanzado un nuevo logro en su proceso de bienestar: ${achievement.title}!`,
+      });
+    }
   }
 }
