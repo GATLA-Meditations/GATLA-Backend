@@ -53,3 +53,17 @@ export interface AchievementUserDto {
   dataValue: string;
   createdAt: Date;
 }
+
+export class UserAchievementDto {
+  id: string;
+  achivementId: string;
+  userId: string;
+  createdAt: Date;
+
+  constructor(data: { id: string; achivementId: string; userId: string; createdAt: Date }) {
+    this.id = data.id;
+    this.achivementId = data.achivementId;
+    this.userId = data.userId;
+    this.createdAt = data.createdAt;
+  }
+}
