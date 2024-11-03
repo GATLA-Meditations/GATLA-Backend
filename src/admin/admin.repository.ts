@@ -341,4 +341,28 @@ export class AdminRepository {
       },
     });
   }
+
+  async _addStreakTable(userId: string) {
+    await this.prisma.streak.create({
+      data: {
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  async _addIngameDataTable(userId: string) {
+    await this.prisma.ingameData.create({
+      data: {
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  async _addNotificationPreferences(userId: string) {
+    await this.prisma.notificationPreference.create({
+      data: {
+        user_id: userId,
+      },
+    });
+  }
 }

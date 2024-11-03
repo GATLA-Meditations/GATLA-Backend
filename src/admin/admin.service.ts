@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from "@nestjs/common";
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
@@ -62,7 +62,22 @@ export class AdminService {
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
     await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
+    try {
+      await this._createUserTables(user.id);
+    } catch (e) {
+      return e;
+    }
     return user;
+  }
+
+  private async _createUserTables(userId: string) {
+    try {
+      await this.adminRepository._addStreakTable(userId);
+      await this.adminRepository._addIngameDataTable(userId);
+      await this.adminRepository._addNotificationPreferences(userId);
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 
   async createAdmin(adminData: AdminData) {
