@@ -1,5 +1,7 @@
 import { PrismaService } from 'src/prisma.service';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export default class FriendsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -57,6 +59,7 @@ export default class FriendsRepository {
   }
 
   async notifyFriend(userId: string, friendId: string, messageData: { title: string; content: string }) {
+    console.log('notifyFriend', userId, friendId);
     return this.prismaService.friendAchievement.create({
       data: {
         title: messageData.title,
@@ -78,8 +81,14 @@ export default class FriendsRepository {
         id: true,
         title: true,
         description: true,
-        user: {},
+        user: true,
       },
+    });
+  }
+
+  async getUserById(userId: string) {
+    return this.prismaService.user.findUnique({
+      where: { id: userId },
     });
   }
 }
