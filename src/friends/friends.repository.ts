@@ -59,6 +59,7 @@ export default class FriendsRepository {
   }
 
   async notifyFriend(userId: string, friendId: string, messageData: { title: string; content: string }) {
+    console.log('notifyFriend', userId, friendId);
     return this.prismaService.friendAchievement.create({
       data: {
         title: messageData.title,
@@ -82,6 +83,12 @@ export default class FriendsRepository {
         description: true,
         user: true,
       },
+    });
+  }
+
+  async getUserById(userId: string) {
+    return this.prismaService.user.findUnique({
+      where: { id: userId },
     });
   }
 }
