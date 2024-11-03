@@ -18,7 +18,7 @@ export class FriendsService {
 
   async isFriend(userId: string, friendId: string) {
     const friends = await this.repository.getFriends(userId);
-    for (const id in friends) {
+    for (const id of friends) {
       if (id === friendId) {
         return true;
       }
@@ -35,7 +35,7 @@ export class FriendsService {
 
   async notifyFriends(userId: string, messageData: { title: string; content: string }) {
     const friends = await this.repository.getFriends(userId);
-    for (const friendId in friends) {
+    for (const friendId of friends) {
       await this.repository.notifyFriend(userId, friendId, messageData);
     }
   }

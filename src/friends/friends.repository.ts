@@ -1,5 +1,7 @@
 import { PrismaService } from 'src/prisma.service';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export default class FriendsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -78,7 +80,7 @@ export default class FriendsRepository {
         id: true,
         title: true,
         description: true,
-        user: {},
+        user: true,
       },
     });
   }
