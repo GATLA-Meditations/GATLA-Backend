@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
