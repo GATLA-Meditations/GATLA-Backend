@@ -231,4 +231,17 @@ export class TreatmentRepository {
       });
     }
   }
+
+  disconnectQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
+    return this.prisma.treatment.update({
+      where: { id: treatmentId },
+      data: {
+        questionnaires: {
+          disconnect: {
+            id: questionnaireId,
+          },
+        },
+      },
+    });
+  }
 }

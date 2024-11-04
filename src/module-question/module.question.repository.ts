@@ -10,7 +10,7 @@ export class ModuleQuestionRepository {
   // Fetches the questions related to the active module
   async getQuestions(userId: string) {
     const today = new Date();
-    const currentModule = await this.prism.userModule.findMany({
+    const currentModule = await this.prism.userModule.findFirst({
       where: {
         AND: {
           userId: userId,
@@ -21,6 +21,9 @@ export class ModuleQuestionRepository {
             gte: today,
           },
         },
+      },
+      orderBy: {
+        startDate: 'asc',
       },
       include: {
         module: {
@@ -39,38 +42,30 @@ export class ModuleQuestionRepository {
       },
     });
 
-    if (!currentModule || currentModule.length === 0) {
+    if (!currentModule) {
       return new BadRequestException('User does not have a module');
     }
 
     // Check if today is the last day of the current module
-    const isLastDay = currentModule.some((module) => {
-      const endDate = new Date(module.endDate);
-      return (
-        endDate.getFullYear() === today.getFullYear() && endDate.getMonth() === today.getMonth() && endDate.getDate() === today.getDate()
-      );
-    });
+    const isLastDay =
+      currentModule.endDate.getFullYear() === today.getFullYear() &&
+      currentModule.endDate.getMonth() === today.getMonth() &&
+      currentModule.endDate.getDate() === today.getDate();
 
     if (
       isLastDay &&
-      currentModule.some((module) =>
-        module.module.moduleQuestions.some((qualitativeQuestion) =>
-          qualitativeQuestion.questionModule.userSubmisions.every((submission) => submission.userId !== userId),
-        ),
+      currentModule.module.moduleQuestions.some((qualitativeQuestion) =>
+        qualitativeQuestion.questionModule.userSubmisions.every((submission) => submission.userId !== userId),
       )
     ) {
-      return currentModule.flatMap((module) => {
-        return module.module.moduleQuestions.map((moduleQuestion) => {
-          const question = moduleQuestion.questionModule;
-          return new QuestionsDto(question.id, question.question, question.type, question.metadata);
-        });
-      });
-    }
-    return currentModule.flatMap((module) => {
-      return module.module.moduleQuestions.map((moduleQuestion) => {
+      return currentModule.module.moduleQuestions.map((moduleQuestion) => {
         const question = moduleQuestion.questionModule;
         return new QuestionsDto(question.id, question.question, question.type, question.metadata);
       });
+    }
+    return currentModule.module.moduleQuestions.map((moduleQuestion) => {
+      const question = moduleQuestion.questionModule;
+      return new QuestionsDto(question.id, question.question, question.type, question.metadata);
     });
     // todo: un-mock once it works
     // return new BadRequestException('User does not need to get questions');
@@ -101,7 +96,7 @@ export class ModuleQuestionRepository {
   // Check if it's the right time to answer questions
   async isTimeForQuestions(userId: string) {
     const today = new Date();
-    const currentModule = await this.prism.userModule.findMany({
+    const currentModule = await this.prism.userModule.findFirst({
       where: {
         AND: {
           userId: userId,
@@ -112,6 +107,9 @@ export class ModuleQuestionRepository {
             gte: today,
           },
         },
+      },
+      orderBy: {
+        startDate: 'asc',
       },
       include: {
         module: {
@@ -130,25 +128,42 @@ export class ModuleQuestionRepository {
       },
     });
 
-    if (!currentModule || currentModule.length === 0) {
+    if (!currentModule) {
       return new BadRequestException('User does not have a module');
     }
 
-    const isLastDay = currentModule.some((module) => {
-      const endDate = new Date(module.endDate);
-      return (
-        endDate.getFullYear() === today.getFullYear() && endDate.getMonth() === today.getMonth() && endDate.getDate() === today.getDate()
-      );
+    console.log(currentModule.id, 'currentModule');
+    console.log(currentModule.endDate, 'endDate');
+    console.log(today, 'today');
+    const isLastDay =
+      currentModule.endDate.getFullYear() === today.getFullYear() &&
+      currentModule.endDate.getMonth() === today.getMonth() &&
+      currentModule.endDate.getDate() === today.getDate();
+    console.log(isLastDay, 'isLastDay');
+
+    const moduleQuestions = await this.prism.questionModuleModule.findMany({
+      where: {
+        moduleId: currentModule.moduleId,
+      },
+      include: {
+        questionModule: {
+          include: {
+            userSubmisions: {
+              where: {
+                userId: userId,
+              },
+            },
+          },
+        },
+      },
+    });
+    const hasAnswered = moduleQuestions.every((moduleQuestion) => {
+      const question = moduleQuestion.questionModule;
+      return question.userSubmisions.length > 0;
     });
 
-    return (
-      isLastDay &&
-      currentModule.some((module) =>
-        module.module.moduleQuestions.some((qualitativeQuestion) =>
-          qualitativeQuestion.questionModule.userSubmisions.every((submission) => submission.userId !== userId),
-        ),
-      )
-    );
+    console.log(hasAnswered, 'hasAnswered');
+    return isLastDay && !hasAnswered;
   }
 
   // Bulk submit multiple answers for a module
@@ -156,7 +171,7 @@ export class ModuleQuestionRepository {
     const data = answers.map((answer) => ({
       userId: userId,
       moduleQuestionId: answer.id,
-      answer: answer.answer,
+      answer: answer.answer ? answer.answer : '',
     }));
 
     return this.prism.questionModuleUser.createMany({

@@ -71,4 +71,8 @@ export class TreatmentService {
     const userModules = await this.treatmentRepository.getUserModulesByModuleId(id);
     return userModules == null || userModules.length === 0;
   }
+
+  disconnectQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
+    return this.treatmentRepository.disconnectQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
 }

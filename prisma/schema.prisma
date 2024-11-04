@@ -267,12 +267,15 @@ model DataKey {
 model UserAchievement {
   id String @id() @default(uuid())
 
-  createdAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+
   userId       String
   achivementId String
 
   Achievement Achievement @relation(fields: [achivementId], references: [id])
   User        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achivementId])
 }
 
 model Streak {
@@ -280,7 +283,7 @@ model Streak {
   createdAt  DateTime @default(now())
   lastUpdate DateTime @default(now())
   streak     Int      @default(0)
-  type       String
+  type       String   @default("")
 
   userId String @unique
   user   User   @relation(fields: [userId], references: [id])
