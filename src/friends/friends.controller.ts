@@ -44,6 +44,6 @@ export class FriendsController {
   @HttpCode(200)
   async getFriendNotifications(@Request() req: any) {
     const userId = req.user.userId;
-    return this.friendsService.getFriendNotifications(userId);
+    return this.friendsService.getFriendsNotifications(userId);
   }
 }

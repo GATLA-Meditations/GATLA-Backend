@@ -101,7 +101,7 @@ export class NotificationRepository {
       },
       select: {
         id: true,
-        notification: {},
+        notification: true,
         userId: true,
         read: true,
       },

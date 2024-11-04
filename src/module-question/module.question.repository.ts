@@ -156,7 +156,7 @@ export class ModuleQuestionRepository {
     const data = answers.map((answer) => ({
       userId: userId,
       moduleQuestionId: answer.id,
-      answer: answer.answer,
+      answer: answer.answer ? answer.answer : '',
     }));
 
     return this.prism.questionModuleUser.createMany({

@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
@@ -56,12 +56,28 @@ export class AdminService {
   async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
     const user = await this.authService.registerUser({ patientCode: userData.patient_code, password: userData.password });
+    await this.addCommunityFriends(user.id);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
     }
     await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
+    try {
+      await this._createUserTables(user.id);
+    } catch (e) {
+      return e;
+    }
     return user;
+  }
+
+  private async _createUserTables(userId: string) {
+    try {
+      await this.adminRepository._addStreakTable(userId);
+      await this.adminRepository._addIngameDataTable(userId);
+      await this.adminRepository._addNotificationPreferences(userId);
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 
   async createAdmin(adminData: AdminData) {
@@ -189,5 +205,24 @@ export class AdminService {
 
   removeQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
     return this.treatmentService.disconnectQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
+
+  private async addCommunityFriends(id: string) {
+    console.log('Adding friends to user', id);
+    const users = await this.adminRepository.getUsers();
+    let friends = 0;
+
+    while (friends < 3 && users.length > 0) {
+      const randomIndex = Math.floor(Math.random() * users.length);
+      const randomUser = users[randomIndex];
+
+      if (randomUser.id !== id && randomUser.friendsId.length < 3) {
+        console.log('Adding friend', randomUser.id);
+        await this.adminRepository.addFriend(id, randomUser.id);
+        friends++;
+      }
+
+      users.splice(randomIndex, 1);
+    }
   }
 }

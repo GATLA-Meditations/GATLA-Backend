@@ -173,6 +173,7 @@ export class AdminRepository {
         id: true,
         patient_code: true,
         password: true,
+        friendsId: true,
         treatments: {
           select: {
             id: true,
@@ -319,6 +320,49 @@ export class AdminRepository {
       },
       skip: (page - 1) * size,
       take: size,
+    });
+  }
+
+  async addFriend(id: string, friendId: string) {
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        friendsId: {
+          push: friendId,
+        },
+      },
+    });
+    await this.prisma.user.update({
+      where: { id: friendId },
+      data: {
+        friendsId: {
+          push: id,
+        },
+      },
+    });
+  }
+
+  async _addStreakTable(userId: string) {
+    await this.prisma.streak.create({
+      data: {
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  async _addIngameDataTable(userId: string) {
+    await this.prisma.ingameData.create({
+      data: {
+        user: { connect: { id: userId } },
+      },
+    });
+  }
+
+  async _addNotificationPreferences(userId: string) {
+    await this.prisma.notificationPreference.create({
+      data: {
+        user_id: userId,
+      },
     });
   }
 }
