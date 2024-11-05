@@ -42,4 +42,8 @@ export default class ShopService {
   async createItem(itemDto: CreateShopItemDto) {
     return await this.repository.createShopItem(itemDto);
   }
+
+  async deleteItem(id: string) {
+    return await this.repository.deleteItem(id);
+  }
 }

@@ -44,4 +44,12 @@ export default class ShopRepository {
       },
     });
   }
+
+  async deleteItem(id: string) {
+    return this.prisma.shopItem.delete({
+      where: {
+        id,
+      },
+    });
+  }
 }

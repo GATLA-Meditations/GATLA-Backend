@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Request, Post, Param, Put, Body } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, Post, Param, Put, Body, Delete } from '@nestjs/common';
 import ShopService from './shop.service';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';
@@ -25,5 +25,11 @@ export default class ShopController {
   @UseGuards(AdminGuard)
   async createItem(@Body() itemDto: CreateShopItemDto) {
     return await this.service.createItem(itemDto);
+  }
+
+  @Delete('delete-item/:id')
+  @UseGuards(AdminGuard)
+  async deleteItem(@Param('id') id: string) {
+    return await this.service.deleteItem(id);
   }
 }
