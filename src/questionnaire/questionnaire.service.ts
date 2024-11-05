@@ -1,5 +1,5 @@
 import { Questionnaire } from '@prisma/client';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { QuestionnaireRepository } from './questionnaire.repository';
 import { Response } from 'express';
 import { stringify } from 'csv-stringify';
@@ -20,6 +20,7 @@ export class QuestionnaireService {
 
   public async exportToCsv(questionnaireId: string, res: Response) {
     const questionnaire = await this.repository.findByIdIncludeQuestionsAndSubmissions(questionnaireId);
+    if (!questionnaire) throw new HttpException('Questionnaire not found', 404);
     const questions = questionnaire.questions.filter((question) => question.type !== 'NOT_A_QUESTION');
     const columns = [
       { key: 'patientCode', header: 'Cdo Paciente' },

@@ -11,13 +11,13 @@ export class ModuleQuestionController {
 
   @Get('/isTime')
   async isTime(@Request() req: any) {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     return this.service.isTimeForQuestions(userId);
   }
 
   @Get('/questions')
   async getQuestions(@Request() req: any): Promise<BadRequestException | QuestionsDto[]> {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     return this.service.getQuestions(userId);
   }
 
