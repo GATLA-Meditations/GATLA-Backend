@@ -153,7 +153,8 @@ export class AdminService {
     },
   ) {
     if (userData.patient_code || userData.password) {
-      await this.adminRepository.updateUserBasicData(id, userData);
+      const hashedPassword = await this.hashPassword(userData.password);
+      await this.adminRepository.updateUserBasicData(id, { ...userData, password: hashedPassword });
     }
     if (userData.treatment) {
       await this.adminRepository.updateUserTreatmentData(id, userData.treatment);
