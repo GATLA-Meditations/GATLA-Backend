@@ -73,7 +73,6 @@ export class ModuleService {
   }
 
   async updateViewTime(userId: string, time: number, contentId: string) {
-    await this.updateMainViewTime(userId, time);
     const date = new Date();
 
     const userModules = await this.moduleRepository.getUserMinutesSpent(userId);
@@ -84,23 +83,24 @@ export class ModuleService {
     const isVideoMeditation = await this.checkIfVideoIsMeditation(contentId, meditationModule);
 
     if (!isVideoMeditation) {
-      this.checkIfUnlockNextActivity(contentId, meditationModule);
+      await this.checkIfUnlockNextActivity(contentId, meditationModule);
       return;
     }
 
+    await this.updateTotalViewTime(userId, time);
     const minutesSpent = meditationModule.minutesSpent;
     const actualMiuntesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
 
     if (!actualMiuntesModule) {
-      return await this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
+      return this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
     } else {
       const addedTime: number = Number(actualMiuntesModule.minutesSpent) + Number(time);
-      return await this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
+      return this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
     }
   }
 
-  async updateMainViewTime(userId: string, time: number) {
-    this.moduleRepository.updateMaxMinutesSpent(userId, time);
+  async updateTotalViewTime(userId: string, time: number) {
+    await this.moduleRepository.updateMaxMinutesSpent(userId, time);
   }
 
   async checkIfUnlockNextActivity(contentId: string, meditationModule) {
