@@ -4,7 +4,7 @@ import { AdminData } from './dto/AdminData';
 import { AdminGuard } from '../auth/guards/admin.guard';
 import { UpdateAdmin } from './dto/updateAdmin';
 import { ApiTags } from '@nestjs/swagger';
-import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import createQuestionnaireDto, { UpdateQuestionnaireDto } from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
 import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
@@ -128,8 +128,13 @@ export class AdminController {
 
   @Put('questionnaire/update/:id')
   @HttpCode(200)
-  async updateQuestionnaire(@Param('id') id: string, @Body() questionnaireData: createQuestionnaireDto) {
+  async updateQuestionnaire(@Param('id') id: string, @Body() questionnaireData: UpdateQuestionnaireDto) {
     return await this.adminService.updateQuestionnaire(id, questionnaireData);
+  }
+
+  @Delete('questionnaire/delete/:id')
+  async deleteQuestionnaire(@Param('id') id: string) {
+    return await this.adminService.deleteQuestionnaire(id);
   }
 
   @Post('notification/create')

@@ -9,6 +9,7 @@ import { configuration } from '../../config/configuration';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { StreakRespository } from '../streak/streak.respository';
 import { MailModule } from '../mail/mail.module';
+import { FriendsModule } from '../friends/friends.module';
 
 @Module({
   controllers: [AuthController],
@@ -22,6 +23,7 @@ import { MailModule } from '../mail/mail.module';
       load: [configuration],
     }),
     MailModule,
+    FriendsModule,
   ],
   providers: [AuthService, AuthRepository, PrismaService, JwtStrategy, StreakRespository],
   exports: [AuthService],

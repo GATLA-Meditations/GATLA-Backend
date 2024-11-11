@@ -22,7 +22,7 @@ export class UserRepository {
       skip,
       take,
       include: {
-        notification: {},
+        notification: true,
       },
     });
   }

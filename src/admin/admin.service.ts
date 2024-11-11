@@ -1,8 +1,8 @@
-import { BadRequestException, HttpException, Injectable } from "@nestjs/common";
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
-import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import createQuestionnaireDto, { UpdateQuestionnaireDto } from './dto/create-questionnaire.dto';
 import { ModuleService } from 'src/module/module.service';
 import { MailService } from 'src/mail/mail.service';
 import { ShopItemType } from '@prisma/client';
@@ -32,11 +32,18 @@ export class AdminService {
     return await this.notificationService.createNotification(notificationData);
   }
 
-  async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {
-    const treatments = await this.adminRepository.getQuestionnaireTreatments(id);
-    this.disconnectQuestionnaireFromTreatments(id);
-    questionnaireData.treatmentId = treatments.treatments.map((treatment) => treatment.id);
-    return await this.adminRepository.createQuestionnaire(questionnaireData);
+  async updateQuestionnaire(id: string, questionnaireData: UpdateQuestionnaireDto) {
+    const allQuestions = await this.adminRepository.getQuestionsFromQuestionnaire(id);
+    const forgottenQuestions = this.getForgottenQuestions(allQuestions, questionnaireData);
+    await this.adminRepository.disconnectQuestionsFromQuestionnaire(forgottenQuestions);
+    return await this.adminRepository.updateQuestionnaire(id, questionnaireData);
+  }
+
+  private getForgottenQuestions(allQuestions, questionnaireData) {
+    const forgotten = allQuestions.filter((question) => {
+      return questionnaireData.questions.every((newQuestion) => newQuestion.id !== question.id);
+    });
+    return forgotten.map((question) => question.id);
   }
 
   async disconnectQuestionnaireFromTreatments(id: string) {
@@ -56,6 +63,7 @@ export class AdminService {
   async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
     const treatment = userData.treatment;
     const user = await this.authService.registerUser({ patientCode: userData.patient_code, password: userData.password });
+    await this.addCommunityFriends(user.id);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
       await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
@@ -152,7 +160,8 @@ export class AdminService {
     },
   ) {
     if (userData.patient_code || userData.password) {
-      await this.adminRepository.updateUserBasicData(id, userData);
+      const hashedPassword = await this.hashPassword(userData.password);
+      await this.adminRepository.updateUserBasicData(id, { ...userData, password: hashedPassword });
     }
     if (userData.treatment) {
       await this.adminRepository.updateUserTreatmentData(id, userData.treatment);
@@ -204,5 +213,39 @@ export class AdminService {
 
   removeQuestionnaireFromTreatment(treatmentId: string, questionnaireId: string) {
     return this.treatmentService.disconnectQuestionnaireFromTreatment(treatmentId, questionnaireId);
+  }
+
+  private async addCommunityFriends(id: string) {
+    console.log('Adding friends to user', id);
+    const users = await this.adminRepository.getUsers();
+    let friends = 0;
+
+    while (friends < 3 && users.length > 0) {
+      const randomIndex = Math.floor(Math.random() * users.length);
+      const randomUser = users[randomIndex];
+
+      if (randomUser.id !== id && randomUser.friendsId.length < 3) {
+        console.log('Adding friend', randomUser.id);
+        await this.adminRepository.addFriend(id, randomUser.id);
+        friends++;
+      }
+
+      users.splice(randomIndex, 1);
+    }
+  }
+
+  async deleteQuestionnaire(id: string) {
+    try {
+      await this.adminRepository.deleteQuestionnaire(id);
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Se borro correctamente',
+      };
+    } catch (e) {
+      return {
+        statusCode: HttpStatus.CONFLICT,
+        message: 'El cuestionario no pudo borrarse debido a que ya fue respondido por usuarios',
+      };
+    }
   }
 }

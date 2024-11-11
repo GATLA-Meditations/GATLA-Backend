@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
-import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import createQuestionnaireDto, { UpdateQuestionnaireDto } from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
 import { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
 
@@ -173,6 +173,7 @@ export class AdminRepository {
         id: true,
         patient_code: true,
         password: true,
+        friendsId: true,
         treatments: {
           select: {
             id: true,
@@ -322,6 +323,25 @@ export class AdminRepository {
     });
   }
 
+  async addFriend(id: string, friendId: string) {
+    await this.prisma.user.update({
+      where: { id },
+      data: {
+        friendsId: {
+          push: friendId,
+        },
+      },
+    });
+    await this.prisma.user.update({
+      where: { id: friendId },
+      data: {
+        friendsId: {
+          push: id,
+        },
+      },
+    });
+  }
+
   async _addStreakTable(userId: string) {
     await this.prisma.streak.create({
       data: {
@@ -344,5 +364,64 @@ export class AdminRepository {
         user_id: userId,
       },
     });
+  }
+
+  async updateQuestionnaire(questionnaireId: string, questionnaireData: UpdateQuestionnaireDto) {
+    const questions = await Promise.all(
+      questionnaireData.questions.map((question) => {
+        if (question.id) {
+          return this.prisma.questionnaireQuestion.update({
+            where: { id: question.id },
+            data: {
+              type: question.type,
+              name: question.name,
+              metadata: question.metadata,
+            },
+          });
+        } else {
+          return this.prisma.questionnaireQuestion.create({
+            data: {
+              ...question,
+              questionnaireId: questionnaireId,
+            },
+          });
+        }
+      }),
+    );
+
+    return this.prisma.questionnaire.update({
+      where: { id: questionnaireId },
+      data: {
+        name: questionnaireData.name,
+        questions: {
+          set: questions.map((question) => ({ id: question.id })),
+        },
+      },
+    });
+  }
+
+  async deleteQuestionnaire(id: string) {
+    return this.prisma.questionnaire.delete({
+      where: { id },
+    });
+  }
+
+  async getQuestionsFromQuestionnaire(id: string) {
+    return this.prisma.questionnaireQuestion.findMany({
+      where: { questionnaireId: id },
+    });
+  }
+
+  async disconnectQuestionsFromQuestionnaire(forgottenQuestions: string[]) {
+    await Promise.all(
+      forgottenQuestions.map((questionId) =>
+        this.prisma.questionnaireQuestion.update({
+          where: { id: questionId },
+          data: {
+            questionnaireId: null,
+          },
+        }),
+      ),
+    );
   }
 }
