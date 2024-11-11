@@ -405,4 +405,23 @@ export class AdminRepository {
       where: { id },
     });
   }
+
+  async getQuestionsFromQuestionnaire(id: string) {
+    return this.prisma.questionnaireQuestion.findMany({
+      where: { questionnaireId: id },
+    });
+  }
+
+  async disconnectQuestionsFromQuestionnaire(forgottenQuestions: string[]) {
+    await Promise.all(
+      forgottenQuestions.map((questionId) =>
+        this.prisma.questionnaireQuestion.update({
+          where: { id: questionId },
+          data: {
+            questionnaireId: null,
+          },
+        }),
+      ),
+    );
+  }
 }

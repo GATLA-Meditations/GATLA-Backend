@@ -33,7 +33,17 @@ export class AdminService {
   }
 
   async updateQuestionnaire(id: string, questionnaireData: UpdateQuestionnaireDto) {
+    const allQuestions = await this.adminRepository.getQuestionsFromQuestionnaire(id);
+    const forgottenQuestions = this.getForgottenQuestions(allQuestions, questionnaireData);
+    await this.adminRepository.disconnectQuestionsFromQuestionnaire(forgottenQuestions);
     return await this.adminRepository.updateQuestionnaire(id, questionnaireData);
+  }
+
+  private getForgottenQuestions(allQuestions, questionnaireData) {
+    const forgotten = allQuestions.filter((question) => {
+      return questionnaireData.questions.every((newQuestion) => newQuestion.id !== question.id);
+    });
+    return forgotten.map((question) => question.id);
   }
 
   async disconnectQuestionnaireFromTreatments(id: string) {
