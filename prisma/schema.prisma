@@ -221,7 +221,7 @@ model UserModuleMinutesSpent {
   minutesSpent Int
 
   userModuleId String
-  userModule   UserModule @relation(fields: [userModuleId], references: [id])
+  userModule   UserModule @relation(fields: [userModuleId], references: [id], onDelete: Cascade)
 }
 
 model IngameData {
@@ -380,10 +380,10 @@ model QuestionModuleModule {
   order Int
 
   questionModuleId String
-  questionModule   QuestionModule @relation(fields: [questionModuleId], references: [id])
+  questionModule   QuestionModule @relation(fields: [questionModuleId], references: [id], onDelete: Cascade)
 
   moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   @@unique([questionModuleId, moduleId]) // Composite unique constraint
 }
