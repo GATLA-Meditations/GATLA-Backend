@@ -400,7 +400,6 @@ export class AdminRepository {
     });
   }
 
-
   async deleteQuestionnaire(id: string) {
     return this.prisma.questionnaire.delete({
       where: { id },
