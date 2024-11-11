@@ -11,3 +11,13 @@ class createQuestionnaireDto {
 }
 
 export default createQuestionnaireDto;
+
+export class UpdateQuestionnaireDto {
+  name: string;
+  questions: {
+    id?: string;
+    type: QuestionType;
+    name: string;
+    metadata: string;
+  }[];
+}

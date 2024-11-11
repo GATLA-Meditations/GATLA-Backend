@@ -72,7 +72,7 @@ export class ModuleService {
     this.createTestModule(userId, date);
   }
 
-  async updateViewTime(userId: string, time: number, contentId: string) {
+  async updateViewTime(userId: string, time: number, activityId: string) {
     const date = new Date();
 
     const userModules = await this.moduleRepository.getUserMinutesSpent(userId);
@@ -80,22 +80,22 @@ export class ModuleService {
 
     if (!meditationModule) return;
 
-    const isVideoMeditation = await this.checkIfVideoIsMeditation(contentId, meditationModule);
+    const isVideoMeditation = await this.checkIfVideoIsMeditation(activityId, meditationModule);
 
     if (!isVideoMeditation) {
-      await this.checkIfUnlockNextActivity(contentId, meditationModule);
+      await this.checkIfUnlockNextActivity(activityId, meditationModule);
       return;
     }
 
     await this.updateTotalViewTime(userId, time);
     const minutesSpent = meditationModule.minutesSpent;
-    const actualMiuntesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
+    const actualMinutesModule = minutesSpent.find((item) => item.createdAt.getDay === date.getDay);
 
-    if (!actualMiuntesModule) {
+    if (!actualMinutesModule) {
       return this.moduleRepository.createUserMinutesSpent(meditationModule.moduleId, time);
     } else {
-      const addedTime: number = Number(actualMiuntesModule.minutesSpent) + Number(time);
-      return this.moduleRepository.updateUserMinutesSpent(actualMiuntesModule.id, addedTime);
+      const addedTime: number = Number(actualMinutesModule.minutesSpent) + Number(time);
+      return this.moduleRepository.updateUserMinutesSpent(actualMinutesModule.id, addedTime);
     }
   }
 
@@ -103,17 +103,17 @@ export class ModuleService {
     await this.moduleRepository.updateMaxMinutesSpent(userId, time);
   }
 
-  async checkIfUnlockNextActivity(contentId: string, meditationModule) {
+  async checkIfUnlockNextActivity(activityId: string, meditationModule) {
     const module = await this.moduleRepository.getModuleById(meditationModule.moduleId);
-    const activity = module.activities.find((activity) => activity.activityId === contentId);
+    const activity = module.activities.find((activity) => activity.activityId === activityId);
     if (activity.order >= meditationModule.lastViewedOrder) {
       await this.moduleRepository.unlockNextActivity(meditationModule.id, meditationModule.lastViewedOrder + 1);
     }
   }
 
-  private async checkIfVideoIsMeditation(contentId: string, userModule: any) {
+  private async checkIfVideoIsMeditation(activityId: string, userModule: any) {
     const module = await this.moduleRepository.getModuleById(userModule.moduleId);
-    const activity = module.activities.find((activity) => activity.activityId === contentId);
+    const activity = module.activities.find((activity) => activity.activityId === activityId);
     if (activity.order > userModule.lastViewedOrder) {
       throw new HttpException('Activity not unlocked', 400);
     }

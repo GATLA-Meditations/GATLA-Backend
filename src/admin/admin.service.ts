@@ -1,8 +1,8 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AdminRepository } from './admin.repository';
 import { AdminData } from './dto/AdminData';
 import { UpdateAdmin } from './dto/updateAdmin';
-import createQuestionnaireDto from './dto/create-questionnaire.dto';
+import createQuestionnaireDto, { UpdateQuestionnaireDto } from './dto/create-questionnaire.dto';
 import { ModuleService } from 'src/module/module.service';
 import { MailService } from 'src/mail/mail.service';
 import { ShopItemType } from '@prisma/client';
@@ -32,11 +32,8 @@ export class AdminService {
     return await this.notificationService.createNotification(notificationData);
   }
 
-  async updateQuestionnaire(id: string, questionnaireData: createQuestionnaireDto) {
-    const treatments = await this.adminRepository.getQuestionnaireTreatments(id);
-    this.disconnectQuestionnaireFromTreatments(id);
-    questionnaireData.treatmentId = treatments.treatments.map((treatment) => treatment.id);
-    return await this.adminRepository.createQuestionnaire(questionnaireData);
+  async updateQuestionnaire(id: string, questionnaireData: UpdateQuestionnaireDto) {
+    return await this.adminRepository.updateQuestionnaire(id, questionnaireData);
   }
 
   async disconnectQuestionnaireFromTreatments(id: string) {
@@ -224,6 +221,21 @@ export class AdminService {
       }
 
       users.splice(randomIndex, 1);
+    }
+  }
+
+  async deleteQuestionnaire(id: string) {
+    try {
+      await this.adminRepository.deleteQuestionnaire(id);
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Se borro correctamente',
+      };
+    } catch (e) {
+      return {
+        statusCode: HttpStatus.CONFLICT,
+        message: 'El cuestionario no pudo borrarse debido a que ya fue respondido por usuarios',
+      };
     }
   }
 }
