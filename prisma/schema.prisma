@@ -286,7 +286,7 @@ model Streak {
   type       String   @default("")
 
   userId String @unique
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ShopItemType {
