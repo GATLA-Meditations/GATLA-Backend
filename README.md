@@ -6,7 +6,6 @@
   - Node.js (>=16.0.0 recommended)
   - Docker and Docker Compose
   - Git
-  - A text editor such as Visual Studio Code (optional but recommended)
 
 ---
 
