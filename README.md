@@ -1,4 +1,3 @@
-```markdown
 # GATLA Backend Installation Manual
 
 ## Prerequisites
@@ -20,7 +19,6 @@
    ```bash
    git clone https://github.com/GATLA-Meditations/GATLA-Backend.git
    cd GATLA-Backend
-   ```
 
 ---
 
