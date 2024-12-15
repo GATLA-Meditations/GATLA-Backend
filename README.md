@@ -1,4 +1,4 @@
-# GATLA Backend Installation Manual
+# Renacentia Backend Installation Manual
 
 ## Prerequisites
 
