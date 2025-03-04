@@ -376,6 +376,9 @@ export class AdminRepository {
               type: question.type,
               name: question.name,
               metadata: question.metadata,
+              metadataValues: question.metadataValues,
+              measuredVariable: question.measuredVariable,
+              isInverted: question.isInverted,
             },
           });
         } else {

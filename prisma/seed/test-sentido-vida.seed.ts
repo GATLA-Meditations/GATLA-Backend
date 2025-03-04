@@ -20,42 +20,49 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '1- Estoy',
               metadata: '{ "options": ["aburrido", "neutro", "entusiasmado"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-2',
               type: 'SINGLE_CHOICE',
               name: '2- La vida es',
               metadata: '{ "options": ["rutinaria", "neutro", "emocionante"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-3',
               type: 'SINGLE_CHOICE',
               name: '3- Para mi vida',
               metadata: '{ "options": ["no tengo metas", "neutro", "si, tengo metas"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-4',
               type: 'SINGLE_CHOICE',
               name: '4- Mi vida',
               metadata: '{ "options": ["no tiene sentido", "neutro", "si, tiene sentido"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-5',
               type: 'SINGLE_CHOICE',
               name: '5- Vivo cada día como',
               metadata: '{ "options": ["idéntico", "neutro", "nuevo"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-6',
               type: 'SINGLE_CHOICE',
               name: '6- Preferiría',
               metadata: '{ "options": ["no haber nacido", "neutro", "vivir"] }',
+              metadataValues: [1, 2, 3],
             },
             {
               id: 'sentido-en-la-vida-7',
               type: 'SINGLE_CHOICE',
               name: '7- Al jubilarme haría',
               metadata: '{ "options": ["vaguear", "neutro", "mi interés"] }',
+              metadataValues: [1, 2, 3],
             },
             //8. En alcanzar metas	no he progresado			neutro			si, he progresado
             {
@@ -63,6 +70,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '8- En alcanzar metas',
               metadata: '{ "options": ["no he progresado", "neutro", "si, he progresado"] }',
+              metadataValues: [1, 2, 3],
             },
             //9. Mi vida está	vacía 			neutro			llena de valores
             {
@@ -70,6 +78,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '9- Mi vida está',
               metadata: '{ "options": ["vacía", "neutro", "llena de valores"] }',
+              metadataValues: [1, 2, 3],
             },
             //10. Si muriera, mi vida	valió la pena			neutro			no valió la pena	inv
             {
@@ -77,6 +86,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '10- Si muriera, mi vida',
               metadata: '{ "options": ["no valió la pena", "neutro", "valió la pena"] }',
+              metadataValues: [1, 2, 3],
             },
             //11. Tengo una razón para vivir	no			neutro			sí
             {
@@ -84,6 +94,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '11- Tengo una razón para vivir',
               metadata: '{ "options": ["no", "neutro", "si"] }',
+              metadataValues: [1, 2, 3],
             },
             //12. El mundo	me confunde			neutro			tiene sentido
             {
@@ -91,6 +102,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '12- El mundo',
               metadata: '{ "options": ["me confunde", "neutro", "tiene sentido"] }',
+              metadataValues: [1, 2, 3],
             },
             //13. Yo soy muy	responsable 			neutro			irresponsable	inv
             {
@@ -98,6 +110,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '13- Yo soy muy',
               metadata: '{ "options": ["irresponsable", "neutro", "responsable"] }',
+              metadataValues: [1, 2, 3],
             },
             //14. El hombre es 	libre			neutro			limitado	inv
             {
@@ -105,6 +118,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '14- El hombre es',
               metadata: '{ "options": ["limitado", "neutro", "libre"] }',
+              metadataValues: [1, 2, 3],
             },
             //15. Estoy preparado para morir	si			neutro			no 	inv
             {
@@ -112,6 +126,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '15- Estoy preparado para morir',
               metadata: '{ "options": ["no", "neutro", "si"] }',
+              metadataValues: [1, 2, 3],
             },
             //16. El suicidio	es una salida			neutro			no lo es
             {
@@ -119,6 +134,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '16- El suicidio',
               metadata: '{ "options": ["es una salida", "neutro", "no es una salida"] }',
+              metadataValues: [1, 2, 3],
             },
             //17. Mi capacidad de sentido es	grande			neutro			nulo	inv
             {
@@ -126,6 +142,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '17- Mi capacidad de sentido es',
               metadata: '{ "options": ["nulo", "neutro", "grande"] }',
+              metadataValues: [1, 2, 3],
             },
             //18. Mi vida	depende de mí			neutro			es condicionada	inv
             {
@@ -133,6 +150,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '18- Mi vida',
               metadata: '{ "options": ["es condicionada", "neutro", "depende de mí"] }',
+              metadataValues: [1, 2, 3],
             },
             //19. Mis tareas son	placenteras			neutro			penosas	inv
             {
@@ -140,6 +158,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '19- Mis tareas son',
               metadata: '{ "options": ["penosas", "neutro", "placenteras"] }',
+              metadataValues: [1, 2, 3],
             },
             //20. Yo he descubierto	vacío			neutro			sentido
             {
@@ -147,6 +166,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               name: '20- Yo he descubierto',
               metadata: '{ "options": ["vacío", "neutro", "sentido"] }',
+              metadataValues: [1, 2, 3],
             },
           ],
         },
