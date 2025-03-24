@@ -31,6 +31,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño físico',
             },
             {
               id: 'inventario-calidad-vida-2',
@@ -38,6 +39,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño físico',
             },
             {
               id: 'inventario-calidad-vida-3',
@@ -45,6 +47,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño físico',
             },
             {
               id: 'inventario-calidad-vida-4',
@@ -52,6 +55,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño físico',
             },
             {
               id: 'inventario-calidad-vida-5',
@@ -59,6 +63,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño físico',
             },
             {
               id: 'inventario-calidad-vida-prox-pgreg-1',
@@ -72,6 +77,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño de roles',
             },
             {
               id: 'inventario-calidad-vida-7',
@@ -79,6 +85,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño de roles',
             },
             {
               id: 'inventario-calidad-vida-8',
@@ -86,6 +93,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Disnea',
             },
             {
               id: 'inventario-calidad-vida-9',
@@ -93,6 +101,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Dolor',
             },
             {
               id: 'inventario-calidad-vida-10',
@@ -100,6 +109,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Fatiga',
             },
             {
               id: 'inventario-calidad-vida-11',
@@ -107,6 +117,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Insomnio',
             },
             {
               id: 'inventario-calidad-vida-12',
@@ -114,6 +125,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Fatiga',
             },
             {
               id: 'inventario-calidad-vida-13',
@@ -121,6 +133,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Pérdida de apetito',
             },
             {
               id: 'inventario-calidad-vida-14',
@@ -128,6 +141,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Náuseas y vómitos',
             },
             {
               id: 'inventario-calidad-vida-15',
@@ -135,6 +149,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Náuseas y vómitos',
             },
             {
               id: 'inventario-calidad-vida-16',
@@ -142,6 +157,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Constipación',
             },
             {
               id: 'inventario-calidad-vida-17',
@@ -149,6 +165,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Diarrea',
             },
             {
               id: 'inventario-calidad-vida-18',
@@ -156,6 +173,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Fatiga',
             },
             {
               id: 'inventario-calidad-vida-19',
@@ -163,6 +181,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Dolor',
             },
             {
               id: 'inventario-calidad-vida-20',
@@ -170,6 +189,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño cognitivo',
             },
             {
               id: 'inventario-calidad-vida-21',
@@ -177,6 +197,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño emocional',
             },
             {
               id: 'inventario-calidad-vida-22',
@@ -184,6 +205,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño emocional',
             },
             {
               id: 'inventario-calidad-vida-23',
@@ -191,6 +213,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño emocional',
             },
             {
               id: 'inventario-calidad-vida-24',
@@ -198,6 +221,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño emocional',
             },
             {
               id: 'inventario-calidad-vida-25',
@@ -205,6 +229,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño cognitivo',
             },
             {
               id: 'inventario-calidad-vida-26',
@@ -212,6 +237,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño social',
             },
             {
               id: 'inventario-calidad-vida-27',
@@ -219,6 +245,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Desempeño social',
             },
             {
               id: 'inventario-calidad-vida-28',
@@ -226,6 +253,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'SINGLE_CHOICE',
               metadata: '{ "options": ["En absoluto", "Un poco", "Bastante", "Mucho"] }',
               metadataValues: [1, 2, 3, 4],
+              measuredVariable: 'Dificultades financieras',
             },
             {
               id: 'inventario-calidad-vida-prox-preg-2',
@@ -239,6 +267,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'NUMERIC',
               metadata: '{ "min": 1, "max": 5 }',
               metadataValues: [1],
+              measuredVariable: 'Estado de salud general',
             },
             {
               id: 'inventario-calidad-vida-30',
@@ -246,6 +275,7 @@ async function uploadQuestionnaire(prisma: any) {
               type: 'NUMERIC',
               metadata: '{ "min": 1, "max": 5 }',
               metadataValues: [1],
+              measuredVariable: 'Estado de salud general',
             },
           ],
         },

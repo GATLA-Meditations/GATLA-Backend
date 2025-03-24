@@ -22,6 +22,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '1- Compasión- Soy una persona que se compadece de los demás.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-2',
@@ -29,6 +30,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '2- Interés-Entusiasmo- Frecuentemente busco nuevas oportunidades para crecer en diferentes aspectos.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-3',
@@ -36,6 +38,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '3- Gratitud- Me siento muy agradecido por todo lo que tengo.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-4',
@@ -43,6 +46,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '4- Tranquilidad- Frecuentemente me siento libre de sensaciones de intranquilidad o agitación interna.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-5',
@@ -50,6 +54,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '5- Alegría- La alegría es una emoción que forma parte de mi vida diaria.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-6',
@@ -57,6 +62,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '6- Tranquilidad- En general siento paz o tranquilidad interior.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-7',
@@ -64,6 +70,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '7- Gratitud- Identifico una larga lista de motivos por todo lo que me siento agradecido.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-8',
@@ -71,6 +78,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '8- Alegría- Soy una persona alegre.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-9',
@@ -78,6 +86,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '9- Gratitud- Frecuentemente siento gratitud hacia quienes me ayudaron a alcanzar mis objetivos.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-10',
@@ -85,6 +94,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '10- Tranquilidad- A pesar de las vicisitudes, soy una persona que tiende a mantener la calma.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-11',
@@ -92,6 +102,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '11- Compasión- En general me da tanta pena ver sufrir a los demás, que siento la necesidad de hacer algo por el otro.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-12',
@@ -99,6 +110,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '12- Alegría- Soy de esas personas que transmiten mucha alegría.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-13',
@@ -106,6 +118,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '13- Tranquilidad- Siento mucha calma en mi interior.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-14',
@@ -113,6 +126,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '14- Interés-Entusiasmo- Donde vaya, siempre estoy a la búsqueda de nuevas cosas o experiencias.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-15',
@@ -120,6 +134,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '15- Gratitud- Tengo razones suficientes para sentirme agradecido en la vida.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-16',
@@ -127,6 +142,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '16- Compasión- Soy tan sensible frente a los problemas de los demás, que trato de ayudar a resolver o evitarles el malestar.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-17',
@@ -134,6 +150,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '17- Interés-Entusiasmo- Me entusiasman las experiencias nuevas y/o lo desconocido.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-18',
@@ -141,13 +158,15 @@ async function uploadQuestionnaire(prisma: any) {
               name: '18- Alegría- Los demás consideran que soy una persona alegre.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-19',
               type: 'SINGLE_CHOICE',
-              name: '19- Interés- Entusiasmo-Realmente encuentro muchas cosas que me resultan interesantes.',
+              name: '19- Interés-Entusiasmo- Realmente encuentro muchas cosas que me resultan interesantes.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-20',
@@ -155,6 +174,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '20- Tranquilidad- Soy una persona que en general se siente tranquila.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-21',
@@ -162,6 +182,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '21- Compasión- Los demás consideran que soy una persona que tiene una gran compasión por los demás.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-22',
@@ -169,6 +190,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '22-Interés-Entusiasmo- Tener nuevos desafíos, es algo que me entusiasma mucho.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-23',
@@ -176,6 +198,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '23- Compasión- Me caracterizo por ser una persona que se conmueve ante el padecimiento de los demás.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-24',
@@ -183,6 +206,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '24- Interés-Entusiasmo- Soy una persona a la que le interesan diferentes cosas.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-25',
@@ -190,6 +214,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '25- Tranquilidad- Me siento tranquilo/a conmigo misma/o.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-26',
@@ -197,6 +222,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '26- Gratitud- Si hago un balance, siento que tengo muchos motivos para sentirme agradecido.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-27',
@@ -204,6 +230,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '27- Alegría- Muchos me dicen que soy una persona que siempre está contenta.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-28',
@@ -211,6 +238,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '28- Interés-Entusiasmo- El entusiasmo que me caracteriza, me lleva muchas veces a involucrarme en diferentes actividades.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Interés-Entusiasmo',
             },
             {
               id: 'emociones-positivas-29',
@@ -218,6 +246,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '29- Gratitud- Conozco muchas personas con las que me siento agradecido.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
             {
               id: 'emociones-positivas-30',
@@ -225,6 +254,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '30- Alegría- En general, soy una persona que está contenta.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-31',
@@ -232,6 +262,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '31- Compasión- Me caracterizo por ser una persona que se compadece de los demás y/o de sí mismo.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-32',
@@ -239,6 +270,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '32- Tranquilidad- Mi mente y mi cuerpo están en general relajados, tranquilos.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Tranquilidad',
             },
             {
               id: 'emociones-positivas-33',
@@ -246,6 +278,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '33- Alegría- La mayoría de la gente dice que mi alegría es contagiosa.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Alegría',
             },
             {
               id: 'emociones-positivas-34',
@@ -253,6 +286,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '34- Compasión- En general, siento la necesidad de ayudar y/o aliviar el dolor de los demás.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Compasión',
             },
             {
               id: 'emociones-positivas-35',
@@ -260,6 +294,7 @@ async function uploadQuestionnaire(prisma: any) {
               name: '35- Gratitud- Cuando miro hacia atrás me siento agradecido por alguien o por algo.',
               metadata: '{ "options": ["Fuertemente en desacuedo", "Desacuerdo", "Neutro", "De acuerdo", "Fuertemente de acuerdo"] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Gratitud',
             },
           ],
         },

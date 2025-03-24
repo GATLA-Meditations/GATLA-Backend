@@ -23,6 +23,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-2',
@@ -31,6 +32,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-3',
@@ -39,6 +41,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-4',
@@ -47,6 +50,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-5',
@@ -55,6 +59,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-6',
@@ -63,6 +68,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Autoeficacia',
             },
             {
               id: 'inventario-bienestar-espiritual-7',
@@ -71,6 +77,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
             {
               id: 'inventario-bienestar-espiritual-8',
@@ -79,6 +86,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
             {
               id: 'inventario-bienestar-espiritual-9',
@@ -87,6 +95,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
             {
               id: 'inventario-bienestar-espiritual-10',
@@ -95,6 +104,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
             {
               id: 'inventario-bienestar-espiritual-11',
@@ -103,6 +113,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
             {
               id: 'inventario-bienestar-espiritual-12',
@@ -111,6 +122,7 @@ async function uploadQuestionnaire(prisma: any) {
               metadata:
                 '{ "options": ["Completamente de acuerdo", "De acuerdo", "Ni de acuerdo ni en desacuerdo", "En desacuerdo", "Completamente en desacuerdo" ] }',
               metadataValues: [1, 2, 3, 4, 5],
+              measuredVariable: 'Esquema de vida',
             },
           ],
         },
