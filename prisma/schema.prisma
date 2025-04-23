@@ -14,13 +14,14 @@ datasource db {
 }
 
 model User {
-  id           String  @id() @default(uuid())
-  patient_code String  @unique
-  image        String?
-  background   String?
-  password     String
-  renatokens   Int     @default(0)
-  progress     Int     @default(0)
+  id                String  @id() @default(uuid())
+  patient_code      String  @unique
+  image             String?
+  background        String?
+  password          String
+  renatokens        Int     @default(0)
+  progress          Int     @default(0)
+  sendQuestionnaire Boolean @default(true)
 
   friendsId                String[]                  @default([])
   notificationPreference   NotificationPreference?

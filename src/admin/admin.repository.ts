@@ -190,6 +190,7 @@ export class AdminRepository {
       patient_code?: string;
       password?: string;
       treatment?: { id: string };
+      sendQuestionnaire?: boolean;
     },
   ) {
     await this.prisma.user.update({
@@ -197,6 +198,7 @@ export class AdminRepository {
       data: {
         patient_code: userData.patient_code,
         password: userData.password,
+        sendQuestionnaire: userData.sendQuestionnaire,
       },
     });
   }

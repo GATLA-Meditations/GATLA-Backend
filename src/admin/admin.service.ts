@@ -157,6 +157,7 @@ export class AdminService {
       patient_code?: string;
       password?: string;
       treatmentId?: string;
+      sendQuestionnaire?: boolean;
     },
   ) {
     if (userData.patient_code || userData.password) {
