@@ -201,7 +201,7 @@ export class AdminRepository {
     });
   }
 
-  async updateUserTreatmentData(id: string, treatment: { id: string }) {
+  async updateUserTreatmentData(id: string, treatmentId: string) {
     //delete current userTreatment
     await this.prisma.userTreatment.deleteMany({
       where: { userId: id },
@@ -211,7 +211,7 @@ export class AdminRepository {
     await this.prisma.userTreatment.create({
       data: {
         userId: id,
-        treatmentId: treatment.id,
+        treatmentId: treatmentId,
       },
     });
   }
@@ -308,6 +308,15 @@ export class AdminRepository {
     return this.prisma.user.findMany({
       skip: skip,
       take: take,
+      include: {
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
     });
   }
 
@@ -320,6 +329,15 @@ export class AdminRepository {
       },
       skip: (page - 1) * size,
       take: size,
+      include: {
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
     });
   }
 

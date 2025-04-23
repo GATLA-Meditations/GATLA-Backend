@@ -102,7 +102,7 @@ export class AdminController {
 
   @Put('user/:id')
   @HttpCode(204)
-  async updateUser(@Param('id') id: string, @Body() userData: { patient_code?: string; password?: string; treatment?: { id: string } }) {
+  async updateUser(@Param('id') id: string, @Body() userData: { patient_code?: string; password?: string; treatmentId?: string }) {
     return await this.adminService.updateUser(id, userData);
   }
 
