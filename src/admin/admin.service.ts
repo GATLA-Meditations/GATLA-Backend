@@ -78,7 +78,7 @@ export class AdminService {
     await this.addCommunityFriends(user.id);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
-      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
+      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed, userData.sendQuestionnaire);
     }
     await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
     try {
