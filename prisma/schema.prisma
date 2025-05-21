@@ -27,6 +27,7 @@ model User {
   notificationPreference   NotificationPreference?
   streakId                 String?
   streak                   Streak?
+  // este treatments se deberia eliminar ya que se debe usar el UserTreatment (por ahora no lo borro por cuestiones de consistencia)
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
   UserModule               UserModule[]

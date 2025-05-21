@@ -172,7 +172,10 @@ export class AdminService {
       sendQuestionnaire?: boolean;
     },
   ) {
-    if (userData.patient_code || userData.password) {
+    if (userData.patient_code) {
+      await this.adminRepository.updateUserBasicData(id, { ...userData });
+    }
+    if (userData.password) {
       const hashedPassword = await this.hashPassword(userData.password);
       await this.adminRepository.updateUserBasicData(id, { ...userData, password: hashedPassword });
     }

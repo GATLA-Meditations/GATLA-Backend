@@ -172,7 +172,6 @@ export class AdminRepository {
       select: {
         id: true,
         patient_code: true,
-        password: true,
         friendsId: true,
         treatments: {
           select: {
@@ -209,13 +208,35 @@ export class AdminRepository {
       where: { userId: id },
     });
 
-    //create new connection for treatment
-    await this.prisma.userTreatment.create({
+    // Disconnect all existing treatments
+    await this.prisma.user.update({
+      where: { id },
       data: {
-        userId: id,
-        treatmentId: treatmentId,
+        treatments: {
+          set: [], // Clear existing treatments
+        },
       },
     });
+
+    // Create new connection for treatment in both tables
+    await Promise.all([
+      // Create UserTreatment entry
+      this.prisma.userTreatment.create({
+        data: {
+          userId: id,
+          treatmentId: treatmentId,
+        },
+      }),
+      // Update User's treatments relation
+      this.prisma.user.update({
+        where: { id },
+        data: {
+          treatments: {
+            connect: { id: treatmentId },
+          },
+        },
+      }),
+    ]);
   }
 
   async subscirbeUsertToTreatment(userId: string, treatmentId: string) {
@@ -310,7 +331,16 @@ export class AdminRepository {
     return this.prisma.user.findMany({
       skip: skip,
       take: take,
-      include: {
+      select: {
+        id: true,
+        patient_code: true,
+        friendsId: true,
+        image: true,
+        background: true,
+        renatokens: true,
+        progress: true,
+        sendQuestionnaire: true,
+        streakId: true,
         treatments: {
           select: {
             id: true,
@@ -322,7 +352,7 @@ export class AdminRepository {
     });
   }
 
-  getUsersPaginatedWithFilter(page: number, size: number, code: string) {
+  async getUsersPaginatedWithFilter(page: number, size: number, code: string) {
     return this.prisma.user.findMany({
       where: {
         patient_code: {
@@ -331,7 +361,16 @@ export class AdminRepository {
       },
       skip: (page - 1) * size,
       take: size,
-      include: {
+      select: {
+        id: true,
+        patient_code: true,
+        friendsId: true,
+        image: true,
+        background: true,
+        renatokens: true,
+        progress: true,
+        sendQuestionnaire: true,
+        streakId: true,
         treatments: {
           select: {
             id: true,
