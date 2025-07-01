@@ -52,24 +52,24 @@ export class ModuleService {
     return modules;
   }
 
-  async createUserModules(userId: string, treatmentId: string, delayed: boolean = false) {
+  async createUserModules(userId: string, treatmentId: string, delayed: boolean = false, userSendQuestionnaire: boolean) {
     const modules = await this.moduleRepository.getModulesByTreatmentId(treatmentId);
     let date = new Date();
     date.setUTCHours(0, 0, 0, 0);
-    this.createTestModule(userId, date);
+    if (userSendQuestionnaire) this.createTestModule(userId, date);
     if (delayed) {
       for (let _ of modules) {
         _ = _; // ? me tira unused vars sino y con el foreach no andan bien las dates
         await this.subscribeToDummyModule(userId, date);
         date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
       }
-      this.createTestModule(userId, date);
+      if (userSendQuestionnaire) this.createTestModule(userId, date);
     }
     for (const module of modules) {
       await this.moduleRepository.createUserModule(userId, module.module.id, date);
       date = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate() + 7, 0, 0, 0);
     }
-    this.createTestModule(userId, date);
+    if (userSendQuestionnaire) this.createTestModule(userId, date);
   }
 
   async updateViewTime(userId: string, time: number, activityId: string) {

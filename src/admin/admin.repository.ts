@@ -172,7 +172,6 @@ export class AdminRepository {
       select: {
         id: true,
         patient_code: true,
-        password: true,
         friendsId: true,
         treatments: {
           select: {
@@ -190,6 +189,7 @@ export class AdminRepository {
       patient_code?: string;
       password?: string;
       treatment?: { id: string };
+      sendQuestionnaire?: boolean;
     },
   ) {
     await this.prisma.user.update({
@@ -197,23 +197,46 @@ export class AdminRepository {
       data: {
         patient_code: userData.patient_code,
         password: userData.password,
+        sendQuestionnaire: userData.sendQuestionnaire,
       },
     });
   }
 
-  async updateUserTreatmentData(id: string, treatment: { id: string }) {
+  async updateUserTreatmentData(id: string, treatmentId: string) {
     //delete current userTreatment
     await this.prisma.userTreatment.deleteMany({
       where: { userId: id },
     });
 
-    //create new connection for treatment
-    await this.prisma.userTreatment.create({
+    // Disconnect all existing treatments
+    await this.prisma.user.update({
+      where: { id },
       data: {
-        userId: id,
-        treatmentId: treatment.id,
+        treatments: {
+          set: [], // Clear existing treatments
+        },
       },
     });
+
+    // Create new connection for treatment in both tables
+    await Promise.all([
+      // Create UserTreatment entry
+      this.prisma.userTreatment.create({
+        data: {
+          userId: id,
+          treatmentId: treatmentId,
+        },
+      }),
+      // Update User's treatments relation
+      this.prisma.user.update({
+        where: { id },
+        data: {
+          treatments: {
+            connect: { id: treatmentId },
+          },
+        },
+      }),
+    ]);
   }
 
   async subscirbeUsertToTreatment(userId: string, treatmentId: string) {
@@ -308,10 +331,28 @@ export class AdminRepository {
     return this.prisma.user.findMany({
       skip: skip,
       take: take,
+      select: {
+        id: true,
+        patient_code: true,
+        friendsId: true,
+        image: true,
+        background: true,
+        renatokens: true,
+        progress: true,
+        sendQuestionnaire: true,
+        streakId: true,
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
     });
   }
 
-  getUsersPaginatedWithFilter(page: number, size: number, code: string) {
+  async getUsersPaginatedWithFilter(page: number, size: number, code: string) {
     return this.prisma.user.findMany({
       where: {
         patient_code: {
@@ -320,6 +361,24 @@ export class AdminRepository {
       },
       skip: (page - 1) * size,
       take: size,
+      select: {
+        id: true,
+        patient_code: true,
+        friendsId: true,
+        image: true,
+        background: true,
+        renatokens: true,
+        progress: true,
+        sendQuestionnaire: true,
+        streakId: true,
+        treatments: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
     });
   }
 
@@ -376,6 +435,9 @@ export class AdminRepository {
               type: question.type,
               name: question.name,
               metadata: question.metadata,
+              metadataValues: question.metadataValues,
+              measuredVariable: question.measuredVariable,
+              isInverted: question.isInverted,
             },
           });
         } else {

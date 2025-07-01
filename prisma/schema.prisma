@@ -14,18 +14,20 @@ datasource db {
 }
 
 model User {
-  id           String  @id() @default(uuid())
-  patient_code String  @unique
-  image        String?
-  background   String?
-  password     String
-  renatokens   Int     @default(0)
-  progress     Int     @default(0)
+  id                String  @id() @default(uuid())
+  patient_code      String  @unique
+  image             String?
+  background        String?
+  password          String
+  renatokens        Int     @default(0)
+  progress          Int     @default(0)
+  sendQuestionnaire Boolean @default(true)
 
   friendsId                String[]                  @default([])
   notificationPreference   NotificationPreference?
   streakId                 String?
   streak                   Streak?
+  // este treatments se deberia eliminar ya que se debe usar el UserTreatment (por ahora no lo borro por cuestiones de consistencia)
   treatments               Treatment[]
   questionnaireSubmissions QuestionnaireSubmission[]
   UserModule               UserModule[]
@@ -158,15 +160,19 @@ model Questionnaire {
 }
 
 model QuestionnaireQuestion {
-  id       String       @id() @default(uuid())
-  type     QuestionType
-  name     String
-  metadata String
+  id             String       @id() @default(uuid())
+  type           QuestionType
+  name           String
+  metadata       String
+  metadataValues Int[]
 
   questionnaireId String?
   questionnaire   Questionnaire? @relation(fields: [questionnaireId], references: [id])
 
-  answers QuestionnaireAnswer[]
+  measuredVariable String?
+  answers          QuestionnaireAnswer[]
+
+  isInverted Boolean @default(false)
 }
 
 enum QuestionType {

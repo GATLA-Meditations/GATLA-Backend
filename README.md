@@ -58,7 +58,12 @@
    npm run db:apply
    ```
 
-4. **Start the Backend**:
+4. **Apply Database Migrations**:
+   ```bash
+   npm run db:seed
+   ```
+
+5. **Start the Backend**:
    ```bash
    npm run start:dev
    ```

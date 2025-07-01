@@ -25,6 +25,6 @@ export class QuestionnaireController {
 
   @Get(':id/export')
   async exportToCsv(@Param('id') id: string, @Res() res: Response) {
-    return await this.service.exportToCsv(id, res);
+    return await this.service.exportToCsvMeasuredVariable(id, res);
   }
 }
