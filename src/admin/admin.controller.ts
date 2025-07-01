@@ -102,14 +102,24 @@ export class AdminController {
 
   @Put('user/:id')
   @HttpCode(204)
-  async updateUser(@Param('id') id: string, @Body() userData: { patient_code?: string; password?: string; treatment?: { id: string } }) {
+  async updateUser(
+    @Param('id') id: string,
+    @Body() userData: { patient_code?: string; password?: string; treatmentId?: string; sendQuestionnaire?: boolean },
+  ) {
     return await this.adminService.updateUser(id, userData);
   }
 
   @Post('user/create')
   @HttpCode(201)
   async createUser(
-    @Body() userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } },
+    @Body()
+    userData: {
+      patient_code: string;
+      password: string;
+      email: string;
+      treatment?: { id: string; delayed: boolean };
+      sendQuestionnaire?: boolean;
+    },
   ) {
     return await this.adminService.createUser(userData);
   }

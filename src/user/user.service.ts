@@ -60,7 +60,7 @@ export class UserService {
       throw new HttpException('User already subscribed to this treatment', 400);
     }
     const treatment = await this.repository.subscirbeToTreatment(userId, treatmentId);
-    await this.modules.createUserModules(userId, treatmentId, delayed);
+    await this.modules.createUserModules(userId, treatmentId, delayed, user.sendQuestionnaire);
     return treatment;
   }
 

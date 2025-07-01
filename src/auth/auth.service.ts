@@ -52,20 +52,16 @@ export class AuthService {
   }
 
   public async registerUser(registerRequest: RegisterRequestDto) {
-    // Check if user already exists
     const user = await this.authRepository.findUserByPatientCode(registerRequest.patientCode);
     if (user) throw new HttpException('User already exists', 409);
 
-    // Hash the user's password before saving it
     const hashedPassword = await this.hashPassword(registerRequest.password);
 
-    // Create a new user with the hashed password
     const newUser = {
       ...registerRequest,
       password: hashedPassword,
     };
 
-    // Save the user in the repository
     return await this.authRepository.createUser(newUser);
   }
 

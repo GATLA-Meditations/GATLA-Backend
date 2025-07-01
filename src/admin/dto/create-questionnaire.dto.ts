@@ -19,5 +19,8 @@ export class UpdateQuestionnaireDto {
     type: QuestionType;
     name: string;
     metadata: string;
+    metadataValues: number[];
+    measuredVariable?: string;
+    isInverted?: boolean;
   }[];
 }

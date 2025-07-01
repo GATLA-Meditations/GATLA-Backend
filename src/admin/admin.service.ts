@@ -60,13 +60,25 @@ export class AdminService {
     return await this.adminRepository.deleteUser(user.id);
   }
 
-  async createUser(userData: { patient_code: string; password: string; email: string; treatment?: { id: string; delayed: boolean } }) {
+  async createUser(userData: {
+    patient_code: string;
+    password: string;
+    email: string;
+    treatment?: { id: string; delayed: boolean };
+    sendQuestionnaire?: boolean;
+  }) {
     const treatment = userData.treatment;
-    const user = await this.authService.registerUser({ patientCode: userData.patient_code, password: userData.password });
+    const user = await this.authService.registerUser({
+      patientCode: userData.patient_code,
+      password: userData.password,
+    });
+    if (!userData.sendQuestionnaire) {
+      await this.adminRepository.updateUserBasicData(user.id, { sendQuestionnaire: false });
+    }
     await this.addCommunityFriends(user.id);
     if (treatment != null) {
       await this.adminRepository.subscirbeUsertToTreatment(user.id, treatment.id);
-      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed);
+      await this.modules.createUserModules(user.id, treatment.id, treatment.delayed, userData.sendQuestionnaire);
     }
     await this.mailService.sendWelcomeEmail(userData.email, 'Credenciales Renacentia', userData.patient_code, userData.password);
     try {
@@ -156,15 +168,19 @@ export class AdminService {
     userData: {
       patient_code?: string;
       password?: string;
-      treatment?: { id: string };
+      treatmentId?: string;
+      sendQuestionnaire?: boolean;
     },
   ) {
-    if (userData.patient_code || userData.password) {
+    if (userData.patient_code) {
+      await this.adminRepository.updateUserBasicData(id, { ...userData });
+    }
+    if (userData.password) {
       const hashedPassword = await this.hashPassword(userData.password);
       await this.adminRepository.updateUserBasicData(id, { ...userData, password: hashedPassword });
     }
-    if (userData.treatment) {
-      await this.adminRepository.updateUserTreatmentData(id, userData.treatment);
+    if (userData.treatmentId) {
+      await this.adminRepository.updateUserTreatmentData(id, userData.treatmentId);
     }
   }
 
