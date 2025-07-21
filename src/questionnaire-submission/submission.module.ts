@@ -5,9 +5,10 @@ import { QuestionnaireSubmissionService } from './submission.service';
 import { QuestionnaireSubmissionRepository } from './submission.repository';
 import { QuestionnaireModule } from '../questionnaire/questionnaire.module';
 import { TreatmentModule } from '../treatment/treatment.module';
+import { ExperimentalGroupModule } from '../experimental-group/experimental-group.module';
 
 @Module({
-  imports: [QuestionnaireModule, TreatmentModule],
+  imports: [QuestionnaireModule, TreatmentModule, ExperimentalGroupModule],
   controllers: [QuestionnaireSubmissionController],
   providers: [PrismaService, QuestionnaireSubmissionService, QuestionnaireSubmissionRepository],
   exports: [QuestionnaireSubmissionService],

@@ -9,11 +9,12 @@ import { MailService } from 'src/mail/mail.service';
 import { TreatmentModule } from 'src/treatment/treatment.module';
 import { NotificationModule } from '../notification/notification.module';
 import { AuthModule } from '../auth/auth.module';
+import { ExperimentalGroupModule } from '../experimental-group/experimental-group.module';
 
 @Module({
   controllers: [AdminController],
   providers: [AdminService, AdminRepository, PrismaService, MailService],
   exports: [AdminService],
-  imports: [ActivityModule, ModuleModule, TreatmentModule, NotificationModule, AuthModule],
+  imports: [ActivityModule, ModuleModule, TreatmentModule, NotificationModule, AuthModule, ExperimentalGroupModule],
 })
 export class AdminModule {}

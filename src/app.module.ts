@@ -8,6 +8,7 @@ import { ModuleModule } from './module/module.module';
 import { ActivityModule } from './activity/activity.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { configuration } from '../config/configuration';
 import { UserModule } from './user/user.module';
 import { StreakModule } from './streak/streak.module';
@@ -19,6 +20,7 @@ import { NotificationModule } from './notification/notification.module';
 import { MailService } from './mail/mail.service';
 import { ModuleQuestionModule } from './module-question/module.question.module';
 import { FriendsModule } from './friends/friends.module';
+import { ExperimentalGroupModule } from './experimental-group/experimental-group.module';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { FriendsModule } from './friends/friends.module';
       load: [configuration],
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
     QuestionnaireModule,
     QuestionnaireSubmissionModule,
     TreatmentModule,
@@ -42,6 +45,7 @@ import { FriendsModule } from './friends/friends.module';
     NotificationModule,
     ModuleQuestionModule,
     FriendsModule,
+    ExperimentalGroupModule,
   ],
   controllers: [AppController],
   providers: [AppService, MailService],

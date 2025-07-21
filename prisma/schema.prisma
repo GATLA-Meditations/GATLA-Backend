@@ -23,6 +23,12 @@ model User {
   progress          Int     @default(0)
   sendQuestionnaire Boolean @default(true)
 
+  // Experimental group fields
+  experimentalGroupId String?
+  programStartDate    DateTime?
+  isInvalidated       Boolean   @default(false)
+  invalidationReason  String?
+
   friendsId                String[]                  @default([])
   notificationPreference   NotificationPreference?
   streakId                 String?
@@ -39,6 +45,7 @@ model User {
   moduleQuestionSubmision  QuestionModuleUser[]
   tokens                   Token[]
   friendAchievements       FriendAchievement[]
+  experimentalGroup        ExperimentalGroup?        @relation(fields: [experimentalGroupId], references: [id])
 }
 
 model Token {
@@ -182,8 +189,9 @@ enum QuestionType {
 }
 
 model QuestionnaireSubmission {
-  id        String   @id() @default(uuid())
-  createdAt DateTime @default(now())
+  id        String    @id() @default(uuid())
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -413,4 +421,17 @@ model FriendAchievement {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ExperimentalGroup {
+  id                 String   @id() @default(uuid())
+  name               String
+  description        String?
+  durationWeeks      Int
+  questionnaireWeeks Int[]
+  meditationWeeks    Int[]
+  createdAt          DateTime @default(now())
+  isActive           Boolean  @default(true)
+
+  users User[]
 }

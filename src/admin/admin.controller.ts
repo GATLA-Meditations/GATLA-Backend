@@ -7,12 +7,18 @@ import { ApiTags } from '@nestjs/swagger';
 import createQuestionnaireDto, { UpdateQuestionnaireDto } from './dto/create-questionnaire.dto';
 import { ShopItemType } from '@prisma/client';
 import TreatmentCreateDto, { ContentModifyDto } from 'src/treatment/dto/treatment-create.dto';
+import { ExperimentalGroupService } from '../experimental-group/experimental-group.service';
+import { CreateExperimentalGroupDto, UpdateExperimentalGroupDto } from '../experimental-group/dto/create-experimental-group.dto';
+import { AssignUserToGroupDto, BulkAssignUsersDto } from '../experimental-group/dto/assign-user-group.dto';
 
 @ApiTags('Admin')
 @Controller('admin')
 @UseGuards(AdminGuard)
 export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+  constructor(
+    private readonly adminService: AdminService,
+    private readonly experimentalGroupService: ExperimentalGroupService,
+  ) {}
 
   @Post()
   @HttpCode(200)
@@ -195,5 +201,67 @@ export class AdminController {
     const parsedPage = Number(page);
     const parsedSize = Number(size);
     return this.adminService.getUsersPaginated(parsedPage, parsedSize, code);
+  }
+
+  // ========== EXPERIMENTAL GROUPS ENDPOINTS ==========
+
+  @Post('experimental-groups')
+  @HttpCode(201)
+  async createExperimentalGroup(@Body() createGroupDto: CreateExperimentalGroupDto) {
+    return await this.experimentalGroupService.createGroup(createGroupDto);
+  }
+
+  @Get('experimental-groups')
+  @HttpCode(200)
+  async getAllExperimentalGroups() {
+    return await this.experimentalGroupService.getAllGroups();
+  }
+
+  @Get('experimental-groups/:id')
+  @HttpCode(200)
+  async getExperimentalGroupById(@Param('id') id: string) {
+    return await this.experimentalGroupService.getGroupById(id);
+  }
+
+  @Put('experimental-groups/:id')
+  @HttpCode(200)
+  async updateExperimentalGroup(@Param('id') id: string, @Body() updateGroupDto: UpdateExperimentalGroupDto) {
+    return await this.experimentalGroupService.updateGroup(id, updateGroupDto);
+  }
+
+  @Delete('experimental-groups/:id')
+  @HttpCode(204)
+  async deleteExperimentalGroup(@Param('id') id: string) {
+    return await this.experimentalGroupService.deleteGroup(id);
+  }
+
+  @Post('experimental-groups/assign-user')
+  @HttpCode(200)
+  async assignUserToExperimentalGroup(@Body() assignUserDto: AssignUserToGroupDto) {
+    return await this.experimentalGroupService.assignUserToGroup(assignUserDto.userId, assignUserDto.groupId);
+  }
+
+  @Post('experimental-groups/bulk-assign')
+  @HttpCode(200)
+  async bulkAssignUsersToGroup(@Body() bulkAssignDto: BulkAssignUsersDto) {
+    return await this.experimentalGroupService.bulkAssignUsers(bulkAssignDto.userIds, bulkAssignDto.groupId);
+  }
+
+  @Get('experimental-groups/:id/participation-summary')
+  @HttpCode(200)
+  async getGroupParticipationSummary(@Param('id') id: string) {
+    return await this.experimentalGroupService.getGroupParticipationSummary(id);
+  }
+
+  @Post('experimental-groups/users/:userId/start-program')
+  @HttpCode(200)
+  async startUserProgram(@Param('userId') userId: string) {
+    return await this.experimentalGroupService.startUserProgram(userId);
+  }
+
+  @Post('experimental-groups/users/:userId/invalidate')
+  @HttpCode(200)
+  async invalidateUser(@Param('userId') userId: string, @Body() body: { reason: string }) {
+    return await this.experimentalGroupService.invalidateUser(userId, body.reason);
   }
 }
